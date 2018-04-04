@@ -15,12 +15,15 @@ void setup() {
   Wire.setClock(100000);
 }
 void loop() {
-
+  uint8_t numB= 10, actNum, tranErr;
   Wire.beginTransmission(i2cAddress);
   Wire.write(0x11);
-  Wire.endTransmission(false);
-  uint8_t numB= 10, actNum;
+  tranErr = Wire.endTransmission(false);
   actNum = Wire.requestFrom(i2cAddress, numB);
+  
+  Serial.print(tranErr);
+  Serial.print(" -- ");
+
   Serial.print(actNum);
   Serial.print(" -- ");
   for (int i =0;i<10;i++)
