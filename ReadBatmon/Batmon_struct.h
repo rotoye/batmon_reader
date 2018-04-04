@@ -2,13 +2,18 @@
 
 #define i2cAddress1 0x21
 
-#define readTherm0 0x10
-#define readTherm1 0x11
-#define readTherm2 0x12
+#define READTHERM0 0x10
+#define READTHERM1 0x11
+#define READTHERM2 0x12
+#define READSTATUS 0x13
 
-#define statusWait 0xE0
-#define statusReady 0xE1
-#define statusError 0xE2
+#define STATUSWAIT  0xE0
+#define STATUSREADY 0xE1
+#define STATUSERROR 0xE2
+
+#define BATMON_NOT_BOOTED 0x33
+#define ADC_CHIP_CONNECTION_ERROR 0x34
+#define ADC_CHIP_NOT_FOUND 0x35
 
 //typedef struct _Batmon_struct{
 	struct Batmon_thermistors{
