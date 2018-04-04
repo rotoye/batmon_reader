@@ -1,5 +1,7 @@
 #pragma once
 
+#define i2cAddress1 0x21
+
 #define readTherm0 0x10
 #define readTherm1 0x11
 #define readTherm2 0x12
