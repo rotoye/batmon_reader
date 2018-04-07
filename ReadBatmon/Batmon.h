@@ -14,6 +14,8 @@ class Batmon{
 	byte readTotalVoltage(TotVolt &tv);
 	byte readTherms(Therms &ts);
   byte readStatus(byte &st);
+  byte shutdown();
+  byte powerup();
   private:
 	byte i2cAddress;
 	byte numTherms;

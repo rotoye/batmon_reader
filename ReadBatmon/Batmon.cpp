@@ -6,6 +6,18 @@ Batmon::Batmon(byte _i2cAddress, byte _numTherms)
 	numTherms = _numTherms;
 }
 
+byte Batmon::shutdown()
+{
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SHUTDOWN);
+  return Wire.endTransmission();
+}
+byte Batmon::powerup()
+{
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(POWERUP);
+  return Wire.endTransmission();
+}
 ////////////////////////////////
 // Return 0: No error
 // 		  1: CRC error
