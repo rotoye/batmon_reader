@@ -5,7 +5,9 @@
 #define READTHERM0 0x10
 #define READTHERM1 0x11
 #define READTHERM2 0x12
-#define READSTATUS 0x13
+#define READTOTVOLTAGE 0x13
+#define READCELLVOLTAGES 0x14
+#define READSTATUS 0x15
 
 #define STATUSWAIT  0xE0
 #define STATUSREADY 0xE1
@@ -25,7 +27,7 @@
 				unsigned char T2_HI;
 				unsigned char T2_LO;
 			}T2Byte;
-			unsigned short T2Word;
+			unsigned short T2Word; // temperature *10 (deg C)
 		}T2;
 		
 		union
@@ -35,7 +37,7 @@
 				unsigned char T1_HI;
 				unsigned char T1_LO;
 			}T1Byte;
-			unsigned short T1Word;
+			unsigned short T1Word; // temperature *10 (deg C)
 		}T1;
 		
 		union
@@ -45,18 +47,22 @@
 				unsigned char T_int_HI;
 				unsigned char T_int_LO;
 			}T_int_Byte;
-			unsigned short T_int_Word;
+			unsigned short T_int_Word; // temperature *10 (deg C)
 		}T_int;
+    unsigned char CRC;
 	};
-	
-	union Batmon_totalVoltage{
-		struct
-		{
-			unsigned char VTot_HI;
-			unsigned char VTot_LO;
-		}VTotByte;
-		unsigned short VTotWord;
-	};
+
+  struct Batmon_totalVoltage{
+  	union {
+  		struct
+  		{
+  			unsigned char VTot_HI;
+  			unsigned char VTot_LO;
+  		}VTotByte;
+  		unsigned short VTotWord; //mV
+  	}TV;
+   unsigned char CRC;
+  };
 	
 	struct Batmon_cellVoltages{
 		union
@@ -66,7 +72,7 @@
 				unsigned char VC1_HI;
 				unsigned char VC1_LO;
 			}VCell1Byte;
-			unsigned short VCell1Word;
+			unsigned short VCell1Word; //mV
 		}VCell1;
 		union
 		{
@@ -75,7 +81,7 @@
 				unsigned char VC2_HI;
 				unsigned char VC2_LO;
 			}VCell1Byte;
-			unsigned short VCell2Word;
+			unsigned short VCell2Word; //mV
 		}VCell2;
 		union
 		{
@@ -84,7 +90,7 @@
 				unsigned char VC3_HI;
 				unsigned char VC3_LO;
 			}VCell1Byte;
-			unsigned short VCell3Word;
+			unsigned short VCell3Word; //mV
 		}VCell3;
 		union
 		{
@@ -93,7 +99,7 @@
 				unsigned char VC4_HI;
 				unsigned char VC4_LO;
 			}VCell1Byte;
-			unsigned short VCell4Word;
+			unsigned short VCell4Word; //mV
 		}VCell4;
 		union
 		{
@@ -149,5 +155,6 @@
 			}VCell1Byte;
 			unsigned short VCell10Word;
 		}VCell10;
+    unsigned char CRC;
 	};
 //}Batmon_struct;

@@ -13,6 +13,7 @@ class Batmon{
 	byte readCellVoltages(CVolts &cv);
 	byte readTotalVoltage(TotVolt &tv);
 	byte readTherms(Therms &ts);
+  byte readStatus(byte &st);
   private:
 	byte i2cAddress;
 	byte numTherms;
