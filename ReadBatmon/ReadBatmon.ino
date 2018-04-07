@@ -30,9 +30,9 @@ void loop() {
     Serial.print("\t");
   }
   Serial.print("\t||\t");
-  Serial.print( bm.readTherms(ts) );
+  Serial.print( bm.readTherms(ts,0) );
   Serial.print("\t");
-  
+  Serial.print(ts.T_int.T_int_Word);
   Serial.println();
   /*
   uint8_t numB= 10, actNum, tranErr;
