@@ -17,6 +17,11 @@ void setup() {
   Wire.setClock(100000);
 }
 void loop() {
+  byte st;
+  Serial.print( bm.readStatus(st));
+  Serial.print("\t");
+  Serial.print(st);
+  Serial.print("\t");
   Serial.print( bm.readCellVoltages(cv) );
   Serial.print("\t");
   Serial.print( bm.readTotalVoltage(tv) );
@@ -39,35 +44,7 @@ void loop() {
   Serial.print(ts.T2.T2Word);
 
   Serial.println();
-  /*
-  uint8_t numB= 10, actNum, tranErr;
-  Wire.beginTransmission(i2cAddress);
-  Wire.write(0x11);
-  tranErr = Wire.endTransmission(false);
-  actNum = Wire.requestFrom(i2cAddress, numB);
-  
-  Serial.print(tranErr);
-  Serial.print(" -- ");
 
-  Serial.print(actNum);
-  Serial.print(" -- ");
-  for (int i =0;i<10;i++)
-  {
-    Serial.print((unsigned char)Wire.read()); 
-    Serial.print("  ");
-  }
-  Serial.println();*/
-  /*
-  Serial.println("Read Batmon 1");
-  byte a = bm.readTherms(ts);
-  Serial.print(a);
-  Serial.print( " ---- ");
-//  Serial.println(ts.T2Byte.T2_HI);
-//  Serial.println(ts.T2Byte.T2_LO);
-  Serial.print(ts.T2.T2Byte.T2_HI);
-  Serial.print( " ---- ");
-  Serial.println(ts.T2.T2Byte.T2_LO);  
-  */
   delay(200);
 }
 

@@ -58,9 +58,12 @@ byte Batmon::readCellVoltages(CVolts &cv)
     return 2;
 }
 
+
 ////////////////////////////////
-// Return 0x33: BATMON_NOT_BOOTED
-//        etc etc . Check Batmon_struct.h
+// Return 0: No error
+//       1: CRC error
+//      2: i2c error
+// Check Batmon_struct.h for &st values
 
 byte Batmon::readStatus(byte &st)
 {
