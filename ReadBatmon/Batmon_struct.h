@@ -8,14 +8,19 @@
 #define READTOTVOLTAGE 0x13
 #define READCELLVOLTAGES 0x14
 #define READSTATUS 0x15
+#define SHUTDOWN 0x16
+#define POWERUP 0x17
 
-#define BATMON_NOT_BOOTED 0x33
-#define ADC_CHIP_CONNECTION_ERROR 0x34
-#define ADC_CANT_WRITE_CHIP 0x35
-#define ADC_CHIP_NOT_FOUND 0x36
-#define ADC_I2C_ERROR 0x37
-#define BATMON_READY 0x38
-#define DEF_ERROR 0x39
+
+// STATUS messages 
+#define BATMON_NOT_BOOTED 0x43
+#define ADC_CHIP_CONNECTION_ERROR 0x44
+#define ADC_CANT_WRITE_CHIP 0x45
+#define ADC_CHIP_NOT_FOUND 0x46
+#define ADC_I2C_ERROR 0x47
+#define BATMON_READY 0x48
+#define DEF_ERROR 0x49
+#define BATMON_SLEEPING 0x40
 
 //typedef struct _Batmon_struct{
 	struct Batmon_thermistors{
