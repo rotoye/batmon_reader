@@ -15,7 +15,7 @@
 #define ADC_CHIP_NOT_FOUND 0x36
 #define ADC_I2C_ERROR 0x37
 #define BATMON_READY 0x38
-#define DEF_ERROR 0x38
+#define DEF_ERROR 0x39
 
 //typedef struct _Batmon_struct{
 	struct Batmon_thermistors{
