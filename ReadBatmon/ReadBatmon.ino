@@ -45,6 +45,7 @@ void loop() {
 
   Serial.println();
 
-  delay(200);
+  bm.shutdown();
+  delay(2000);
 }
 

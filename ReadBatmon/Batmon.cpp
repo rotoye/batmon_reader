@@ -22,6 +22,7 @@ byte Batmon::powerup()
 // Return 0: No error
 // 		  1: CRC error
 // 		  2: i2c error
+//      3: status error; read status
 byte Batmon::readCellVoltages(CVolts &cv)
 {
   Wire.beginTransmission(i2cAddress);
@@ -75,6 +76,7 @@ byte Batmon::readCellVoltages(CVolts &cv)
 // Return 0: No error
 //       1: CRC error
 //      2: i2c error
+//      3: status error; read status
 // Check Batmon_struct.h for &st values
 
 byte Batmon::readStatus(byte &st)
@@ -123,6 +125,7 @@ byte Batmon::readStatus(byte &st)
 // Return 0: No error
 // 		  1: CRC error
 // 		  2: i2c error
+//      3: status error; read status
 byte Batmon::readTotalVoltage(TotVolt &tv)
 {
   Wire.beginTransmission(i2cAddress);
@@ -177,7 +180,7 @@ byte Batmon::readTherms(Therms &ts)
 // Return 0: No error
 // 		  1: CRC error
 // 		  2: i2c error
-//		  3: incorrect number of thermistors supported by the monitor
+//      3: status error; read status
 
 byte Batmon::readTherms(Therms &ts, byte num)
 {
