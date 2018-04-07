@@ -9,13 +9,13 @@
 #define READCELLVOLTAGES 0x14
 #define READSTATUS 0x15
 
-#define STATUSWAIT  0xE0
-#define STATUSREADY 0xE1
-#define STATUSERROR 0xE2
-
 #define BATMON_NOT_BOOTED 0x33
 #define ADC_CHIP_CONNECTION_ERROR 0x34
-#define ADC_CHIP_NOT_FOUND 0x35
+#define ADC_CANT_WRITE_CHIP 0x35
+#define ADC_CHIP_NOT_FOUND 0x36
+#define ADC_I2C_ERROR 0x37
+#define BATMON_READY 0x38
+#define DEF_ERROR 0x38
 
 //typedef struct _Batmon_struct{
 	struct Batmon_thermistors{

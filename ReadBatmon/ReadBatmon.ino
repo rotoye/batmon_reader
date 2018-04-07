@@ -5,7 +5,7 @@
 // Include the required Wire library for I2C<br>#include 
 int x = 0;
 uint8_t i2cAddress = 0x21;
-Batmon bm(i2cAddress ,0);
+Batmon bm(i2cAddress ,2);
 CVolts cv;
 TotVolt tv;
 Therms ts;
@@ -33,6 +33,11 @@ void loop() {
   Serial.print( bm.readTherms(ts) );
   Serial.print("\t");
   Serial.print(ts.T_int.T_int_Word);
+  Serial.print("\t");
+  Serial.print(ts.T1.T1Word);
+  Serial.print("\t");
+  Serial.print(ts.T2.T2Word);
+
   Serial.println();
   /*
   uint8_t numB= 10, actNum, tranErr;
