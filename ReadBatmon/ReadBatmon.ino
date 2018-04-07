@@ -30,7 +30,7 @@ void loop() {
     Serial.print("\t");
   }
   Serial.print("\t||\t");
-  Serial.print( bm.readTherms(ts,0) );
+  Serial.print( bm.readTherms(ts) );
   Serial.print("\t");
   Serial.print(ts.T_int.T_int_Word);
   Serial.println();
