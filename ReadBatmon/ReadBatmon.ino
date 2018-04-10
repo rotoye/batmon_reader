@@ -47,5 +47,6 @@ void loop() {
 
   bm.shutdown();
   delay(2000);
+  //bm.shutdown();
 }
 
