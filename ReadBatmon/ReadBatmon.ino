@@ -18,14 +18,15 @@ void setup() {
 }
 void loop() {
   byte st;
+  Serial.print("RdStat(i2c):");
   Serial.print( bm.readStatus(st));
-  Serial.print("\t");
+  Serial.print(" Stat:");
   Serial.print(st);
-  Serial.print("\t");
+  Serial.print(" RdCell(i2c):");
   Serial.print( bm.readCellVoltages(cv) );
-  Serial.print("\t");
+  Serial.print(" RdTot(i2c):");
   Serial.print( bm.readTotalVoltage(tv) );
-  Serial.print("\t");
+  Serial.print(" TotVolt:");
   unsigned short *ptr = (unsigned short *)&cv;
   Serial.print(tv.TV.VTotWord);
   Serial.print("\t");
@@ -34,19 +35,18 @@ void loop() {
     Serial.print(ptr[i]); 
     Serial.print("\t");
   }
-  Serial.print("\t||\t");
+  Serial.print("|| RdTherm(i2c):");
   Serial.print( bm.readTherms(ts) );
-  Serial.print("\t");
+  Serial.print(" T_int:");
   Serial.print(ts.T_int.T_int_Word);
-  Serial.print("\t");
+  Serial.print(" T1:");
   Serial.print(ts.T1.T1Word);
-  Serial.print("\t");
+  Serial.print(" T2:");
   Serial.print(ts.T2.T2Word);
 
   Serial.println();
 
-  bm.shutdown();
-  delay(2000);
   //bm.shutdown();
+  delay(200);
 }
 
