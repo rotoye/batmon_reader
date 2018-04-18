@@ -1,6 +1,10 @@
 #pragma once
 
-#define i2cAddress1 0x21
+#define I2CADDRESS1 0x20 // x = (not filled) y = (not filled)
+#define I2CADDRESS2 0x30 // x = (not filled) y = (filled)
+#define I2CADDRESS3 0x40 // x = (filled) y = (not filled)
+#define I2CADDRESS4 0x50 // x = (filled) y = (filled)
+
 
 #define READTHERM0 0x10
 #define READTHERM1 0x11
