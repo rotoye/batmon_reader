@@ -4,7 +4,7 @@
 
 // Include the required Wire library for I2C<br>#include 
 int x = 0;
-uint8_t i2cAddress = 0x21;
+uint8_t i2cAddress = I2CADDRESS1;
 Batmon bm(i2cAddress ,2);
 CVolts cv;
 TotVolt tv;
