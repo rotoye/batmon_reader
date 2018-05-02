@@ -44,7 +44,7 @@ byte Batmon::readCellVoltages(CVolts &cv)
     case 4:
       Wire.endTransmission(true);
       return 2;
-    case 3:
+    case 3:   // Its upto the user on whether to read the data in this case. Sometimes, you might want to read it, sometime not
       Wire.endTransmission(true);
       return 3;
   }
@@ -76,7 +76,8 @@ byte Batmon::readCellVoltages(CVolts &cv)
 // Return 0: No error
 //       1: CRC error
 //      2: i2c error
-//      3: status error; read status
+//      3: status error without CRC error
+//      4: status error with CRC error
 // Check Batmon_struct.h for &st values
 
 byte Batmon::readStatus(byte &st)
@@ -94,15 +95,13 @@ byte Batmon::readStatus(byte &st)
   switch(ret)
   {
     case 0: 
+    case 3:
       break;
     case 1:
     case 2:
     case 4:
       Wire.endTransmission(true);
       return 2;
-    case 3:
-      Wire.endTransmission(true);
-      return 3;
   }
 
   unsigned char readNum =1+1; // CRC + size
@@ -111,10 +110,18 @@ byte Batmon::readStatus(byte &st)
     st = Wire.read();
     if (CRC8.smbus(&st,1) == Wire.read())
     {
-      return 0;
+      if(ret ==3)
+        return 3;
+      else
+        return 0;
     }
     else
-      return 1;
+    {
+      if(ret == 3)
+        return 4;
+      else
+        return 1;
+    }
   }
   else 
     return 2;
@@ -147,7 +154,7 @@ byte Batmon::readTotalVoltage(TotVolt &tv)
     case 4:
       Wire.endTransmission(true);
       return 2;
-    case 3:
+    case 3: // Its upto the user on whether to read the data in this case. Sometimes, you might want to read it, sometime not
       Wire.endTransmission(true);
       return 3;
   }
@@ -217,7 +224,7 @@ byte Batmon::readTherms(Therms &ts, byte num)
 		case 4:
 			Wire.endTransmission(true);
 			return 2;
-		case 3:
+		case 3: // Its upto the user on whether to read the data in this case. Sometimes, you might want to read it, sometime not
 			Wire.endTransmission(true);
 			return 3;
 	}
