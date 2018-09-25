@@ -1,11 +1,12 @@
 #pragma once
 
-#define I2CADDRESS1 0x20 // x = (not filled) y = (not filled)
+#define I2CADDRESS1 0x0B // x = (not filled) y = (not filled) (Default for SMbus smart batteries)
 #define I2CADDRESS2 0x30 // x = (not filled) y = (filled)
 #define I2CADDRESS3 0x40 // x = (filled) y = (not filled)
 #define I2CADDRESS4 0x50 // x = (filled) y = (filled)
 
-
+//For reference: pixhawk must have 8,9,a,bf,10,11,12,17,1b,1c,20,3c to 45 reserved
+/*
 #define READTHERM0 0x10
 #define READTHERM1 0x11
 #define READTHERM2 0x12
@@ -14,6 +15,7 @@
 #define READSTATUS 0x15
 #define SHUTDOWN 0x16
 #define POWERUP 0x17
+Can't use these because conflicts*/
 
 
 // STATUS messages 
