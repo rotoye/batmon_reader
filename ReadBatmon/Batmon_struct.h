@@ -5,7 +5,31 @@
 #define I2CADDRESS3 0x40 // x = (filled) y = (not filled)
 #define I2CADDRESS4 0x50 // x = (filled) y = (filled)
 
-//For reference: pixhawk must have 8,9,a,bf,10,11,12,17,1b,1c,20,3c to 45 reserved
+//SMBUS Register enumeration
+#define SMBUS_VOLTAGE 0x09
+#define SMBUS_CURRENT 0x0a
+#define SMBUS_AVG_CURRENT 0x0b
+#define SMBUS_TEMP 0x08
+#define SMBUS_MAN_NAME 0x20
+#define SMBUS_MAN_DATE 0x1b
+#define SMBUS_SERIAL_NUM 0x1c
+#define SMBUS_RUN_TIME_TO_EMPTY 0x11
+#define SMBUS_AVG_TIME_TO_EMPTY 0x12
+#define SMBUS_REMAIN_CAP 0x0f
+#define SMBUS_FULL_CAP 0x10
+#define SMBUS_CYCLE_COUNT 0x17
+#define SMBUS_VCELL1 0x3c
+#define SMBUS_VCELL2 0x3d
+#define SMBUS_VCELL3 0x3e
+#define SMBUS_VCELL4 0x3f
+#define SMBUS_VCELL5 0x40
+#define SMBUS_VCELL6 0x41
+#define SMBUS_VCELL7 0x42
+#define SMBUS_VCELL8 0x43
+#define SMBUS_VCELL9 0x44
+#define SMBUS_VCELL10 0x45
+
+//For reference: pixhawk must have 8,9,a,b,f,10,11,12,17,1b,1c,20,3c to 45 reserved
 /*
 #define READTHERM0 0x10
 #define READTHERM1 0x11
@@ -91,7 +115,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC2_HI;
 				unsigned char VC2_LO;
-			}VCell1Byte;
+			}VCell2Byte;
 			unsigned short VCell2Word; //mV
 		}VCell2;
 		union
@@ -100,7 +124,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC3_HI;
 				unsigned char VC3_LO;
-			}VCell1Byte;
+			}VCell3Byte;
 			unsigned short VCell3Word; //mV
 		}VCell3;
 		union
@@ -109,7 +133,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC4_HI;
 				unsigned char VC4_LO;
-			}VCell1Byte;
+			}VCell4Byte;
 			unsigned short VCell4Word; //mV
 		}VCell4;
 		union
@@ -118,7 +142,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC5_HI;
 				unsigned char VC5_LO;
-			}VCell1Byte;
+			}VCell5Byte;
 			unsigned short VCell5Word;
 		}VCell5;
 		union
@@ -127,7 +151,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC6_HI;
 				unsigned char VC6_LO;
-			}VCell1Byte;
+			}VCell6Byte;
 			unsigned short VCell6Word;
 		}VCell6;
 		union
@@ -136,7 +160,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC7_HI;
 				unsigned char VC7_LO;
-			}VCell1Byte;
+			}VCell7Byte;
 			unsigned short VCell7Word;
 		}VCell7;
 		union
@@ -145,7 +169,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC8_HI;
 				unsigned char VC8_LO;
-			}VCell1Byte;
+			}VCell8Byte;
 			unsigned short VCell8Word;
 		}VCell8;
 		union
@@ -154,7 +178,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC9_HI;
 				unsigned char VC9_LO;
-			}VCell1Byte;
+			}VCell9Byte;
 			unsigned short VCell9Word;
 		}VCell9;
 		union
@@ -163,7 +187,7 @@ Can't use these because conflicts*/
 			{
 				unsigned char VC10_HI;
 				unsigned char VC10_LO;
-			}VCell1Byte;
+			}VCell10Byte;
 			unsigned short VCell10Word;
 		}VCell10;
     unsigned char CRC;
