@@ -98,18 +98,6 @@ Can't use these because conflicts*/
   	}TV;
    unsigned char CRC;
   };
-  
-    struct Batmon_Current{
-	    union {
-		    struct
-		    {
-			    unsigned char C_HI;
-			    unsigned char C_LO;
-		    }CByte;
-		    unsigned short CWord; //mV
-	    }TC;
-	    unsigned char CRC;
-    };
 	
 	struct Batmon_cellVoltages{
 		union
