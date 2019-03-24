@@ -30,6 +30,16 @@
 #define SMBUS_VCELL9 0x44
 #define SMBUS_VCELL10 0x45
 
+//EEPROM parameter addresses
+#define EEPROM_SHUNT_VAL_SET 0
+#define EEPROM_CAPACITY_SET 2
+
+//Defines for BATMON specific I2C functionality
+#define BATMON_MAIN_RESET_ADDRESS 0x90
+#define BATMON_BQ_RESET_ADDRESS 0x91
+#define BATMON_SHUNT_VAL_SET_ADDRESS 0x92
+#define BATMON_CAPACITY_SET_ADDRESS 0x93
+
 //For reference: pixhawk must have 8,9,a,b,f,10,11,12,17,1b,1c,20,3c to 45 reserved
 /*
 #define READTHERM0 0x10
