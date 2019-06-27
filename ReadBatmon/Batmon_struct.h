@@ -30,6 +30,9 @@
 #define SMBUS_VCELL9 0x44
 #define SMBUS_VCELL10 0x45
 
+//Temporarily using for Stuck State and temperature
+#define SMBUS_STUCK 0x77
+
 //EEPROM parameter addresses
 #define EEPROM_SHUNT_VAL_SET 0
 #define EEPROM_CAPACITY_SET 2
