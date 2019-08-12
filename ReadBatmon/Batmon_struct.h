@@ -66,152 +66,154 @@ Can't use these because conflicts*/
 #define BATMON_SLEEPING 0x40
 
 //typedef struct _Batmon_struct{
-	struct Batmon_thermistors{
+struct Batmon_thermistors{
 
-		union
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char T2_HI;
-				unsigned char T2_LO;
-			}T2Byte;
-			unsigned short T2Word; // temperature *10 (deg C)
-		}T2;
-		
-		union
-		{
-			struct
-			{
-				unsigned char T1_HI;
-				unsigned char T1_LO;
-			}T1Byte;
-			unsigned short T1Word; // temperature *10 (deg C)
-		}T1;
-		
-		union
-		{
-			struct
-			{
-				unsigned char T_int_HI;
-				unsigned char T_int_LO;
-			}T_int_Byte;
-			unsigned short T_int_Word; // temperature *10 (deg C)
-		}T_int;
-    unsigned char CRC;
-	};
-
-  struct Batmon_totalVoltage{
-  	union {
-  		struct
-  		{
-  			unsigned char VTot_HI;
-  			unsigned char VTot_LO;
-  		}VTotByte;
-  		unsigned short VTotWord; //mV
-  	}TV;
-   unsigned char CRC;
-  };
+			unsigned char T2_HI;
+			unsigned char T2_LO;
+		}T2Byte;
+		unsigned short T2Word; // temperature *10 (deg C)
+	}T2;
 	
-	struct Batmon_cellVoltages{
-		union
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC1_HI;
-				unsigned char VC1_LO;
-			}VCell1Byte;
-			unsigned short VCell1Word; //mV
-		}VCell1;
-		union
+			unsigned char T1_HI;
+			unsigned char T1_LO;
+		}T1Byte;
+		unsigned short T1Word; // temperature *10 (deg C)
+	}T1;
+	
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC2_HI;
-				unsigned char VC2_LO;
-			}VCell2Byte;
-			unsigned short VCell2Word; //mV
-		}VCell2;
-		union
+			unsigned char T_int_HI;
+			unsigned char T_int_LO;
+		}T_int_Byte;
+		unsigned short T_int_Word; // temperature *10 (deg C)
+	}T_int;
+	unsigned char CRC;
+};
+
+struct Batmon_totalVoltage{
+	union {
+		struct
 		{
-			struct
-			{
-				unsigned char VC3_HI;
-				unsigned char VC3_LO;
-			}VCell3Byte;
-			unsigned short VCell3Word; //mV
-		}VCell3;
-		union
+			unsigned char VTot_HI;
+			unsigned char VTot_LO;
+		}VTotByte;
+		unsigned short VTotWord; //mV
+	}TV;
+	unsigned char CRC;
+};
+
+struct Batmon_cellVoltages{
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC4_HI;
-				unsigned char VC4_LO;
-			}VCell4Byte;
-			unsigned short VCell4Word; //mV
-		}VCell4;
-		union
+			unsigned char VC1_HI;
+			unsigned char VC1_LO;
+		}VCell1Byte;
+		unsigned short VCell1Word; //mV
+	}VCell1;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC5_HI;
-				unsigned char VC5_LO;
-			}VCell5Byte;
-			unsigned short VCell5Word;
-		}VCell5;
-		union
+			unsigned char VC2_HI;
+			unsigned char VC2_LO;
+		}VCell2Byte;
+		unsigned short VCell2Word; //mV
+	}VCell2;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC6_HI;
-				unsigned char VC6_LO;
-			}VCell6Byte;
-			unsigned short VCell6Word;
-		}VCell6;
-		union
+			unsigned char VC3_HI;
+			unsigned char VC3_LO;
+		}VCell3Byte;
+		unsigned short VCell3Word; //mV
+	}VCell3;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC7_HI;
-				unsigned char VC7_LO;
-			}VCell7Byte;
-			unsigned short VCell7Word;
-		}VCell7;
-		union
+			unsigned char VC4_HI;
+			unsigned char VC4_LO;
+		}VCell4Byte;
+		unsigned short VCell4Word; //mV
+	}VCell4;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC8_HI;
-				unsigned char VC8_LO;
-			}VCell8Byte;
-			unsigned short VCell8Word;
-		}VCell8;
-		union
+			unsigned char VC5_HI;
+			unsigned char VC5_LO;
+		}VCell5Byte;
+		unsigned short VCell5Word;
+	}VCell5;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC9_HI;
-				unsigned char VC9_LO;
-			}VCell9Byte;
-			unsigned short VCell9Word;
-		}VCell9;
-		union
+			unsigned char VC6_HI;
+			unsigned char VC6_LO;
+		}VCell6Byte;
+		unsigned short VCell6Word;
+	}VCell6;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC10_HI;
-				unsigned char VC10_LO;
-			}VCell10Byte;
-			unsigned short VCell10Word;
-		}VCell10;
-    unsigned char CRC;
-	};
+			unsigned char VC7_HI;
+			unsigned char VC7_LO;
+		}VCell7Byte;
+		unsigned short VCell7Word;
+	}VCell7;
+	union
+	{
+		struct
+		{
+			unsigned char VC8_HI;
+			unsigned char VC8_LO;
+		}VCell8Byte;
+		unsigned short VCell8Word;
+	}VCell8;
+	union
+	{
+		struct
+		{
+			unsigned char VC9_HI;
+			unsigned char VC9_LO;
+		}VCell9Byte;
+		unsigned short VCell9Word;
+	}VCell9;
+	union
+	{
+		struct
+		{
+			unsigned char VC10_HI;
+			unsigned char VC10_LO;
+		}VCell10Byte;
+		unsigned short VCell10Word;
+	}VCell10;
+	unsigned char CRC;
+};
 //}Batmon_struct;
 
 struct SafetyStatus
 {
 	uint8_t len = 4;
-	union{
-		struct{
+	union
+	{
+		struct
+		{
 			uint8_t _rsvd_31:1;
 			uint8_t _rsvd_30:1;
 			uint8_t FLAG_DISCHARGE_OVERCURRENT:1;
