@@ -5,31 +5,6 @@
 #define I2CADDRESS3 0x0B // x = (filled) y = (not filled)
 #define I2CADDRESS4 0x0B // x = (filled) y = (filled)
 
-//SMBUS Register enumeration
-#define SMBUS_VOLTAGE 0x09
-#define SMBUS_CURRENT 0x0a
-#define SMBUS_AVG_CURRENT 0x0b
-#define SMBUS_TEMP 0x08
-#define SMBUS_MAN_NAME 0x20
-#define SMBUS_MAN_DATE 0x1b
-#define SMBUS_SERIAL_NUM 0x1c
-#define SMBUS_RUN_TIME_TO_EMPTY 0x11
-#define SMBUS_AVG_TIME_TO_EMPTY 0x12
-#define SMBUS_RELATIVE_SOC 0x0d
-#define SMBUS_REMAIN_CAP 0x0f
-#define SMBUS_FULL_CAP 0x10
-#define SMBUS_CYCLE_COUNT 0x17
-#define SMBUS_VCELL1 0x3c
-#define SMBUS_VCELL2 0x3d
-#define SMBUS_VCELL3 0x3e
-#define SMBUS_VCELL4 0x3f
-#define SMBUS_VCELL5 0x40
-#define SMBUS_VCELL6 0x41
-#define SMBUS_VCELL7 0x42
-#define SMBUS_VCELL8 0x43
-#define SMBUS_VCELL9 0x44
-#define SMBUS_VCELL10 0x45
-
 //EEPROM parameter addresses
 #define EEPROM_SHUNT_VAL_SET 0
 #define EEPROM_CAPACITY_SET 2
@@ -63,144 +38,226 @@ Can't use these because conflicts*/
 #define DEF_ERROR 0x49
 #define BATMON_SLEEPING 0x40
 
+//SMBUS Register enumeration
+#define SMBUS_VOLTAGE 0x09
+#define SMBUS_CURRENT 0x0a
+#define SMBUS_AVG_CURRENT 0x0b
+#define SMBUS_TEMP 0x08
+#define SMBUS_MAN_NAME 0x20
+#define SMBUS_MAN_DATE 0x1b
+#define SMBUS_SERIAL_NUM 0x1c
+#define SMBUS_RUN_TIME_TO_EMPTY 0x11
+#define SMBUS_AVG_TIME_TO_EMPTY 0x12
+#define SMBUS_RELATIVE_SOC 0x0d
+#define SMBUS_REMAIN_CAP 0x0f
+#define SMBUS_FULL_CAP 0x10
+#define SMBUS_CYCLE_COUNT 0x17
+#define SMBUS_VCELL1 0x3c
+#define SMBUS_VCELL2 0x3d
+#define SMBUS_VCELL3 0x3e
+#define SMBUS_VCELL4 0x3f
+#define SMBUS_VCELL5 0x40
+#define SMBUS_VCELL6 0x41
+#define SMBUS_VCELL7 0x42
+#define SMBUS_VCELL8 0x43
+#define SMBUS_VCELL9 0x44
+#define SMBUS_VCELL10 0x45
+#define SMBUS_SAFETY_STATUS 0x51
+#define SMBUS_ALERT_STATUS 0x50
+
+//EEPROM parameter addresses
+#define EEPROM_SHUNT_VAL_SET 0
+#define EEPROM_CAPACITY_SET 2
+
+//parameters for battery alerts and status
+#define MIN_CELLV 3000
+#define MAX_CELLV 4200
+#define MAX_CURRENT_1 100e3
+#define MAX_TEMP_CHARGE 550
+#define MAX_TEMP_DISCHARGE 600
+#define MIN_TEMP_CHARGE 200
+#define MIN_TEMP_DISCHARGE 200
+
 //typedef struct _Batmon_struct{
-	struct Batmon_thermistors{
+struct Batmon_thermistors{
 
-		union
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char T2_HI;
-				unsigned char T2_LO;
-			}T2Byte;
-			unsigned short T2Word; // temperature *10 (deg C)
-		}T2;
-		
-		union
-		{
-			struct
-			{
-				unsigned char T1_HI;
-				unsigned char T1_LO;
-			}T1Byte;
-			unsigned short T1Word; // temperature *10 (deg C)
-		}T1;
-		
-		union
-		{
-			struct
-			{
-				unsigned char T_int_HI;
-				unsigned char T_int_LO;
-			}T_int_Byte;
-			unsigned short T_int_Word; // temperature *10 (deg C)
-		}T_int;
-    unsigned char CRC;
-	};
+			unsigned char T2_HI;
+			unsigned char T2_LO;
+		}T2Byte;
+		unsigned short T2Word; // temperature *10 (deg C)
+	}T2;
 
-  struct Batmon_totalVoltage{
-  	union {
-  		struct
-  		{
-  			unsigned char VTot_HI;
-  			unsigned char VTot_LO;
-  		}VTotByte;
-  		unsigned short VTotWord; //mV
-  	}TV;
-   unsigned char CRC;
-  };
-	
-	struct Batmon_cellVoltages{
-		union
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC1_HI;
-				unsigned char VC1_LO;
-			}VCell1Byte;
-			unsigned short VCell1Word; //mV
-		}VCell1;
-		union
+			unsigned char T1_HI;
+			unsigned char T1_LO;
+		}T1Byte;
+		unsigned short T1Word; // temperature *10 (deg C)
+	}T1;
+
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC2_HI;
-				unsigned char VC2_LO;
-			}VCell2Byte;
-			unsigned short VCell2Word; //mV
-		}VCell2;
-		union
+			unsigned char T_int_HI;
+			unsigned char T_int_LO;
+		}T_int_Byte;
+		unsigned short T_int_Word; // temperature *10 (deg C)
+	}T_int;
+	unsigned char CRC;
+};
+
+struct Batmon_totalVoltage{
+	union {
+		struct
 		{
-			struct
-			{
-				unsigned char VC3_HI;
-				unsigned char VC3_LO;
-			}VCell3Byte;
-			unsigned short VCell3Word; //mV
-		}VCell3;
-		union
+			unsigned char VTot_HI;
+			unsigned char VTot_LO;
+		}VTotByte;
+		unsigned short VTotWord; //mV
+	}TV;
+	unsigned char CRC;
+};
+
+struct Batmon_cellVoltages{
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC4_HI;
-				unsigned char VC4_LO;
-			}VCell4Byte;
-			unsigned short VCell4Word; //mV
-		}VCell4;
-		union
+			unsigned char VC1_HI;
+			unsigned char VC1_LO;
+		}VCell1Byte;
+		unsigned short VCell1Word; //mV
+	}VCell1;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC5_HI;
-				unsigned char VC5_LO;
-			}VCell5Byte;
-			unsigned short VCell5Word;
-		}VCell5;
-		union
+			unsigned char VC2_HI;
+			unsigned char VC2_LO;
+		}VCell2Byte;
+		unsigned short VCell2Word; //mV
+	}VCell2;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC6_HI;
-				unsigned char VC6_LO;
-			}VCell6Byte;
-			unsigned short VCell6Word;
-		}VCell6;
-		union
+			unsigned char VC3_HI;
+			unsigned char VC3_LO;
+		}VCell3Byte;
+		unsigned short VCell3Word; //mV
+	}VCell3;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC7_HI;
-				unsigned char VC7_LO;
-			}VCell7Byte;
-			unsigned short VCell7Word;
-		}VCell7;
-		union
+			unsigned char VC4_HI;
+			unsigned char VC4_LO;
+		}VCell4Byte;
+		unsigned short VCell4Word; //mV
+	}VCell4;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC8_HI;
-				unsigned char VC8_LO;
-			}VCell8Byte;
-			unsigned short VCell8Word;
-		}VCell8;
-		union
+			unsigned char VC5_HI;
+			unsigned char VC5_LO;
+		}VCell5Byte;
+		unsigned short VCell5Word;
+	}VCell5;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC9_HI;
-				unsigned char VC9_LO;
-			}VCell9Byte;
-			unsigned short VCell9Word;
-		}VCell9;
-		union
+			unsigned char VC6_HI;
+			unsigned char VC6_LO;
+		}VCell6Byte;
+		unsigned short VCell6Word;
+	}VCell6;
+	union
+	{
+		struct
 		{
-			struct
-			{
-				unsigned char VC10_HI;
-				unsigned char VC10_LO;
-			}VCell10Byte;
-			unsigned short VCell10Word;
-		}VCell10;
-    unsigned char CRC;
-	};
-//}Batmon_struct;
+			unsigned char VC7_HI;
+			unsigned char VC7_LO;
+		}VCell7Byte;
+		unsigned short VCell7Word;
+	}VCell7;
+	union
+	{
+		struct
+		{
+			unsigned char VC8_HI;
+			unsigned char VC8_LO;
+		}VCell8Byte;
+		unsigned short VCell8Word;
+	}VCell8;
+	union
+	{
+		struct
+		{
+			unsigned char VC9_HI;
+			unsigned char VC9_LO;
+		}VCell9Byte;
+		unsigned short VCell9Word;
+	}VCell9;
+	union
+	{
+		struct
+		{
+			unsigned char VC10_HI;
+			unsigned char VC10_LO;
+		}VCell10Byte;
+		unsigned short VCell10Word;
+	}VCell10;
+	unsigned char CRC;
+};
+
+struct SafetyStatus
+{
+	uint8_t len = 4;
+	union{
+		struct{
+			uint8_t _rsvd_31:1;
+			uint8_t _rsvd_30:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT:1;
+			uint8_t FLAG_CELL_OVERVOLTAGE_LATCH:1;
+			uint8_t FLAG_DISCHARGE_UNDERTEMP:1;
+			uint8_t FLAG_CHARGE_UNDERTEMP:1;
+			uint8_t FLAG_OVERPRECHARGE_CURRENT:1;
+			uint8_t FLAG_OVERCHARGE_VOLTAGE:1;
+			uint8_t FLAG_OVERCHARGE_CURRENT:1;
+			uint8_t FLAG_OVERCHARGE:1;
+			uint8_t _rsvd_21:1;
+			uint8_t FLAG_CHARGE_TIMEOUT:1;
+			uint8_t _rsvd_19:1;
+			uint8_t FLAG_PRECHARGE_TIMEOUT:1;
+			uint8_t _rsvd_17:1;
+			uint8_t FLAG_FET_OVERTEMP:1;
+			uint8_t _rsvd_15:1;
+			uint8_t FLAG_CELL_UNDERVOLTAGE_COMPENSATED:1;
+			uint8_t FLAG_DISCHARGE_OVERTEMP:1;
+			uint8_t FLAG_CHARGE_OVERTEMP:1;
+			uint8_t FLAG_DISHCARGE_LATCH_SHORT_CIRCUIT:1;
+			uint8_t FLAG_DISCHARGE_SHORT_CIRCUIT:1;
+			uint8_t FLAG_CHARGE_LATCH_SHORT_CIRCUIT:1;
+			uint8_t FLAG_CHARGE_SHORT_CIRCUIT:1;
+			uint8_t FLAG_DISCHARGE_LATCH_OVERLOAD:1;
+			uint8_t FLAG_DISCHARGE_OVERLOAD:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT_2:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT_1:1;
+			uint8_t FLAG_CHARGE_OVERCURRENT_2:1;
+			uint8_t FLAG_CHARGE_OVERCURRENT_1:1;
+			uint8_t FLAG_CELL_OVERVOLTAGE:1;
+			uint8_t FLAG_CELL_UNDERVOLTAGE:1;
+		}flags;
+		uint32_t data;
+	}flag;
+	uint8_t crc;
+};
