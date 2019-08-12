@@ -29,6 +29,8 @@
 #define SMBUS_VCELL8 0x43
 #define SMBUS_VCELL9 0x44
 #define SMBUS_VCELL10 0x45
+#define SMBUS_SAFETY_STATUS 0x51
+#define SMBUS_ALERT_STATUS 0x50
 
 //EEPROM parameter addresses
 #define EEPROM_SHUNT_VAL_SET 0
@@ -204,3 +206,46 @@ Can't use these because conflicts*/
     unsigned char CRC;
 	};
 //}Batmon_struct;
+
+struct SafetyStatus
+{
+	uint8_t len = 4;
+	union{
+		struct{
+			uint8_t _rsvd_31:1;
+			uint8_t _rsvd_30:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT:1;
+			uint8_t FLAG_CELL_OVERVOLTAGE_LATCH:1;
+			uint8_t FLAG_DISCHARGE_UNDERTEMP:1;
+			uint8_t FLAG_CHARGE_UNDERTEMP:1;
+			uint8_t FLAG_OVERPRECHARGE_CURRENT:1;
+			uint8_t FLAG_OVERCHARGE_VOLTAGE:1;
+			uint8_t FLAG_OVERCHARGE_CURRENT:1;
+			uint8_t FLAG_OVERCHARGE:1;
+			uint8_t _rsvd_21:1;
+			uint8_t FLAG_CHARGE_TIMEOUT:1;
+			uint8_t _rsvd_19:1;
+			uint8_t FLAG_PRECHARGE_TIMEOUT:1;
+			uint8_t _rsvd_17:1;
+			uint8_t FLAG_FET_OVERTEMP:1;
+			uint8_t _rsvd_15:1;
+			uint8_t FLAG_CELL_UNDERVOLTAGE_COMPENSATED:1;
+			uint8_t FLAG_DISCHARGE_OVERTEMP:1;
+			uint8_t FLAG_CHARGE_OVERTEMP:1;
+			uint8_t FLAG_DISHCARGE_LATCH_SHORT_CIRCUIT:1;
+			uint8_t FLAG_DISCHARGE_SHORT_CIRCUIT:1;
+			uint8_t FLAG_CHARGE_LATCH_SHORT_CIRCUIT:1;
+			uint8_t FLAG_CHARGE_SHORT_CIRCUIT:1;
+			uint8_t FLAG_DISCHARGE_LATCH_OVERLOAD:1;
+			uint8_t FLAG_DISCHARGE_OVERLOAD:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT_2:1;
+			uint8_t FLAG_DISCHARGE_OVERCURRENT_1:1;
+			uint8_t FLAG_CHARGE_OVERCURRENT_2:1;
+			uint8_t FLAG_CHARGE_OVERCURRENT_1:1;
+			uint8_t FLAG_CELL_OVERVOLTAGE:1;
+			uint8_t FLAG_CELL_UNDERVOLTAGE:1;
+		}flags;
+		uint32_t data;
+	}flag;
+	uint8_t crc;
+};
