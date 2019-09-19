@@ -27,7 +27,8 @@ In ground control software of choice, set the BAT_SOURCE parameter to "External"
 <img src="
 https://lh5.googleusercontent.com/6m3g3ZVQEpYSnkg60MCGdOUvIyAk3zA0MdIZx2wb_jd7TS-ySbqFobVs8Gu4QLrsTdAUQ0HohmtlGcrXQJgTA-rChpIqQe-wW9eZAhlfe8ZHIXTYCos8Cra6gpfUnvTvtswJpY56">
 
-Start the batt_smbus [script](https://dev.px4.io/v1.9.0/en/middleware/modules_driver.html)
+Start the batt_smbus [script]
+(https://dev.px4.io/v1.9.0/en/middleware/modules_driver.html)
 ![](https://lh5.googleusercontent.com/2bRcXjxdTqdboj6qWSKkwhtJOFou2oHhYRJzkAYWik_vorzID1a-2K5eO5k9rMEodOgBuMP81-C2vF0LxVDRsV6J7OlXGEjIc-3dZfwVjoxhA5dTHPYKVJBs15hZriPdO1HivRZK)
 ### Ardupilot
 Clone or download [Rotoye's fork of Ardupilot](https://github.com/rotoye/ardupilot)
