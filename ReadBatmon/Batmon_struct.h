@@ -36,6 +36,7 @@
 //EEPROM parameter addresses
 #define EEPROM_SHUNT_VAL_SET 0
 #define EEPROM_CAPACITY_SET 2
+#define EEPROM_EST_SET 4
 
 //Defines for BATMON specific I2C functionality : Not using this now.
 #define BATMON_MAIN_RESET_ADDRESS 0x90
