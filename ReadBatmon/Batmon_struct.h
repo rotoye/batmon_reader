@@ -1,3 +1,28 @@
+/*
+ 	
+ 	Copyright (c) 2020, SkyMul Inc.
+ 	All Rights Reserved.
+
+ 	BatMon and its associated brands and logos published in the website and source code
+ 	are Trademarks of SkyMul Inc.
+
+ 	Redistribution and use in source and binary forms, with or without
+ 	modification, are permitted provided that the following conditions are met:
+
+ 	* Adheres to the rules of GNU GENERAL PUBLIC LICENSE, Version 3
+
+ 	* Redistributions of source code must retain this above copyright notice, this
+ 	list of conditions and the following disclaimer.
+
+ 	* Redistributions in binary form must reproduce the above copyright notice,
+ 	this list of conditions and the following disclaimer in the documentation
+ 	and/or other materials provided with the distribution.
+
+ 	* Neither the name of the copyright holder nor the names of its
+ 	contributors may be used to endorse or promote products derived from
+ 	this software without specific prior written permission.
+ 	
+ */ 
 #pragma once
 
 #define I2CADDRESS1 0x0B // x = (not filled) y = (not filled) (Default for SMbus smart batteries)
