@@ -1,3 +1,4 @@
+
 # Rotoye Batmon
 ## *The Dumb-Battery Era is Over*
 ![](https://lh3.googleusercontent.com/H47S3fEeuooiPsHnVH298wnwPrN6RdQZGKvJUzl5-hQ38AaXzWlaRzRwbxFMnm34zpIN4F5c-m45 "Rotoye Batmon 2.2")
@@ -6,14 +7,17 @@ When you receive a battery with integrated Batmon, the OLED display and red/gree
 
 ***If you see the < ! > symbol on the OLED display, this means that one or more safety warning conditions have been met. Press the button to see the warning(s) present.***
 
+## Programming
+The Batmon board feautures a standard 6pin ISP header for easy programming of the microcontroller. 
+<img src="https://drive.google.com/thumbnail?id=1GzEBrbb3E-LPrZKeRBykzmXpOsr3apaZ" />
+<img src="https://www.avrfreaks.net/sites/default/files/icsp_6pin.png" width="250px" height="250px" />
+
+
 ## Interfacing with an Autopilot
 ### Wiring
 You’ll notice that the XT90 on a Batmon equipped smart battery, while compatible with all XT90 connectors, is not standard. The two small pins in the middle of the connector are for interfacing with an autopilot via an opto-isolated I2C connection.
 
 Connect the smart battery and I2C opto-isolator board to one of the autopilot’s I2C ports as shown:
-
-<img src="https://lh6.googleusercontent.com/O_Kf34zbeI9Oui_qHrYq7bk1wWkONEl9bah6eIPwLfLYhdhfgqIFby8LhVPUkHQmKcuTbBubOtftbd92drdzDEGJ8exAgx7MIgFcWA9z4Su07iXqjNuWzkDmbM6w7Kua8SVwMIil" width="250px" height="250px" />
-
 <img src="https://lh3.googleusercontent.com/gBS4n6Pyndtr5yQh5yk4Ca43jubVZ2XuNF5aYOVID6yPbo3dYaUzoFU7K0-ibxtygKmYodC9mw8zaiDYKZ-XHWkIPdM2SY1inNAJFh0SNamgEXCzPZrw5ut5wZ20X1u2jk9YcXQK" width="250px" height="250px">
 
 ### PX4
