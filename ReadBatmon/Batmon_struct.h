@@ -1,9 +1,9 @@
 #pragma once
 
 #define I2CADDRESS1 0x0B // x = (not filled) y = (not filled) (Default for SMbus smart batteries)
-#define I2CADDRESS2 0x0B // x = (not filled) y = (filled)
-#define I2CADDRESS3 0x0B // x = (filled) y = (not filled)
-#define I2CADDRESS4 0x0B // x = (filled) y = (filled)
+#define I2CADDRESS2 0x0C // x = (not filled) y = (filled)
+#define I2CADDRESS3 0x0D // x = (filled) y = (not filled)
+#define I2CADDRESS4 0x0E // x = (filled) y = (filled)
 
 //SMBUS Register enumeration
 #define SMBUS_VOLTAGE 0x09					// <Total volt						>	<uint16> <format mV >	<WordRead>
