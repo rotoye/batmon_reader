@@ -23,6 +23,7 @@ Connect the smart battery and I2C opto-isolator board to one of the autopilot’
 ### Wiring to cells
 <img src="https://raw.githubusercontent.com/rotoye/batmon_reader/ArduinoAsMaster/HARDWARE/Batmon-pcb.jpg">
 Follow the schematics from https://github.com/rotoye/batmon_reader/blob/ArduinoAsMaster/HARDWARE/6-10%20Cell%20Connection%20schematic.pdf to remove the jumpers before connecting any battery to BatMon
+***If cell voltage is applied across any cell jumpers, they will short the cell and blow. Please check that your pack configuration corresponds appropriately to the jumpers.***
 
 ### PX4
 Clone or download [Rotoye's fork of PX4](https://github.com/rotoye/px4_firmware_batmon)
