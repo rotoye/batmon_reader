@@ -45,7 +45,7 @@ Clone or download [Rotoye's fork of Ardupilot](https://github.com/rotoye/ardupil
 
 Check out the rotoye_batmon branch
 
-In ground control software of choice, manually set the BATT_MONITOR parameter to 13
+In ground control software of choice, manually set the BATT_MONITOR parameter to 16
 ![](https://lh6.googleusercontent.com/jGrWxkMKo8NI_IvOmmfZj3OldKE7GpQflRSuloEQK6REk0yzG2ZnqrDPomHVTyWMh8ntGYH8GlS19wM_smlD8IW2qzn2OTMCFumw-rCgNL-FIi6Ykp2x_qxSrJPjs71mtusVM3dT)
 ### Ground Control: 
 You should now be able to verify through a tool such as MAVLink Inspector in QGroundControl that Batmon is sending data to the autopilot:
