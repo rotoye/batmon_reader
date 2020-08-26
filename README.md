@@ -11,6 +11,9 @@ When you receive a battery with integrated Batmon, the OLED display and red/gree
 
 _**If you see the < ! > symbol on the OLED display, this means that one or more safety warning conditions have been met. Press the button to see the warning(s) present.**_
 
+#### Setting I2C address
+There are two jumpers, labeled X and Y on the PCB, which set the I2C address of the Batmon (0x0b by default, as per the SMBus standard). By selectively removing these jumpers, up to 4 addresses can be encoded so that multiple Batmons can exist on the same bus. 
+
 ## Programming
 
 The Batmon board feautures a standard 6pin ISP header for easy programming of the microcontroller. [![](https://camo.githubusercontent.com/87956ae73d0ba6199c77059022bd55fda05c393a/68747470733a2f2f64726976652e676f6f676c652e636f6d2f7468756d626e61696c3f69643d31477a454272626233452d4c50725a4b655242796b7a6d58704f7372336170615a)](https://camo.githubusercontent.com/87956ae73d0ba6199c77059022bd55fda05c393a/68747470733a2f2f64726976652e676f6f676c652e636f6d2f7468756d626e61696c3f69643d31477a454272626233452d4c50725a4b655242796b7a6d58704f7372336170615a) [![](https://camo.githubusercontent.com/5604128564feb428af4f304526b46358887854dd/68747470733a2f2f7777772e617672667265616b732e6e65742f73697465732f64656661756c742f66696c65732f696373705f3670696e2e706e67)](https://camo.githubusercontent.com/5604128564feb428af4f304526b46358887854dd/68747470733a2f2f7777772e617672667265616b732e6e65742f73697465732f64656661756c742f66696c65732f696373705f3670696e2e706e67)
