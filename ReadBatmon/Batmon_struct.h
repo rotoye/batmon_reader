@@ -92,6 +92,9 @@ Can't use these because conflicts*/
 #define DEF_ERROR 0x49
 #define BATMON_SLEEPING 0x40
 
+typedef unsigned char uint8_t;
+typedef long unsigned int uint32_t;
+
 //typedef struct _Batmon_struct{
 struct Batmon_thermistors{
 
