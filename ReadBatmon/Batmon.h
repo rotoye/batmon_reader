@@ -16,6 +16,8 @@ class Batmon{
   byte readStatus(byte &st);
   byte shutdown();
   byte powerup();
+  unsigned char *getMan(unsigned char *buf);
+  unsigned int getCur();
   private:
 	byte i2cAddress;
 	byte numTherms;

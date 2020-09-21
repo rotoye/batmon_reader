@@ -35,14 +35,21 @@ void loop() {
     Serial.print(ptr[i]); 
     Serial.print("\t");
   }
-  Serial.print("|| RdTherm(i2c):");
+  /*Serial.print("|| RdTherm(i2c):");
   Serial.print( bm.readTherms(ts) );
   Serial.print(" T_int:");
   Serial.print(ts.T_int.T_int_Word);
   Serial.print(" T1:");
   Serial.print(ts.T1.T1Word);
   Serial.print(" T2:");
-  Serial.print(ts.T2.T2Word);
+  Serial.print(ts.T2.T2Word);*/
+
+  /*Serial.print("\tManufacturer's Name: ");
+  unsigned char man_name [20];
+  Serial.print((char *)bm.getMan(man_name));*/
+
+  Serial.print("\tCurrent: ");
+  Serial.print(bm.getCur());
 
   Serial.println();
 

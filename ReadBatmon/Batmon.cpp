@@ -263,4 +263,30 @@ byte Batmon::readTherms(Therms &ts, byte num)
 		return 2;
 	
 }
-	
+
+unsigned char* Batmon::getMan(unsigned char *buf){
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(0x20);
+  Wire.endTransmission();
+  int i = 0;
+  if(Wire.requestFrom(i2cAddress,8)){
+    while(Wire.available()){
+      buf[i] = Wire.read();
+      i++;
+    }
+  }
+  return buf;
+}
+
+unsigned int Batmon::getCur(){
+  unsigned int current; 
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_CURRENT);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    current = (int)Wire.read();
+    current |= (int)Wire.read()<<8;
+    Wire.read();
+  }
+  return current;
+}
