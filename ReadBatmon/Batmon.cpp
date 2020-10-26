@@ -290,3 +290,16 @@ unsigned int Batmon::getCur(){
   }
   return current;
 }
+
+float Batmon::read_mAh_discharged(){
+  unsigned int discharged;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_MAH_DISCHARGED);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    discharged = (unsigned int)Wire.read();
+    discharged |= (unsigned int)Wire.read()<<8;
+    Wire.read(); //throw out crc
+  }
+  return (float)discharged;
+}

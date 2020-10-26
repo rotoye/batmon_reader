@@ -57,6 +57,7 @@
 #define SMBUS_CELL_COUNT 0x40				// <Cell Volt						>	<uint16> <format num>	<WordRead>
 #define SMBUS_SAFETY_STATUS 0x51			// <SafetyStatus structure below	>	<ByteArray> <format SafetyStatus>	<BlockRead>	
 #define SMBUS_ALERT_STATUS 0x50				// Not implemented
+#define SMBUS_MAH_DISCHARGED 0x4f
 
 //EEPROM parameter addresses
 #define EEPROM_SHUNT_VAL_SET 0

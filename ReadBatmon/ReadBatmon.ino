@@ -22,16 +22,20 @@ void loop() {
   Serial.print( bm.readStatus(st));
   Serial.print(" Stat:");
   Serial.print(st);
+  delay(100);
   Serial.print(" RdCell(i2c):");
   Serial.print( bm.readCellVoltages(cv) );
+  delay(100);
   Serial.print(" RdTot(i2c):");
   Serial.print( bm.readTotalVoltage(tv) );
+  delay(100);
   Serial.print(" TotVolt:");
   unsigned short *ptr = (unsigned short *)&cv;
   Serial.print(tv.TV.VTotWord);
   Serial.print("\t");
   for(int i =0;i<10;i++)
   {
+    delay(100);
     Serial.print(ptr[i]); 
     Serial.print("\t");
   }
@@ -48,8 +52,12 @@ void loop() {
   unsigned char man_name [20];
   Serial.print((char *)bm.getMan(man_name));*/
 
+  delay(100);
   Serial.print("\tCurrent: ");
   Serial.print(bm.getCur());
+  delay(100);
+  Serial.print("\tDischarged Current");
+  Serial.print(bm.read_mAh_discharged());
 
   Serial.println();
 
