@@ -278,8 +278,8 @@ unsigned char* Batmon::getMan(unsigned char *buf){
   return buf;
 }
 
-unsigned int Batmon::getCur(){
-  unsigned int current; 
+int Batmon::getCur(){
+  int current; 
   Wire.beginTransmission(i2cAddress);
   Wire.write(SMBUS_CURRENT);
   Wire.endTransmission();
