@@ -19,6 +19,7 @@ class Batmon{
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
   int getCur();
+  double getSOC();
   private:
 	byte i2cAddress;
 	byte numTherms;

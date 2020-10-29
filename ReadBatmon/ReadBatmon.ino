@@ -13,31 +13,28 @@ Therms ts;
 void setup() {
   // Start the I2C Bus as Master
   Serial.begin(115200);
-  Serial.println("Read Batmon");
+  //Serial.println("Read Batmon");
   Wire.setClock(100000);
+  //Serial.println("Total Voltage, Cell 10, Cell 9, Cell 8, Cell 7, Cell 6, Cell 5, Cell 4, Cell 3, Cell 2, Cell 1, Current, Discharged Current");
 }
 void loop() {
   byte st;
-  Serial.print("RdStat(i2c):");
+  /*Serial.print("RdStat(i2c):");
   Serial.print( bm.readStatus(st));
   Serial.print(" Stat:");
   Serial.print(st);
-  delay(100);
-  Serial.print(" RdCell(i2c):");
-  Serial.print( bm.readCellVoltages(cv) );
-  delay(100);
-  Serial.print(" RdTot(i2c):");
-  Serial.print( bm.readTotalVoltage(tv) );
-  delay(100);
-  Serial.print(" TotVolt:");
+  Serial.print(" RdCell(i2c):");*/
+  bm.readCellVoltages(cv);
+  //Serial.print(" RdTot(i2c):");
+  bm.readTotalVoltage(tv);
+  //Serial.print(" TotVolt:");
   unsigned short *ptr = (unsigned short *)&cv;
   Serial.print(tv.TV.VTotWord);
-  Serial.print("\t");
+  Serial.print(",");
   for(int i =0;i<10;i++)
   {
-    delay(100);
     Serial.print(ptr[i]); 
-    Serial.print("\t");
+    Serial.print(",");
   }
   /*Serial.print("|| RdTherm(i2c):");
   Serial.print( bm.readTherms(ts) );
@@ -52,12 +49,11 @@ void loop() {
   unsigned char man_name [20];
   Serial.print((char *)bm.getMan(man_name));*/
 
-  delay(100);
-  Serial.print("\tCurrent: ");
   Serial.print(bm.getCur());
-  delay(100);
-  Serial.print("\tDischarged Current");
+  Serial.print(",");
   Serial.print(bm.read_mAh_discharged());
+  Serial.print(",");
+  Serial.print(bm.getSOC());
 
   Serial.println();
 

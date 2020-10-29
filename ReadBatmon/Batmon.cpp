@@ -303,3 +303,16 @@ float Batmon::read_mAh_discharged(){
   }
   return (float)discharged;
 }
+
+double Batmon::getSOC(){
+  unsigned int soc; 
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_RELATIVE_SOC);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    soc = (unsigned int)Wire.read();
+    soc |= (unsigned int)Wire.read()<<8;
+    Wire.read();// throw out crc
+  }
+  return (double)soc;
+}
