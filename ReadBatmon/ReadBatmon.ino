@@ -54,6 +54,8 @@ void loop() {
   Serial.print(bm.read_mAh_discharged());
   Serial.print(",");
   Serial.print(bm.getSOC());
+  Serial.print(",");
+  Serial.print(bm.readRemainCap());
 
   Serial.println();
 

@@ -318,3 +318,16 @@ double Batmon::getSOC(){
   }
   return (double)soc;
 }
+
+unsigned int Batmon::readRemainCap(){
+  unsigned int cap; 
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_REMAIN_CAP);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    cap = (unsigned int)Wire.read();
+    cap |= (unsigned int)Wire.read()<<8;
+    Wire.read();// throw out crc
+  }
+  return cap;
+}

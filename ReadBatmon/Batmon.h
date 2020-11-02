@@ -15,6 +15,7 @@ class Batmon{
 	byte readTherms(Therms &ts);
   byte readStatus(byte &st);
   float read_mAh_discharged();
+  unsigned int readRemainCap();
   byte shutdown();
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
