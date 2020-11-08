@@ -48,13 +48,13 @@ void loop() {
   /*Serial.print("\tManufacturer's Name: ");
   unsigned char man_name [20];
   Serial.print((char *)bm.getMan(man_name));*/
-
+  Serial.print("\t");
   Serial.print(bm.getCur());
-  Serial.print(",");
+  Serial.print(",\t");
   Serial.print(bm.read_mAh_discharged());
-  Serial.print(",");
+  Serial.print(",\t");
   Serial.print(bm.getSOC());
-  Serial.print(",");
+  Serial.print(",\t");
   Serial.print(bm.readRemainCap());
 
   Serial.println();
