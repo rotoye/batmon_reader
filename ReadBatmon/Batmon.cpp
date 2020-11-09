@@ -291,19 +291,19 @@ int Batmon::getCur(){
   return current;
 }
 
-float Batmon::read_mAh_discharged(){
-  char discharged [5];
+uint16_t Batmon::read_mAh_discharged(){
+  unsigned char discharged [5];
   Wire.beginTransmission(i2cAddress);
   Wire.write(SMBUS_MAH_DISCHARGED);
   Wire.endTransmission();
-  if(Wire.requestFrom(i2cAddress,5)){
+  if(Wire.requestFrom(i2cAddress,3)){
     discharged[0] = Wire.read();
     discharged[1] = Wire.read();
-    discharged[2] = Wire.read();
-    discharged[3] = Wire.read();
+    //discharged[2] = Wire.read();
+    //discharged[3] = Wire.read();
     Wire.read(); //throw out crc
   }
-  return *((float *)discharged);
+  return *((int16_t *)discharged);
 }
 
 double Batmon::getSOC(){
