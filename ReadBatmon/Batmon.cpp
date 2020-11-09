@@ -291,12 +291,13 @@ int Batmon::getCur(){
   return current;
 }
 
-uint16_t Batmon::read_mAh_discharged(){
-  unsigned char discharged [5];
+int16_t Batmon::read_mAh_discharged(){
+  uint8_t num =2;
+  char discharged [num ];
   Wire.beginTransmission(i2cAddress);
   Wire.write(SMBUS_MAH_DISCHARGED);
   Wire.endTransmission();
-  if(Wire.requestFrom(i2cAddress,3)){
+  if(Wire.requestFrom(i2cAddress,num+1)){
     discharged[0] = Wire.read();
     discharged[1] = Wire.read();
     //discharged[2] = Wire.read();
