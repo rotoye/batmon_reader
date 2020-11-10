@@ -43,7 +43,7 @@ Checkout the batmon_v2.02 branch
 
 [Build and upload](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) the firmware according to PX4 documentation instructions
 
-In ground control software of choice, set the BAT_SOURCE parameter to "External" [](https://github.com/rotoye/batmon_reader)
+In ground control software of choice, set the BAT_SOURCE parameter to "External" [](https://github.com/rotoye/batmon_reader), and set SENS_EN_BAT to true
 
 Start the batt_smbus [script](https://dev.px4.io/v1.9.0/en/middleware/modules_driver.html)
 
@@ -57,7 +57,7 @@ Checkout the batmon_v2.02_px4_v1.11 branch
     
 Build and upload the firmware according to [PX4 documentation instructions](https://dev.px4.io/master/en/setup/building_px4.html)
     
-In ground control software of choice, set the BATx_SOURCE parameters to "External"
+In ground control software of choice, set the BATx_SOURCE parameters to "External", and set SENS_EN_BAT to true
     
 Start the batt_smbus [script](https://dev.px4.io/master/en/middleware/modules_driver.html) on NuttShell
 
