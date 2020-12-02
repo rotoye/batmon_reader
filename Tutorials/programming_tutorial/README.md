@@ -4,19 +4,19 @@
 
 *   Microchip ICE Programmer
 
-![](images/image15.jpg | width=2.125in height=2.48786854768154in)
+![](http://batmonfiles.rotoye.com/userguide/atmel_ice.jpg | width=2.125in height=2.48786854768154in)
 
 *   Programmer cable adapter
 
-![](images/image14.jpg | width=1.9385301837270341in height="1.346900699912511in)
+![](http://batmonfiles.rotoye.com/userguide/adapter.jpg | width=1.9385301837270341in height="1.346900699912511in)
 
 *   Programmer cable
 
-![](images/image13.jpg | width=4.903673447069116in height=1.3153083989501313in)
+![](http://batmonfiles.rotoye.com/userguide/programming_cable.jpg | width=4.903673447069116in height=1.3153083989501313in)
 
 *   BatMon board
 
-![](images/image12.jpg | width=2.3229166666666665in height=3.4479166666666665in)
+![](http://batmonfiles.rotoye.com/userguide/batmon.jpg | width=2.3229166666666665in height=3.4479166666666665in)
 
 *   Battery
 
@@ -26,21 +26,21 @@
 
 1.  Remove case
 
-![](images/select_debug.jpg | width=4.25in height="2.7298982939632546in)
+![](http://batmonfiles.rotoye.com/userguide/batmon_case.jpg | width=4.25in height="2.7298982939632546in)
 
 2.  Locate ICE programmer
 
 3.  Plug cable into SAM port
 
-![](images/batmon.jpg | width=3.5520833333333335in height=2.420392607174103in)
+![](http://batmonfiles.rotoye.com/userguide/program_connect.jpg | width=3.5520833333333335in height=2.420392607174103in)
 
 4.  Connect to Adapter
 
-![](images/atmel_ice.jpg | width=2.4218755468066493in height=1.839070428696413in)
+![](http://batmonfiles.rotoye.com/userguide/cable_in_adapter.jpg | width=2.4218755468066493in height=1.839070428696413in)
 
 5.  Connect to BatMon
 
-![](images/programming_cable.jpg | width=2.7754418197725284in height=2.1923654855643044in)
+![](http://batmonfiles.rotoye.com/userguide/batmon_program.jpg | width=2.7754418197725284in height=2.1923654855643044in)
 
 6.  Turn on the BatMon by pressing on the button.
 
@@ -50,7 +50,7 @@
 
 9.  Click on the *Device Programming* icon in the upper-right side of the window or press Ctrl+Shift+P on the keyboard.
 
-![](images/image1.png | width=4.791666666666667in height=0.9453040244969378in)
+![](http://batmonfiles.rotoye.com/userguide/programming_icon.png | width=4.791666666666667in height=0.9453040244969378in)
 
 10. Select the Atmel ICE as the tool. Make sure *ATSAMC21E18A* is set as the device, and make sure the Interface is set as *SWD*.
 
