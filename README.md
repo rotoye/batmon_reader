@@ -25,9 +25,8 @@ The Batmon board feautures a standard 6pin ISP header for easy programming of th
 You’ll notice that the XT90 on a Batmon equipped smart battery, while compatible with all XT90 connectors, is not standard. The two small pins in the middle of the connector are for interfacing with an autopilot via an opto-isolated I2C connection.
 
 Connect the smart battery and I2C opto-isolator board to one of the autopilot’s I2C ports as shown: 
-<iframe src="https://drive.google.com/file/d/1njsgiBgYEYngK3RnlEbGXT6W8eb4RkSc/preview" width="447" height="153"></iframe>
 
-<!--[![](https://camo.githubusercontent.com/605abaf3633f06cebd314a9c57cee7c5e1a3fd52/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f674253346e3650796e6474723579516835796b34436134336a7562565a3258754e463561594f564944367950626f33645961557a6f4655374b302d6962787479674b6d596f6443396d77387a616944594b5a2d5848576b4950644d32535931696e4e414a466830534e616d674558437a505a727735757435775a3230583175326a6b39596358514b)](https://camo.githubusercontent.com/605abaf3633f06cebd314a9c57cee7c5e1a3fd52/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f674253346e3650796e6474723579516835796b34436134336a7562565a3258754e463561594f564944367950626f33645961557a6f4655374b302d6962787479674b6d596f6443396d77387a616944594b5a2d5848576b4950644d32535931696e4e414a466830534e616d674558437a505a727735757435775a3230583175326a6b39596358514b)-->
+![Batmon wiring](http://batmonfiles.rotoye.com/userguide/wiring.png)
 
 ### Wiring to cells
 
