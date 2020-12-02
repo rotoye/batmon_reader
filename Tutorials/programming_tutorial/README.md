@@ -1,31 +1,31 @@
-BatMon Programming Guide
+# BatMon Programming Guide
 
-**Required Materials**
+## Required Materials
 
--   Microchip ICE Programmer
+*   Microchip ICE Programmer
 
 ![](media/image15.jpg){width="2.125in" height="2.48786854768154in"}
 
--   Programmer cable adapter
+*   Programmer cable adapter
 
 > ![](media/image14.jpg){width="1.9385301837270341in"
 > height="1.346900699912511in"}
 
--   Programmer cable
+*   Programmer cable
 
 ![](media/image13.jpg){width="4.903673447069116in"
 height="1.3153083989501313in"}
 
--   BatMon board
+*   BatMon board
 
 > ![](media/image12.jpg){width="2.3229166666666665in"
 > height="3.4479166666666665in"}
 
--   Battery
+*   Battery
 
--   Computer with Atmel Studio and Git Bash installed
+*   Computer with Atmel Studio and Git Bash installed
 
-**Procedure**
+## Procedure
 
 1.  Remove case
 
