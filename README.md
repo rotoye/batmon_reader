@@ -15,7 +15,7 @@ _**If you see the < ! > symbol on the OLED display, this means that one or more 
 ![](http://batmonfiles.rotoye.com/userguide/OLED_buzzer_board.png)
 The optional OLED display/buzzer attachment extends Batmon functionality by providing a user-friendly interface for displaying state of charge, voltages, warnings, and more. The small board is attached to the main Batmon board via a small connector. 
 
-**Warning: this connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little as possible.**
+**Warning: this connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little, and as carefully as possible.**
 
 ## Interfacing with an Autopilot
 
@@ -44,7 +44,7 @@ Checkout the batmon_v2.02 branch
 
 [Build and upload](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) the firmware according to PX4 documentation instructions
 
-In ground control software of choice, set the BAT_SOURCE parameter to "External" [](https://github.com/rotoye/batmon_reader), and set SENS_EN_BAT to true
+In ground control software of choice, set the BAT_SOURCE parameter to "External," and set SENS_EN_BAT to true
 
 Start the batt_smbus [script](https://dev.px4.io/v1.9.0/en/middleware/modules_driver.html)
 
