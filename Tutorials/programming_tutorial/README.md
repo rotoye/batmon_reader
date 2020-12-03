@@ -8,7 +8,7 @@
 
 *   Programmer cable adapter
 
-![](http://batmonfiles.rotoye.com/userguide/adapter.jpg)
+![](http://batmonfiles.rotoye.com/userguide/adapter_2.png)
 
 *   Programmer cable
 
@@ -89,7 +89,7 @@
 There might be errors like the following when trying to read the device
 signature.
 
-![](http://batmonfiles.rotoye.com/userguide/error_msg.png)å
+![](http://batmonfiles.rotoye.com/userguide/error_msg.png)
 
 If this happens, it means the programmer isn't detecting 3.3V at the
 programming connector. Try the following:
