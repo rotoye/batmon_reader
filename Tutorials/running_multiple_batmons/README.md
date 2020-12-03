@@ -43,11 +43,11 @@ Ardupilot does not currently support using multiple smart batteries on the same 
 If you want to use multiple Batmon-equipt batteries with Ardupilot, you'll need to run them on different busses
 
 For example, using params 
-`BATT_BUS = 2`
-`BATT_MONITOR = 19: Rotoye`
+``BATT_BUS = 2``
+``BATT_MONITOR = 19: Rotoye``
 
-`BATT2_BUS = 3`
-`BATT2_MONITOR = 19: Rotoye`
+``BATT2_BUS = 3``
+``BATT2_MONITOR = 19: Rotoye``
 
 Would allow for using two Batmons on seperate external I2C busses
 
