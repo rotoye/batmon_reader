@@ -4,7 +4,7 @@ The Opto-Isolation of the signals is **always** recommended to reduce noise and 
 
 ![Opto-iso I2C block diagram](http://batmonfiles.rotoye.com/userguide/Opto-iso%20connection.jpg)
 
-When using two Batmons on the same bus, an I2C splitter, like the one shown here, is useful:
+When using two Batmons on the same bus, an I2C splitter, like the one shown here, is useful:  
 ![I2C signal splitter](http://batmonfiles.rotoye.com/userguide/splitter.png)
 
 ## Batmon Firmware
@@ -42,7 +42,7 @@ Ardupilot does not currently support using multiple smart batteries on the same 
 
 If you want to use multiple Batmon-equipt batteries with Ardupilot, you'll need to run them on different busses
 
-For example, using params 
+For example, using params   
 ``BATT_BUS = 2``
 ``BATT_MONITOR = 19: Rotoye``
 
