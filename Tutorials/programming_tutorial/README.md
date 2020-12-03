@@ -4,19 +4,19 @@
 
 *   Microchip ICE Programmer
 
-![](http://batmonfiles.rotoye.com/userguide/atmel_ice.jpg | width=2.125in height=2.48786854768154in)
+![](http://batmonfiles.rotoye.com/userguide/atmel_ice.jpg)
 
 *   Programmer cable adapter
 
-![](http://batmonfiles.rotoye.com/userguide/adapter.jpg | width=1.9385301837270341in height="1.346900699912511in)
+![](http://batmonfiles.rotoye.com/userguide/adapter.jpg)
 
 *   Programmer cable
 
-![](http://batmonfiles.rotoye.com/userguide/programming_cable.jpg | width=4.903673447069116in height=1.3153083989501313in)
+![](http://batmonfiles.rotoye.com/userguide/programming_cable.jpg)
 
 *   BatMon board
 
-![](http://batmonfiles.rotoye.com/userguide/batmon.jpg | width=2.3229166666666665in height=3.4479166666666665in)
+![](http://batmonfiles.rotoye.com/userguide/batmon.jpg)
 
 *   Battery
 
@@ -26,63 +26,61 @@
 
 1.  Remove case
 
-![](http://batmonfiles.rotoye.com/userguide/batmon_case.jpg | width=4.25in height="2.7298982939632546in)
+![](http://batmonfiles.rotoye.com/userguide/batmon_case.jpg)
 
-2.  Locate ICE programmer
+1.  Locate ICE programmer
 
-3.  Plug cable into SAM port
+2.  Plug cable into SAM port
 
-![](http://batmonfiles.rotoye.com/userguide/program_connect.jpg | width=3.5520833333333335in height=2.420392607174103in)
+![](http://batmonfiles.rotoye.com/userguide/program_connect.jpg)
 
-4.  Connect to Adapter
+1.  Connect to Adapter
 
-![](http://batmonfiles.rotoye.com/userguide/cable_in_adapter.jpg | width=2.4218755468066493in height=1.839070428696413in)
+![](http://batmonfiles.rotoye.com/userguide/cable_in_adapter.jpg)
 
-5.  Connect to BatMon
+1.  Connect to BatMon
 
-![](http://batmonfiles.rotoye.com/userguide/batmon_program.jpg | width=2.7754418197725284in height=2.1923654855643044in)
+![](http://batmonfiles.rotoye.com/userguide/batmon_program.jpg)
 
-6.  Turn on the BatMon by pressing on the button.
+1.  Turn on the BatMon by pressing on the button.
 
-7.  Connect to computer.
+2.  Connect to computer.
 
-8.  Open Atmel Studio.
+3.  Open Atmel Studio.
 
-9.  Click on the *Device Programming* icon in the upper-right side of the window or press Ctrl+Shift+P on the keyboard.
+4.  Click on the *Device Programming* icon in the upper-right side of the window or press Ctrl+Shift+P on the keyboard.
 
-![](http://batmonfiles.rotoye.com/userguide/programming_icon.png | width=4.791666666666667in height=0.9453040244969378in)
+![](http://batmonfiles.rotoye.com/userguide/programming_icon.png)
 
-10. Select the Atmel ICE as the tool. Make sure *ATSAMC21E18A* is set as the device, and make sure the Interface is set as *SWD*.
+1.  Select the Atmel ICE as the tool. Make sure *ATSAMC21E18A* is set as the device, and make sure the Interface is set as *SWD*.
 
-![](images/error_msg.png | width=2.9479166666666665in height=1.1041666666666667in)
+1.  Click *Apply*.
 
-11. Click *Apply*.
+2.  Click on the *Read* button under Device Signature. The signature of this device should appear in the text box. The *3.3V* should be read as the Target Voltage.
 
-12. Click on the *Read* button under Device Signature. The signature of this device should appear in the text box. The *3.3V* should be read as the Target Voltage.
+![](http://batmonfiles.rotoye.com/userguide/start_debug.png)
 
-![](images/start_debug.png | width=3.9114588801399823in height=0.8031135170603675in)
+1.  Contact Rotoye for access to the Github repository [https://github.com/rotoye/batmon](https://github.com/rotoye/batmon)
 
-13. Contact Rotoye for access to the Github repository [https://github.com/rotoye/batmon](https://github.com/rotoye/batmon)
+2.  Open Git Bash.
 
-14. Open Git Bash.
+3.  Navigate the the folder of your choice and enter the command: `git clone https://github.com/rotoye/batmon.git`
 
-15. Navigate the the folder of your choice and enter the command: `git clone https://github.com/rotoye/batmon.git`
+4.  Go to File\>Open\>Project/Solution.
 
-16. Go to File\>Open\>Project/Solution.
+![](http://batmonfiles.rotoye.com/userguide/open_project.png)
 
-![](images/open_project.png | width=5.750043744531934in height=3.6216360454943133in)
+1.  Browse for the location of the *batmon* repository and open the Batmon_firm.atsln* file found in the folder *batmon/Batmon_firm/*.
 
-17. Browse for the location of the *batmon* repository and open the Batmon_firm.atsln* file found in the folder *batmon/Batmon_firm/*.
+![](http://batmonfiles.rotoye.com/userguide/project_file.png)
 
-![](images/project_file.png | width=5.598958880139983in height=3.867228783902012in)
+1.  Click on the *Start Without Debugging* icon on the toolbar or press Ctrl+Alt+F5 on the keyboard.
 
-18. Click on the *Start Without Debugging* icon on the toolbar or press Ctrl+Alt+F5 on the keyboard.
+![](http://batmonfiles.rotoye.com/userguide/start_debug.png)
 
-![](images/start_debug.png | width=5.617095363079615in height=0.8277821522309712in)
+1.  Wait for the programming to finish (can take up to a minute).
 
-19. Wait for the programming to finish (can take up to a minute).
-
-20. Disconnect the programmer and enjoy!
+2.  Disconnect the programmer and enjoy!
 
 ## Troubleshooting
 
@@ -91,7 +89,7 @@
 There might be errors like the following when trying to read the device
 signature.
 
-![](images/batmon_case.png | width=4.598958880139983in height=1.5993175853018373in)
+![](http://batmonfiles.rotoye.com/userguide/error_msg.png)å
 
 If this happens, it means the programmer isn't detecting 3.3V at the
 programming connector. Try the following:
