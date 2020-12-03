@@ -12,7 +12,7 @@ When you receive a battery with integrated Batmon, the OLED display (if applicab
 _**If you see the < ! > symbol on the OLED display, this means that one or more safety warning conditions have been met. Press the button to see the warning(s) present.**_
 
 ### Buzzer/OLED board
-![](http://batmonfiles.rotoye.com/userguide/OLED_buzzer_board.png)
+![](http://batmonfiles.rotoye.com/userguide/OLED_buzzer_board.png)  
 The optional OLED display/buzzer attachment extends Batmon functionality by providing a user-friendly interface for displaying state of charge, voltages, warnings, and more. The small board is attached to the main Batmon board via a small connector. 
 
 **Warning: this connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little, and as carefully as possible.**
