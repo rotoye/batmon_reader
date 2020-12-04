@@ -12,7 +12,7 @@
 
 *   Programmer cable
 
-![](http://batmonfiles.rotoye.com/userguide/programming_cable.jpg)
+![](http://batmonfiles.rotoye.com/userguide/programming_cable.jpg | width=4.903673447069116in height=1.3153083989501313in)
 
 *   BatMon board
 
