@@ -34,7 +34,8 @@
 #define SMBUS_VOLTAGE 0x09					// <Total volt						>	<uint16> <format mV >	<WordRead>
 #define SMBUS_CURRENT 0x0a					// <Current							>	<int16_t> <format mA>	<WordRead>
 #define SMBUS_AVG_CURRENT 0x0b				// Not implemented
-#define SMBUS_TEMP 0x08						// <Battery Temperature				>	<uint16> <format deciKelvin >	<WordRead>
+#define SMBUS_TEMP_INT 0x08						// <Battery Temperature				>	<uint16> <format deciKelvin >	<WordRead>
+#define SMBUS_TEMP_EXT 0x07
 #define SMBUS_MAN_NAME 0x20					// <Manufacturer Name "Rotoye"		>	<char*> <format	>	<BlockRead>
 #define SMBUS_MAN_DATE 0x1b
 #define SMBUS_SERIAL_NUM 0x1c

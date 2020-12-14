@@ -198,15 +198,15 @@ byte Batmon::readTherms(Therms &ts, byte num)
 	Wire.beginTransmission(i2cAddress);
 	if( num ==0 )
 	{
-		Wire.write(SMBUS_TEMP);
+		Wire.write(SMBUS_TEMP_INT);
 	}
 	else if(num ==1)
 	{
-		Wire.write(SMBUS_TEMP);
+		Wire.write(SMBUS_TEMP_EXT);
 	}
 	else if(num ==2)
 	{
-		Wire.write(SMBUS_TEMP);
+		Wire.write(SMBUS_TEMP_EXT);
 	}
 	
 	// endTransmission return	
@@ -289,6 +289,36 @@ int Batmon::getCur(){
     Wire.read();
   }
   return current;
+}
+
+int Batmon::getTInt() {
+  int t;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_TEMP_INT);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    t = (int)Wire.read();
+    t |= (int)Wire.read()<<8;
+    Wire.read();
+  }
+  t = t-2731;
+  t = t/10;
+  return t;
+}
+
+int Batmon::getTExt() {
+  int t;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_TEMP_EXT);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress,3)){
+    t = (int)Wire.read();
+    t |= (int)Wire.read()<<8;
+    Wire.read();
+  }
+  t = t-2731;
+  t = t/10;
+  return t;
 }
 
 int16_t Batmon::read_mAh_discharged(){

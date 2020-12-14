@@ -56,6 +56,11 @@ void loop() {
   Serial.print(bm.getSOC());
   Serial.print(",\t");
   Serial.print(bm.readRemainCap());
+  Serial.print(",\t");
+  Serial.print(bm.getTInt());
+  Serial.print(",\t");
+  Serial.print(bm.getTExt());
+  Serial.print(",\t");
 
   Serial.println();
 
