@@ -31,45 +31,47 @@
 #define I2CADDRESS4 0x0B // x = (filled) y = (filled)
 
 //SMBUS Register enumeration
-#define SMBUS_VOLTAGE 0x09					// <Total volt						>	<uint16> <format mV >	<WordRead>
-#define SMBUS_CURRENT 0x0a					// <Current							>	<int16_t> <format mA>	<WordRead>
-#define SMBUS_AVG_CURRENT 0x0b				// Not implemented
-#define SMBUS_TEMP_INT 0x08						// <Battery Temperature				>	<uint16> <format deciKelvin >	<WordRead>
-#define SMBUS_TEMP_EXT 0x07
-#define SMBUS_MAN_NAME 0x20					// <Manufacturer Name "Rotoye"		>	<char*> <format	>	<BlockRead>
-#define SMBUS_MAN_DATE 0x1b
-#define SMBUS_SERIAL_NUM 0x1c
-#define SMBUS_RUN_TIME_TO_EMPTY 0x11		//	Not implemented
-#define SMBUS_AVG_TIME_TO_EMPTY 0x12		//	Not implemented
-#define SMBUS_RELATIVE_SOC 0x0d				// <Remaining capacity				>	<uint16> <format %  >	<WordRead>
-#define SMBUS_REMAIN_CAP 0x0f				// <Remaining capacity  			>	<uint16> <format mAh>	<WordRead>
-#define SMBUS_FULL_CAP 0x10					// <Full capacity					>	<uint16> <format mAh>	<WordRead>
-#define SMBUS_CYCLE_COUNT 0x17				// <Number of cycles on the battery	>	<uint16> <format num>	<WordRead>
-#define SMBUS_VCELL1 0x3f					// <Cell Volt						>	<uint16> <format mV >	<WordRead>
-#define SMBUS_VCELL2 0x3e					//	Same as above
-#define SMBUS_VCELL3 0x3d					//	Same as above
-#define SMBUS_VCELL4 0x3c					//	Same as above
-#define SMBUS_VCELL5 0x3b					//	Same as above
-#define SMBUS_VCELL6 0x3a					//	Same as above
-#define SMBUS_VCELL7 0x39					//	Same as above
-#define SMBUS_VCELL8 0x38					//	Same as above
-#define SMBUS_VCELL9 0x37					//	Same as above
-#define SMBUS_VCELL10 0x36					//	Same as above
-#define SMBUS_CELL_COUNT 0x40				// <Cell Volt						>	<uint16> <format num>	<WordRead>
-#define SMBUS_SAFETY_STATUS 0x51			// <SafetyStatus structure below	>	<ByteArray> <format SafetyStatus>	<BlockRead>	
-#define SMBUS_ALERT_STATUS 0x50				// Not implemented
-#define SMBUS_MAH_DISCHARGED 0x4f
+enum smbus_reg : uint8_t {
+	SMBUS_VOLTAGE = 0x09,					// <Total volt						>	<uint16> <format mV >	<WordRead>
+	SMBUS_CURRENT = 0x0a,					// <Current							>	<int16_t> <format mA>	<WordRead>
+	SMBUS_AVG_CURRENT = 0x0b,				// Not implemented
+	SMBUS_TEMP_INT = 0x08,						// <Battery Temperature				>	<uint16> <format deciKelvin >	<WordRead>
+	SMBUS_TEMP_EXT = 0x07,
+	SMBUS_MAN_NAME = 0x20,					// <Manufacturer Name "Rotoye"		>	<char*> <format	>	<BlockRead>
+	SMBUS_MAN_DATE = 0x1b,
+	SMBUS_SERIAL_NUM = 0x1c,
+	SMBUS_RUN_TIME_TO_EMPTY = 0x11,		//	Not implemented
+	SMBUS_AVG_TIME_TO_EMPTY = 0x12,		//	Not implemented
+	SMBUS_RELATIVE_SOC = 0x0d,				// <Remaining capacity				>	<uint16> <format %  >	<WordRead>
+	SMBUS_REMAIN_CAP = 0x0f,				// <Remaining capacity  			>	<uint16> <format mAh>	<WordRead>
+	SMBUS_FULL_CAP = 0x10,					// <Full capacity					>	<uint16> <format mAh>	<WordRead>
+	SMBUS_CYCLE_COUNT = 0x17,				// <Number of cycles on the battery	>	<uint16> <format num>	<WordRead>
+	SMBUS_VCELL1 = 0x3f,				// <Cell Volt						>	<uint16> <format mV >	<WordRead>
+	SMBUS_VCELL2 = 0x3e,					//	Same as above
+	SMBUS_VCELL3 = 0x3d,					//	Same as above
+	SMBUS_VCELL4 = 0x3c,					//	Same as above
+	SMBUS_VCELL5 = 0x3b,					//	Same as above
+	SMBUS_VCELL6 = 0x3a,					//	Same as above
+	SMBUS_VCELL7 = 0x39,					//	Same as above
+	SMBUS_VCELL8 = 0x38,					//	Same as above
+	SMBUS_VCELL9 = 0x37,					//	Same as above
+	SMBUS_VCELL10 = 0x36,					//	Same as above
+	SMBUS_CELL_COUNT = 0x40,				// <Cell Volt						>	<uint16> <format num>	<WordRead>
+	SMBUS_SAFETY_STATUS = 0x51,			// <SafetyStatus structure below	>	<ByteArray> <format SafetyStatus>	<BlockRead>	
+	SMBUS_ALERT_STATUS = 0x50,				// Not implemented
+	SMBUS_MAH_DISCHARGED = 0x4f,
 
-//EEPROM parameter addresses
-#define EEPROM_SHUNT_VAL_SET 0
-#define EEPROM_CAPACITY_SET 2
-#define EEPROM_EST_SET 4
+	//EEPROM parameter addresses
+	EEPROM_SHUNT_VAL_SET = 0,
+	EEPROM_CAPACITY_SET = 2,
+	EEPROM_EST_SET = 4,
 
-//Defines for BATMON specific I2C functionality : Not using this now.
-#define BATMON_MAIN_RESET_ADDRESS 0x90
-#define BATMON_BQ_RESET_ADDRESS 0x91
-#define BATMON_SHUNT_VAL_SET_ADDRESS 0x92
-#define BATMON_CAPACITY_SET_ADDRESS 0x93
+	//Defines for BATMON specific I2C functionality : Not using this now.
+	BATMON_MAIN_RESET_ADDRESS = 0x90,
+	BATMON_BQ_RESET_ADDRESS = 0x91,
+	BATMON_SHUNT_VAL_SET_ADDRESS = 0x92,
+	BATMON_CAPACITY_SET_ADDRESS = 0x93
+};
 
 //For reference: pixhawk must have 8,9,a,b,f,10,11,12,17,1b,1c,20,3c to 45 reserved
 /*
