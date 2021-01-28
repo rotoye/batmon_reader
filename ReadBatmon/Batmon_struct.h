@@ -31,7 +31,7 @@
 #define I2CADDRESS4 0x0B // x = (filled) y = (filled)
 
 //SMBUS Register enumeration
-enum smbus_reg : uint8_t {
+enum smbus_reg : unsigned char {
 	SMBUS_VOLTAGE = 0x09,					// <Total volt						>	<uint16> <format mV >	<WordRead>
 	SMBUS_CURRENT = 0x0a,					// <Current							>	<int16_t> <format mA>	<WordRead>
 	SMBUS_AVG_CURRENT = 0x0b,				// Not implemented
