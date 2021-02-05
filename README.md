@@ -36,29 +36,14 @@ Follow the schematics from [https://github.com/rotoye/batmon_reader/blob/Arduino
 _**If cell voltage is applied across any cell jumpers, they will short the cell and blow. Please check that your pack configuration corresponds appropriately to the jumpers.**_
 
 ### PX4
-#### Stable
 
-Clone or download [Rotoye's fork of PX4](https://github.com/rotoye/px4_firmware_batmon)
-
-Checkout the batmon_v2.02 branch
-
-[Build and upload](https://dev.px4.io/v1.9.0/en/setup/building_px4.html) the firmware according to PX4 documentation instructions
-
-In ground control software of choice, set the BAT_SOURCE parameter to "External," and set SENS_EN_BAT to true
-
-Start the batt_smbus [script](https://dev.px4.io/v1.9.0/en/middleware/modules_driver.html)
-
-[![](https://camo.githubusercontent.com/4f57fdfe4af663bcc7d0dcd78faa980823dc97ec/68747470733a2f2f6c68352e676f6f676c6575736572636f6e74656e742e636f6d2f32625263586a7864547164626f6a367157534b6b7768744a4f466f75326f486859524a7a6b415957696b5f766f727a494431612d324b35654f356b39724d456f644f6742754d5038312d43327646304c785644527356364a374f6c5847456a49632d33645a6677566a6f7868413564544850594b564a42733135685a726950644f31486976525a4b)](https://camo.githubusercontent.com/4f57fdfe4af663bcc7d0dcd78faa980823dc97ec/68747470733a2f2f6c68352e676f6f676c6575736572636f6e74656e742e636f6d2f32625263586a7864547164626f6a367157534b6b7768744a4f466f75326f486859524a7a6b415957696b5f766f727a494431612d324b35654f356b39724d456f644f6742754d5038312d43327646304c785644527356364a374f6c5847456a49632d33645a6677566a6f7868413564544850594b564a42733135685a726950644f31486976525a4b)
-
-#### Beta
-*PX4 v1.11.0 is still in Beta; as such, so is BatMon support*
-Clone or download [Rotoye's fork of PX4:](https://github.com/rotoye/px4_firmware_batmon)
+Clone or download [Rotoye's fork of PX4:](https://github.com/rotoye/PX4-Autopilot/tree/batmon_4.03)
     
-Checkout the batmon_v2.02_px4_v1.11 branch
+Checkout the batmon_4.03 branch
     
 Build and upload the firmware according to [PX4 documentation instructions](https://dev.px4.io/master/en/setup/building_px4.html)
     
-In ground control software of choice, set the BATx_SOURCE parameters to "External", and set SENS_EN_BAT to true
+In ground control software of choice, set the BATx_SOURCE parameters to "External", set SENS_EN_BAT to true, and BAT_SMBUS_MODEL to 3:Rotoye
     
 Start the batt_smbus [script](https://dev.px4.io/master/en/middleware/modules_driver.html) on NuttShell
 
