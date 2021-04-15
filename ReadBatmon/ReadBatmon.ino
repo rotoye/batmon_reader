@@ -91,11 +91,11 @@ public:
         Serial.print(str);
         sprintf(str, "  %5d        ",bm.read_mAh_discharged());
         Serial.print(str);
-        sprintf(str, "%2d ",bm.getSOC());
+        sprintf(str, "  %2d",bm.getSOC());
         Serial.print(str);
-        sprintf(str, "    %5u ",bm.readRemainCap());
+        sprintf(str, "  %5u    ",bm.readRemainCap());
         Serial.print(str);
-        sprintf(str, "%4d     ",bm.getTInt());
+        sprintf(str, "%4d  ",bm.getTInt());
         Serial.print(str);
         sprintf(str, "%4d ",bm.getTExt());
         Serial.print(str);
