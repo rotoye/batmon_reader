@@ -93,12 +93,12 @@ public:
         Serial.print(str);
         sprintf(str, "  %2d",bm.getSOC());
         Serial.print(str);
-        sprintf(str, "  %5u    ",bm.readRemainCap());
+        sprintf(str, "  %5u        ",bm.readRemainCap());
         Serial.print(str);
-        sprintf(str, "%4d  ",bm.getTInt());
-        Serial.print(str);
-        sprintf(str, "%4d ",bm.getTExt());
-        Serial.print(str);
+        dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
+        Serial.print(str);Serial.print("  ");
+        dtostrf(float(bm.getTExt())*0.1,4,1,str);
+        Serial.print(str);Serial.print("  ");
       }
       else
         init();

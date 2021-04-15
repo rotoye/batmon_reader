@@ -295,6 +295,7 @@ int Batmon::getCur()
   return current;
 }
 
+// deciCelcius output
 int Batmon::getTInt()
 {
   int t;
@@ -307,11 +308,10 @@ int Batmon::getTInt()
     t |= (int)Wire.read() << 8;
     Wire.read();
     t = t - 2731;
-    t = t / 10;
   }
   return t;
 }
-
+// deciCelcius output
 int Batmon::getTExt()
 {
   int t;
@@ -324,7 +324,6 @@ int Batmon::getTExt()
     t |= (int)Wire.read() << 8;
     Wire.read();
     t = t - 2731;
-    t = t / 10;
   }
   return t;
 }
