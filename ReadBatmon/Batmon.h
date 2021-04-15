@@ -13,6 +13,7 @@ class Batmon
   Batmon(byte _i2cAddress, byte _numTherms);
   byte readCellVoltages(CVolts &cv);
   byte readTotalVoltage(TotVolt &tv);
+  uint8_t getCellCount();
   byte readTherms(Therms &ts);
   byte readStatus(byte &st);
   int16_t read_mAh_discharged();
@@ -21,7 +22,7 @@ class Batmon
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
   int getCur();
-  double getSOC();
+  unsigned int getSOC();
   int getTInt();
   int getTExt();
   private:

@@ -29,11 +29,13 @@ byte Batmon::readCellVoltages(CVolts &cv)
 {
   unsigned short *ptr;
   ptr = (unsigned short *)&cv.VCell1;
-  int i;
-  for(i = SMBUS_VCELL1; i >= SMBUS_VCELL10; i--)
+  uint8_t i ;
+  int cellCount;
+  cellCount = getCellCount();
+  for(i = 0; i < cellCount; i++)
   {
     Wire.beginTransmission(i2cAddress);
-    Wire.write(i);
+    Wire.write(SMBUS_VCELL1 - i);
 
     // endTransmission return
     // Output 0 .. success
@@ -59,8 +61,8 @@ byte Batmon::readCellVoltages(CVolts &cv)
     unsigned char readNum = 3; // CRC + size
     if(Wire.requestFrom(i2cAddress, readNum) == readNum)
     {
-        ptr[i - 0x36] = Wire.read();
-        ptr[i - 0x36] += Wire.read() << 8;
+        ptr[i ] = Wire.read();
+        ptr[i ] += Wire.read() << 8;
         Wire.read();
     }
     else
@@ -304,9 +306,9 @@ int Batmon::getTInt()
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
+    t = t - 2731;
+    t = t / 10;
   }
-  t = t - 2731;
-  t = t / 10;
   return t;
 }
 
@@ -321,9 +323,9 @@ int Batmon::getTExt()
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
+    t = t - 2731;
+    t = t / 10;
   }
-  t = t - 2731;
-  t = t / 10;
   return t;
 }
 
@@ -345,7 +347,7 @@ int16_t Batmon::read_mAh_discharged()
   return *((int16_t *)discharged);
 }
 
-double Batmon::getSOC()
+unsigned int Batmon::getSOC()
 {
   unsigned int soc;
   Wire.beginTransmission(i2cAddress);
@@ -357,7 +359,7 @@ double Batmon::getSOC()
     soc |= (unsigned int)Wire.read() << 8;
     Wire.read();// throw out crc
   }
-  return (double)soc;
+  return soc;
 }
 
 unsigned int Batmon::readRemainCap()
@@ -374,3 +376,19 @@ unsigned int Batmon::readRemainCap()
   }
   return cap;
 }
+
+uint8_t Batmon::getCellCount()
+{
+  unsigned int cellCount;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_CELL_COUNT);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress, 3))
+  {
+    cellCount = (unsigned int)Wire.read();
+    cellCount |= (unsigned int)Wire.read() << 8;
+    Wire.read();// throw out crc
+  }
+  return cellCount;
+}
+

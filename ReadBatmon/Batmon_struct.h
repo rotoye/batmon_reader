@@ -57,6 +57,8 @@ enum smbus_reg : unsigned char
   SMBUS_VCELL8 = 0x38,          //  Same as above
   SMBUS_VCELL9 = 0x37,          //  Same as above
   SMBUS_VCELL10 = 0x36,         //  Same as above
+  SMBUS_VCELL11 = 0x35,         //  Same as above
+  SMBUS_VCELL12 = 0x34,         //  Same as above
   SMBUS_CELL_COUNT = 0x40,        // <Cell Volt           > <uint16> <format num> <WordRead>
   SMBUS_SAFETY_STATUS = 0x51,     // <SafetyStatus structure below  > <ByteArray> <format SafetyStatus> <BlockRead>
   SMBUS_ALERT_STATUS = 0x50,        // Not implemented
@@ -144,7 +146,7 @@ struct Batmon_totalVoltage
       unsigned char VTot_HI;
       unsigned char VTot_LO;
     }VTotByte;
-    unsigned short VTotWord; //mV
+    unsigned int VTotWord; //mV
   }TV;
   unsigned char CRC;
 };
@@ -241,6 +243,24 @@ struct Batmon_cellVoltages
     }VCell10Byte;
     unsigned short VCell10Word;
   }VCell10;
+  union
+  {
+    struct
+    {
+      unsigned char VC11_HI;
+      unsigned char VC11_LO;
+    }VCell11Byte;
+    unsigned short VCell11Word;
+  }VCell11;
+  union
+  {
+    struct
+    {
+      unsigned char VC12_HI;
+      unsigned char VC12_LO;
+    }VCell12Byte;
+    unsigned short VCell12Word;
+  }VCell12;
   unsigned char CRC;
 };
 //}Batmon_struct;
