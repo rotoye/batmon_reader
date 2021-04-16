@@ -106,14 +106,16 @@ public:
   }
 };
 
-Batt bat3(I2CADDRESS3, 2);
-Batt bat4(I2CADDRESS4, 2);
+Batt bat2(I2CADDRESS2, 1);
+Batt bat3(I2CADDRESS3, 1);
+Batt bat4(I2CADDRESS4, 1);
 void setup()
 {
   // Start the I2C Bus as Master
   Serial.begin(115200);
   //Serial.println("Read Batmon");
   Wire.setClock(100000);
+  bat2.init();
   bat3.init();
   bat4.init();
   //Serial.println("Total Voltage, Cell 10, Cell 9, Cell 8, Cell 7, Cell 6, Cell 5, Cell 4, Cell 3, Cell 2, Cell 1, Current, Discharged Current");
@@ -126,6 +128,8 @@ void loop()
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
 
   bat3.printBatteryInfo(true);
+  bat2.printBatteryInfo();
+  Serial.println();
   bat3.printBatteryInfo();
   Serial.println();
   bat4.printBatteryInfo();
