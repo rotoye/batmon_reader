@@ -62,47 +62,44 @@ public:
       Serial.print("ExtTemp ");
       Serial.println();
     }
-    else
+    if (isDetected && checkConnection())
     {
-      if (isDetected && checkConnection())
+      sprintf(str, "0x%02X ", i2cAddress);
+      Serial.print(str);
+      readVoltages();
+      unsigned short *ptr = (unsigned short *)&cv;
+      sprintf(str, "%5u", tv.TV.VTotWord);
+      Serial.print(str);
+      Serial.print(",");
+      int i;
+      // Printing cell voltages
+      for(i = 0; i < cellCount; i++)
       {
-        sprintf(str, "0x%02X ", i2cAddress);
-        Serial.print(str);
-        readVoltages();
-        unsigned short *ptr = (unsigned short *)&cv;
-        sprintf(str, "%5u", tv.TV.VTotWord);
+        sprintf(str, "%4d", ptr[i]);
         Serial.print(str);
         Serial.print(",");
-        int i;
-        // Printing cell voltages
-        for(i = 0; i < cellCount; i++)
-        {
-          sprintf(str, "%4d", ptr[i]);
-          Serial.print(str);
-          Serial.print(",");
-        }
-        // Adding space for non existent cells
-        for(;i<MAXCELLCOUNT; i++)
-        {
-          Serial.print("    ,"); 
-        }
-        Serial.print("\t");
-        sprintf(str, "%5d ",bm.getCur());
-        Serial.print(str);
-        sprintf(str, "  %5d        ",bm.read_mAh_discharged());
-        Serial.print(str);
-        sprintf(str, "  %2d",bm.getSOC());
-        Serial.print(str);
-        sprintf(str, "  %5u        ",bm.readRemainCap());
-        Serial.print(str);
-        dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
-        Serial.print(str);Serial.print("  ");
-        dtostrf(float(bm.getTExt())*0.1,4,1,str);
-        Serial.print(str);Serial.print("  ");
       }
-      else
-        init();
+      // Adding space for non existent cells
+      for(;i<MAXCELLCOUNT; i++)
+      {
+        Serial.print("    ,"); 
+      }
+      Serial.print("\t");
+      sprintf(str, "%5d ",bm.getCur());
+      Serial.print(str);
+      sprintf(str, "  %5d        ",bm.read_mAh_discharged());
+      Serial.print(str);
+      sprintf(str, "  %2d",bm.getSOC());
+      Serial.print(str);
+      sprintf(str, "  %5u        ",bm.readRemainCap());
+      Serial.print(str);
+      dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
+      Serial.print(str);Serial.print("  ");
+      dtostrf(float(bm.getTExt())*0.1,4,1,str);
+      Serial.print(str);Serial.print("  ");
     }
+    else
+      init();
   }
 };
 
