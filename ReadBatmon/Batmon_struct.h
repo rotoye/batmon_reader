@@ -1,9 +1,9 @@
 /**************************************************************************************************
 *
-*   Copyright (c) 2020-2021, SkyMul Inc.
+*   Copyright (c) 2020-2022, SkyMul Inc.
 *   All Rights Reserved.
 *
-*   BatMon and its associated brands and logos published in the website and source code
+*   BATMON and its associated brands and logos published in the website and source code
 *   are Trademarks of SkyMul Inc.
 *
 *   Redistribution and use in source and binary forms, with or without
@@ -29,20 +29,20 @@
 
 #pragma once
 
-#define I2CADDRESS1 0x0E // x = (not filled) y = (not filled) (Default for SMbus smart batteries)
-#define I2CADDRESS2 0x0D // x = (not filled) y = (filled)
-#define I2CADDRESS3 0x0C // x = (filled) y = (not filled)
-#define I2CADDRESS4 0x0B // x = (filled) y = (filled)
+#define I2CADDRESS1 0x0E
+#define I2CADDRESS2 0x0D
+#define I2CADDRESS3 0x0C
+#define I2CADDRESS4 0x0B // (Default for SMbus smart batteries)
 
 //SMBUS Register enumeration
 enum smbus_reg : unsigned char
 {
   SMBUS_VOLTAGE = 0x09,         // <Total volt            > <uint16> <format mV > <WordRead>
-  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>
-  SMBUS_AVG_CURRENT = 0x0b,       // Not implemented
-  SMBUS_TEMP_INT = 0x08,            // <Battery Temperature       > <uint16> <format deciKelvin > <WordRead>
-  SMBUS_TEMP_EXT = 0x07,
-  SMBUS_MAN_NAME = 0x20,          // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
+  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>. TODO: implement different variable for higher than ~32A
+  SMBUS_AVG_CURRENT = 0x0b,     // Not implemented
+  SMBUS_TEMP_INT = 0x08,        // <Battery Temperature       > <uint16> <format deciKelvin > <WordRead>
+  SMBUS_TEMP_EXT = 0x07,        // TODO: This needs to be removed as it conflicts with SBS protocol. 
+  SMBUS_MAN_NAME = 0x20,        // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
   SMBUS_MAN_DATE = 0x1b,
   SMBUS_SERIAL_NUM = 0x1c,
   SMBUS_RUN_TIME_TO_EMPTY = 0x11,   //  Not implemented
