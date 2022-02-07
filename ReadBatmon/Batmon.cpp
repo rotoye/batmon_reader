@@ -391,3 +391,42 @@ uint8_t Batmon::getCellCount()
   return cellCount;
 }
 
+uint16_t Batmon::getHash()
+{
+  uint16_t hash;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_SERIAL_NUM);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress, 3))
+  {
+    hash = (uint16_t)Wire.read();
+    hash |= (uint16_t)Wire.read() << 8;
+    Wire.read();// throw out crc
+  }
+  return hash;
+}
+// Return true if successfully read the serial number
+bool Batmon::getSN(uint16_t sn[8])
+{
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_FULL_SERIAL);
+  Wire.endTransmission();
+  //  TODO: should BATMON return less than 18 for firmware without full serial number?
+  if(Wire.requestFrom(i2cAddress, 18) == 18) 
+  {
+    if(Wire.read() != 16)
+      return false; 
+    uint16_t sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8;
+    sn[0] = Wire.read() | Wire.read() << 8;
+    sn[1] = Wire.read() | Wire.read() << 8;
+    sn[2] = Wire.read() | Wire.read() << 8;
+    sn[3] = Wire.read() | Wire.read() << 8;
+    sn[4] = Wire.read() | Wire.read() << 8;
+    sn[5] = Wire.read() | Wire.read() << 8;
+    sn[6] = Wire.read() | Wire.read() << 8;
+    sn[7] = Wire.read() | Wire.read() << 8;
+    Wire.read();
+    return true;
+  }
+  return false;
+}

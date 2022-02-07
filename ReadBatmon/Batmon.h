@@ -25,6 +25,8 @@ class Batmon
   unsigned int getSOC();
   int getTInt();
   int getTExt();
+  uint16_t getHash();
+  bool getSN(uint16_t sn[8]);
   private:
   byte i2cAddress;
   byte numTherms;

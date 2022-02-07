@@ -60,6 +60,8 @@ public:
       Serial.print("RemainCap ");
       Serial.print("IntTemp ");
       Serial.print("ExtTemp ");
+      Serial.print("HashSN  "); // Hashed serial number (16bit)
+      Serial.print("FullSN  "); // Serial number (128bit)
       Serial.println();
     }
     if (isDetected && checkConnection())
@@ -96,7 +98,26 @@ public:
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
       Serial.print(str);Serial.print("  ");
       dtostrf(float(bm.getTExt())*0.1,4,1,str);
-      Serial.print(str);Serial.print("  ");
+      Serial.print(str);Serial.print("    ");
+      uint16_t hash = bm.getHash();
+      Serial.print(hash); Serial.print("   ");
+      // get the 128bit serial number 
+      uint16_t sn[8];
+      uint8_t *sn_byte;
+      sn_byte = (uint8_t *)sn;
+      if(bm.getSN(sn))
+      {
+        sprintf(str,"0x,");
+        for(int i = 15;i>=0;i--)
+        {
+          sprintf(str,"%s%02X",str,sn_byte[i]);
+          if(i%2==0 && i!=0)
+            sprintf(str,"%s-",str);
+        }
+        Serial.print(str); Serial.print("  ");
+      }
+      else
+        Serial.print("ERR");
     }
     else
       init();
@@ -128,6 +149,7 @@ void loop()
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
 
   bat1.printBatteryInfo(true);
+  Serial.println();
   bat2.printBatteryInfo();
   Serial.println();
   bat3.printBatteryInfo();

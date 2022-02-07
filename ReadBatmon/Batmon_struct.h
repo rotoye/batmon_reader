@@ -44,7 +44,8 @@ enum smbus_reg : unsigned char
   SMBUS_TEMP_EXT = 0x07,        // TODO: This needs to be removed as it conflicts with SBS protocol. 
   SMBUS_MAN_NAME = 0x20,        // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
   SMBUS_MAN_DATE = 0x1b,
-  SMBUS_SERIAL_NUM = 0x1c,
+  SMBUS_SERIAL_NUM = 0x1c,          // Send a hashed serial number based on SAM device's UID
+  SMBUS_FULL_SERIAL = 0x23,         // Send the full 128 bit SAM device UID, SBS:ManufacturerData <hex> <128bit serial number> <BlockRead>
   SMBUS_RUN_TIME_TO_EMPTY = 0x11,   //  Not implemented
   SMBUS_AVG_TIME_TO_EMPTY = 0x12,   //  Not implemented
   SMBUS_RELATIVE_SOC = 0x0d,        // <Remaining capacity        > <uint16> <format %  > <WordRead>
