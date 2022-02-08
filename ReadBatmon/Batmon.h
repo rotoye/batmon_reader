@@ -24,7 +24,7 @@ class Batmon
   int getCur();
   unsigned int getSOC();
   int getTInt();
-  int getTExt();
+  int getTExt(byte extThermNum);
   uint16_t getHash();
   bool getSN(uint16_t sn[8]);
   private:

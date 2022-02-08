@@ -202,11 +202,11 @@ byte Batmon::readTherms(Therms &ts, byte num)
   }
   else if(num == 1)
   {
-    Wire.write(SMBUS_TEMP_EXT);
+    Wire.write(SMBUS_TEMP_EXTERNAL_1);
   }
   else if(num == 2)
   {
-    Wire.write(SMBUS_TEMP_EXT);
+    Wire.write(SMBUS_TEMP_EXTERNAL_2);
   }
 
   // endTransmission return
@@ -312,11 +312,19 @@ int Batmon::getTInt()
   return t;
 }
 // deciCelcius output
-int Batmon::getTExt()
+int Batmon::getTExt(byte extThermNum)
 {
   int t;
   Wire.beginTransmission(i2cAddress);
-  Wire.write(SMBUS_TEMP_EXT);
+  switch(extThermNum)
+  {
+    case 0:
+      Wire.write(SMBUS_TEMP_EXTERNAL_1);  
+    break;
+    case 1:
+      Wire.write(SMBUS_TEMP_EXTERNAL_2);  
+    break;
+  }
   Wire.endTransmission();
   if(Wire.requestFrom(i2cAddress, 3))
   {
@@ -409,7 +417,7 @@ uint16_t Batmon::getHash()
 bool Batmon::getSN(uint16_t sn[8])
 {
   Wire.beginTransmission(i2cAddress);
-  Wire.write(SMBUS_FULL_SERIAL);
+  Wire.write(SMBUS_MANUFACTURER_DATA);
   Wire.endTransmission();
   //  TODO: should BATMON return less than 18 for firmware without full serial number?
   if(Wire.requestFrom(i2cAddress, 18) == 18) 
