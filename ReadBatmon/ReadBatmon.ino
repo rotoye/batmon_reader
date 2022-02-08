@@ -1,3 +1,32 @@
+/**************************************************************************************************
+*
+*   Copyright (c) 2020-2022, SkyMul Inc.
+*   All Rights Reserved.
+*
+*   BatMon and its associated brands and logos published in the website and source code
+*   are Trademarks of SkyMul Inc.
+*
+*   Redistribution and use in source and binary forms, with or without
+*   modification, are permitted provided that the following conditions are met:
+*
+*   * Adheres to the rules of GNU GENERAL PUBLIC LICENSE, Version 3
+*
+*   * Redistributions of source code and the binary form must retain this copyright notice,
+*       this list of conditions and disclaimer in the documentation and literature provided with
+*       the distribution.
+*
+*   * Neither the name of the copyright holder nor the names of its contributors may be used to
+*       endorse or promote products derived from this software without specific prior written
+*       permission.
+*
+**************************************************************************************************/
+
+/**
+ * @file ReadBatmon.ino
+ *
+ * @author Eohan George <eohan@rotoye.com>
+ */
+
 #include <Wire.h>
 #include "Batmon.h"
 
@@ -97,7 +126,7 @@ public:
       Serial.print(str);
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
       Serial.print(str);Serial.print("  ");
-      dtostrf(float(bm.getTExt())*0.1,4,1,str);
+      dtostrf(float(bm.getTExt(0))*0.1,4,1,str);
       Serial.print(str);Serial.print("    ");
       uint16_t hash = bm.getHash();
       Serial.print(hash); Serial.print("   ");

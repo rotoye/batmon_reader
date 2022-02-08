@@ -40,12 +40,11 @@ enum smbus_reg : unsigned char
   SMBUS_VOLTAGE = 0x09,         // <Total volt            > <uint16> <format mV > <WordRead>
   SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>. TODO: implement different variable for higher than ~32A
   SMBUS_AVG_CURRENT = 0x0b,     // Not implemented
-  SMBUS_TEMP_INT = 0x08,        // <Battery Temperature       > <uint16> <format deciKelvin > <WordRead>
-  SMBUS_TEMP_EXT = 0x07,        // TODO: This needs to be removed as it conflicts with SBS protocol. 
+  SMBUS_TEMP_INT = 0x08,        // <Board Temperature       > <uint16> <format deciKelvin > <WordRead>
   SMBUS_MAN_NAME = 0x20,        // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
   SMBUS_MAN_DATE = 0x1b,
   SMBUS_SERIAL_NUM = 0x1c,          // Send a hashed serial number based on SAM device's UID
-  SMBUS_FULL_SERIAL = 0x23,         // Send the full 128 bit SAM device UID, SBS:ManufacturerData <hex> <128bit serial number> <BlockRead>
+  SMBUS_MANUFACTURER_DATA = 0x23,         // Send the full 128 bit SAM device UID, SBS:ManufacturerData <hex> <128bit serial number> <BlockRead>
   SMBUS_RUN_TIME_TO_EMPTY = 0x11,   //  Not implemented
   SMBUS_AVG_TIME_TO_EMPTY = 0x12,   //  Not implemented
   SMBUS_RELATIVE_SOC = 0x0d,        // <Remaining capacity        > <uint16> <format %  > <WordRead>
@@ -65,6 +64,8 @@ enum smbus_reg : unsigned char
   SMBUS_VCELL11 = 0x35,         //  Same as above
   SMBUS_VCELL12 = 0x34,         //  Same as above
   SMBUS_CELL_COUNT = 0x40,        // <Cell Volt           > <uint16> <format num> <WordRead>
+  SMBUS_TEMP_EXTERNAL_1 = 0x48, // <Battery Temperature 1> <uint16> <format deciKelvin > <WordRead>
+  SMBUS_TEMP_EXTERNAL_2 = 0X49, // <Battery Temperature 2> <uint16> <format deciKelvin > <WordRead>
   SMBUS_SAFETY_STATUS = 0x51,     // <SafetyStatus structure below  > <ByteArray> <format SafetyStatus> <BlockRead>
   SMBUS_ALERT_STATUS = 0x50,        // Not implemented
   SMBUS_MAH_DISCHARGED = 0x4f,
