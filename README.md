@@ -33,13 +33,18 @@ In ground control software of choice, set
  - BATMON_DRIVER_EN to 1
 
 Start BATMON on nsh using the script: 
-`batmon start -X` 						 * Search all the external bus and connect to the first BATMON detected.
+
+`batmon start -X` 						 * Search all the external bus and connect to the first BATMON detected
+
 `batmon start -X -b 1 -a 11` * External bus 1, address 0x0b  
+
 `batmon start -X -b 1 -a 12` * External bus 1, address 0x0c
+
 ![batmon start](https://rotoye.com/wp-content/uploads/BATMON/batmon-start.png)
 
 I2C devices connected on the different bus can be identified by running nsh script:
 `i2cdetect -b <bus number>`
+
 ![i2cdetect](https://rotoye.com/wp-content/uploads/BATMON/i2cdetect-screenshot.png)
 
 *battery_status* uorb messages may be inspected using the command 
