@@ -23,7 +23,7 @@ Ensure that you have received BATMON with the right cell count as your batteries
 ### PX4
 #### Stable
 
-BATMON is supported on the stock firmware of PX4 since the [v1.12.0](https://github.com/PX4/PX4-Autopilot/releases/tag/v1.12.0) version.
+BATMON is supported on the stock firmware of PX4 since the [v1.12.2](https://github.com/PX4/PX4-Autopilot/releases/tag/v1.12.2) version.
 
 Connect SMBUS/I2C of BATMON to the appropriate bus on the autopilot.
 
