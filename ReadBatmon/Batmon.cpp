@@ -295,6 +295,21 @@ int Batmon::getCur()
   return current;
 }
 
+int Batmon::getDeciCur()
+{
+  int current;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_DECI_CURRENT);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress, 3))
+  {
+    current = (int)Wire.read();
+    current |= (int)Wire.read() << 8;
+    Wire.read();
+  }
+  return current;
+}
+
 // deciCelcius output
 int Batmon::getTInt()
 {

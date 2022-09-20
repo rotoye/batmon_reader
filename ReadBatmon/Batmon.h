@@ -22,6 +22,7 @@ class Batmon
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
   int getCur();
+  int getDeciCur();
   unsigned int getSOC();
   int getTInt();
   int getTExt(byte extThermNum);

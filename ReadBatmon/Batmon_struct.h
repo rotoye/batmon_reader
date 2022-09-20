@@ -38,7 +38,7 @@
 enum smbus_reg : unsigned char
 {
   SMBUS_VOLTAGE = 0x09,         // <Total volt            > <uint16> <format mV > <WordRead>
-  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>. TODO: implement different variable for higher than ~32A
+  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>  
   SMBUS_AVG_CURRENT = 0x0b,     // Not implemented
   SMBUS_TEMP_INT = 0x08,        // <Board Temperature       > <uint16> <format deciKelvin > <WordRead>
   SMBUS_MAN_NAME = 0x20,        // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
@@ -64,6 +64,7 @@ enum smbus_reg : unsigned char
   SMBUS_VCELL11 = 0x35,         //  Same as above
   SMBUS_VCELL12 = 0x34,         //  Same as above
   SMBUS_CELL_COUNT = 0x40,        // <Cell Volt           > <uint16> <format num> <WordRead>
+  SMBUS_DECI_CURRENT = 0x41,	// <Current             > <int16_t> <format deci Ampere> <WordRead>
   SMBUS_TEMP_EXTERNAL_1 = 0x48, // <Battery Temperature 1> <uint16> <format deciKelvin > <WordRead>
   SMBUS_TEMP_EXTERNAL_2 = 0X49, // <Battery Temperature 2> <uint16> <format deciKelvin > <WordRead>
   SMBUS_SAFETY_STATUS = 0x51,     // <SafetyStatus structure below  > <ByteArray> <format SafetyStatus> <BlockRead>
@@ -110,37 +111,16 @@ typedef long unsigned int uint32_t;
 //typedef struct _Batmon_struct
 struct Batmon_thermistors
 {
-
   union
   {
     struct
     {
-      unsigned char T2_HI;
-      unsigned char T2_LO;
-    }T2Byte;
-    unsigned short T2Word; // temperature *10 (deg C)
-  }T2;
-
-  union
-  {
-    struct
-    {
-      unsigned char T1_HI;
-      unsigned char T1_LO;
-    }T1Byte;
-    unsigned short T1Word; // temperature *10 (deg C)
-  }T1;
-
-  union
-  {
-    struct
-    {
-      unsigned char T_int_HI;
-      unsigned char T_int_LO;
-    }T_int_Byte;
-    unsigned short T_int_Word; // temperature *10 (deg C)
-  }T_int;
-  unsigned char CRC;
+      unsigned char T_HI;
+      unsigned char T_LO;
+    }TByte;
+    unsigned short TWord; // temperature *10 (deg C)
+  }T2,T1,T_int;
+	unsigned char CRC;
 };
 
 struct Batmon_totalVoltage
