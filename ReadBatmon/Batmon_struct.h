@@ -29,16 +29,21 @@
 
 #pragma once
 
-#define I2CADDRESS1 0x0E
-#define I2CADDRESS2 0x0D
-#define I2CADDRESS3 0x0C
-#define I2CADDRESS4 0x0B // (Default for SMbus smart batteries)
+typedef unsigned char uint8_t;
+typedef long unsigned int uint32_t;
 
+#define BATMON_SMBUS_TOTAL_ADDRESS 10
+const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14};
+// The default SMBUS address is first one. Other values can be selected based on resistance connected to CAN_ID pin
+//									{Inf, 59k, 30k, 20k, 15k, 8.45k, 6.49k, 4.42k, 1.8k, 0}
+#define ADC_TOTAL_THRESHOLD (BATMON_SMBUS_TOTAL_ADDRESS-1)
+const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 110, 132, 153, 172, 201, 230};
+#define NUM_THERM_TO_READ 2     // Number of external thermistor to read
 //SMBUS Register enumeration
 enum smbus_reg : unsigned char
 {
   SMBUS_VOLTAGE = 0x09,         // <Total volt            > <uint16> <format mV > <WordRead>
-  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>. TODO: implement different variable for higher than ~32A
+  SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>  
   SMBUS_AVG_CURRENT = 0x0b,     // Not implemented
   SMBUS_TEMP_INT = 0x08,        // <Board Temperature       > <uint16> <format deciKelvin > <WordRead>
   SMBUS_MAN_NAME = 0x20,        // <Manufacturer Name "Rotoye"    > <char*> <format > <BlockRead>
@@ -47,6 +52,9 @@ enum smbus_reg : unsigned char
   SMBUS_MANUFACTURER_DATA = 0x23,         // Send the full 128 bit SAM device UID, SBS:ManufacturerData <hex> <128bit serial number> <BlockRead>
   SMBUS_RUN_TIME_TO_EMPTY = 0x11,   //  Not implemented
   SMBUS_AVG_TIME_TO_EMPTY = 0x12,   //  Not implemented
+  SMBUS_CHG_CURRENT = 0x14,         // <Max Charging Current      > <int16_t> <format mA> <WordRead>
+  SMBUS_CHG_VOLTAGE = 0x15,        // <Max Charging Voltage      > <int16_t> <format mV> <WordRead>
+  SMBUS_BATT_STATUS = 0x16,        // <Battery Status bit   > <uint16_t>  Only over-temp alarm is implemented
   SMBUS_RELATIVE_SOC = 0x0d,        // <Remaining capacity        > <uint16> <format %  > <WordRead>
   SMBUS_REMAIN_CAP = 0x0f,        // <Remaining capacity        > <uint16> <format mAh> <WordRead>
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
@@ -64,6 +72,7 @@ enum smbus_reg : unsigned char
   SMBUS_VCELL11 = 0x35,         //  Same as above
   SMBUS_VCELL12 = 0x34,         //  Same as above
   SMBUS_CELL_COUNT = 0x40,        // <Cell Volt           > <uint16> <format num> <WordRead>
+  SMBUS_DECI_CURRENT = 0x41,	// <Current             > <int16_t> <format deci Ampere> <WordRead>
   SMBUS_TEMP_EXTERNAL_1 = 0x48, // <Battery Temperature 1> <uint16> <format deciKelvin > <WordRead>
   SMBUS_TEMP_EXTERNAL_2 = 0X49, // <Battery Temperature 2> <uint16> <format deciKelvin > <WordRead>
   SMBUS_SAFETY_STATUS = 0x51,     // <SafetyStatus structure below  > <ByteArray> <format SafetyStatus> <BlockRead>
@@ -104,43 +113,19 @@ enum smbus_reg : unsigned char
 #define DEF_ERROR 0x49
 #define BATMON_SLEEPING 0x40
 
-typedef unsigned char uint8_t;
-typedef long unsigned int uint32_t;
-
 //typedef struct _Batmon_struct
 struct Batmon_thermistors
 {
-
   union
   {
     struct
     {
-      unsigned char T2_HI;
-      unsigned char T2_LO;
-    }T2Byte;
-    unsigned short T2Word; // temperature *10 (deg C)
-  }T2;
-
-  union
-  {
-    struct
-    {
-      unsigned char T1_HI;
-      unsigned char T1_LO;
-    }T1Byte;
-    unsigned short T1Word; // temperature *10 (deg C)
-  }T1;
-
-  union
-  {
-    struct
-    {
-      unsigned char T_int_HI;
-      unsigned char T_int_LO;
-    }T_int_Byte;
-    unsigned short T_int_Word; // temperature *10 (deg C)
-  }T_int;
-  unsigned char CRC;
+      unsigned char T_HI;
+      unsigned char T_LO;
+    }TByte;
+    unsigned short TWord; // temperature *10 (deg C)
+  }T2,T1,T_int;
+	unsigned char CRC;
 };
 
 struct Batmon_totalVoltage
@@ -270,6 +255,27 @@ struct Batmon_cellVoltages
   unsigned char CRC;
 };
 //}Batmon_struct;
+struct BatteryStatus
+{
+	union {
+		struct {
+			uint8_t reserved_0123:4;
+			uint8_t FULLY_DISCHARGED:1;
+			uint8_t FULLY_CHARGED:1;
+			uint8_t DISCHARGING:1;
+			uint8_t INITIALIZED:1;
+			uint8_t REMAINING_TIME_ALARM:1;
+			uint8_t REMAINING_CAPACITY_ALARM:1;
+			uint8_t reserved_10:1;
+			uint8_t TERMINAT_DISCHARGE_ALARM:1;
+			uint8_t OVER_TEMP_ALARM:1;
+			uint8_t reserved_13:1;
+			uint8_t TERMINATE_CHARGE_ALARM:1;
+			uint8_t OVER_CHARGED_ALARM:1;
+		}bits;
+		unsigned short status;
+	};
+};
 
 struct SafetyStatus
 {

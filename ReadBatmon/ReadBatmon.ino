@@ -84,11 +84,13 @@ public:
         Serial.print(str); 
       }
       Serial.print(" Current ");
+      Serial.print(" dCur  ");
       Serial.print("mAh_Discharged ");
       Serial.print("SOC ");
       Serial.print("RemainCap ");
       Serial.print("IntTemp ");
-      Serial.print("ExtTemp ");
+      Serial.print("ExtTemp1 ");
+      Serial.print("ExtTemp2 ");
       Serial.print("HashSN  "); // Hashed serial number (16bit)
       Serial.print("FullSN  "); // Serial number (128bit)
       Serial.println();
@@ -116,24 +118,29 @@ public:
         Serial.print("    ,"); 
       }
       Serial.print("\t");
-      sprintf(str, "%5d ",bm.getCur());
+      sprintf(str, "  %5d",bm.getCur());
       Serial.print(str);
-      sprintf(str, "  %5d        ",bm.read_mAh_discharged());
+      sprintf(str, " %5d",bm.getDeciCur());
+      Serial.print(str);
+      sprintf(str, "            %5d",bm.read_mAh_discharged());
       Serial.print(str);
       sprintf(str, "  %2d",bm.getSOC());
       Serial.print(str);
-      sprintf(str, "  %5u        ",bm.readRemainCap());
+      sprintf(str, "    %5u",bm.readRemainCap());
       Serial.print(str);
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
-      Serial.print(str);Serial.print("  ");
+      Serial.print("    ");Serial.print(str);
       dtostrf(float(bm.getTExt(0))*0.1,4,1,str);
-      Serial.print(str);Serial.print("    ");
+      Serial.print("     ");Serial.print(str);
+      dtostrf(float(bm.getTExt(1))*0.1,4,1,str);
+      Serial.print("     ");Serial.print(str);
       uint16_t hash = bm.getHash();
-      Serial.print(hash); Serial.print("   ");
+      Serial.print("  ");Serial.print(hash); 
       // get the 128bit serial number 
       uint16_t sn[8];
       uint8_t *sn_byte;
       sn_byte = (uint8_t *)sn;
+      Serial.print("   ");
       if(bm.getSN(sn))
       {
         sprintf(str,"0x,");
@@ -153,20 +160,27 @@ public:
   }
 };
 
-Batt bat1(I2CADDRESS1, 1);
-Batt bat2(I2CADDRESS2, 1);
-Batt bat3(I2CADDRESS3, 1);
-Batt bat4(I2CADDRESS4, 1);
+Batt batt[]= {Batt(BATMON_SMBUS_ADDRESS_ARRAY[0], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[1], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[2], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[3], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[4], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[5], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[6], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[7], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[8], NUM_THERM_TO_READ), 
+              Batt(BATMON_SMBUS_ADDRESS_ARRAY[9], NUM_THERM_TO_READ)};
+              
 void setup()
 {
   // Start the I2C Bus as Master
   Serial.begin(115200);
   //Serial.println("Read Batmon");
   Wire.setClock(100000);
-  bat1.init();
-  bat2.init();
-  bat3.init();
-  bat4.init();
+  for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
+    batt[i].init();
+  }
+  
   //Serial.println("Total Voltage, Cell 10, Cell 9, Cell 8, Cell 7, Cell 6, Cell 5, Cell 4, Cell 3, Cell 2, Cell 1, Current, Discharged Current");
   Serial.println("Starting BATMON Reader");
 }
@@ -177,22 +191,13 @@ void loop()
 {
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
 
-  bat1.printBatteryInfo(true);
-  Serial.println();
-  bat2.printBatteryInfo();
-  Serial.println();
-  bat3.printBatteryInfo();
-  Serial.println();
-  bat4.printBatteryInfo();
-  Serial.println();
-  //Serial.print("|| RdTherm(i2c):");
-  //Serial.print( bm.readTherms(ts) );
-  //Serial.print(" T_int:");
-  //Serial.print(ts.T_int.T_int_Word);
-  //Serial.print(" T1:");
-  //Serial.print(ts.T1.T1Word);
-  //Serial.print(" T2:");
-  //Serial.print(ts.T2.T2Word);
+  for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
+    if (i==0)
+      batt[i].printBatteryInfo(true);
+    else
+      batt[i].printBatteryInfo(false);
+    Serial.println();
+  }
 /*
   //Serial.print("\tManufacturer's Name: ");
   //unsigned char man_name [20];
