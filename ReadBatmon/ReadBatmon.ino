@@ -84,11 +84,13 @@ public:
         Serial.print(str); 
       }
       Serial.print(" Current ");
+      Serial.print(" dCur  ");
       Serial.print("mAh_Discharged ");
       Serial.print("SOC ");
       Serial.print("RemainCap ");
       Serial.print("IntTemp ");
-      Serial.print("ExtTemp ");
+      Serial.print("ExtTemp1 ");
+      Serial.print("ExtTemp2 ");
       Serial.print("HashSN  "); // Hashed serial number (16bit)
       Serial.print("FullSN  "); // Serial number (128bit)
       Serial.println();
@@ -116,24 +118,29 @@ public:
         Serial.print("    ,"); 
       }
       Serial.print("\t");
-      sprintf(str, "%5d ",bm.getCur());
+      sprintf(str, "  %5d",bm.getCur());
       Serial.print(str);
-      sprintf(str, "  %5d        ",bm.read_mAh_discharged());
+      sprintf(str, " %5d",bm.getDeciCur());
+      Serial.print(str);
+      sprintf(str, "            %5d",bm.read_mAh_discharged());
       Serial.print(str);
       sprintf(str, "  %2d",bm.getSOC());
       Serial.print(str);
-      sprintf(str, "  %5u        ",bm.readRemainCap());
+      sprintf(str, "    %5u",bm.readRemainCap());
       Serial.print(str);
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
-      Serial.print(str);Serial.print("  ");
+      Serial.print("    ");Serial.print(str);
       dtostrf(float(bm.getTExt(0))*0.1,4,1,str);
-      Serial.print(str);Serial.print("    ");
+      Serial.print("     ");Serial.print(str);
+      dtostrf(float(bm.getTExt(1))*0.1,4,1,str);
+      Serial.print("     ");Serial.print(str);
       uint16_t hash = bm.getHash();
-      Serial.print(hash); Serial.print("   ");
+      Serial.print("  ");Serial.print(hash); 
       // get the 128bit serial number 
       uint16_t sn[8];
       uint8_t *sn_byte;
       sn_byte = (uint8_t *)sn;
+      Serial.print("   ");
       if(bm.getSN(sn))
       {
         sprintf(str,"0x,");
