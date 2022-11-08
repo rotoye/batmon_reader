@@ -253,6 +253,27 @@ struct Batmon_cellVoltages
   unsigned char CRC;
 };
 //}Batmon_struct;
+struct BatteryStatus
+{
+	union {
+		struct {
+			uint8_t reserved_0123:4;
+			uint8_t FULLY_DISCHARGED:1;
+			uint8_t FULLY_CHARGED:1;
+			uint8_t DISCHARGING:1;
+			uint8_t INITIALIZED:1;
+			uint8_t REMAINING_TIME_ALARM:1;
+			uint8_t REMAINING_CAPACITY_ALARM:1;
+			uint8_t reserved_10:1;
+			uint8_t TERMINAT_DISCHARGE_ALARM:1;
+			uint8_t OVER_TEMP_ALARM:1;
+			uint8_t reserved_13:1;
+			uint8_t TERMINATE_CHARGE_ALARM:1;
+			uint8_t OVER_CHARGED_ALARM:1;
+		}bits;
+		uint16_t status;
+	};
+};
 
 struct SafetyStatus
 {
