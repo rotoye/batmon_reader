@@ -47,6 +47,9 @@ enum smbus_reg : unsigned char
   SMBUS_MANUFACTURER_DATA = 0x23,         // Send the full 128 bit SAM device UID, SBS:ManufacturerData <hex> <128bit serial number> <BlockRead>
   SMBUS_RUN_TIME_TO_EMPTY = 0x11,   //  Not implemented
   SMBUS_AVG_TIME_TO_EMPTY = 0x12,   //  Not implemented
+  SMBUS_CHG_CURRENT = 0x14,         // <Max Charging Current      > <int16_t> <format mA> <WordRead>
+  SMBUS_CHG_VOLTAGE = 0x15,        // <Max Charging Voltage      > <int16_t> <format mV> <WordRead>
+  SMBUS_BATT_STATUS = 0x16,        // <Battery Status bit   > <uint16_t>  Only over-temp alarm is implemented
   SMBUS_RELATIVE_SOC = 0x0d,        // <Remaining capacity        > <uint16> <format %  > <WordRead>
   SMBUS_REMAIN_CAP = 0x0f,        // <Remaining capacity        > <uint16> <format mAh> <WordRead>
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
@@ -250,6 +253,27 @@ struct Batmon_cellVoltages
   unsigned char CRC;
 };
 //}Batmon_struct;
+struct BatteryStatus
+{
+	union {
+		struct {
+			uint8_t reserved_0123:4;
+			uint8_t FULLY_DISCHARGED:1;
+			uint8_t FULLY_CHARGED:1;
+			uint8_t DISCHARGING:1;
+			uint8_t INITIALIZED:1;
+			uint8_t REMAINING_TIME_ALARM:1;
+			uint8_t REMAINING_CAPACITY_ALARM:1;
+			uint8_t reserved_10:1;
+			uint8_t TERMINAT_DISCHARGE_ALARM:1;
+			uint8_t OVER_TEMP_ALARM:1;
+			uint8_t reserved_13:1;
+			uint8_t TERMINATE_CHARGE_ALARM:1;
+			uint8_t OVER_CHARGED_ALARM:1;
+		}bits;
+		uint16_t status;
+	};
+};
 
 struct SafetyStatus
 {
