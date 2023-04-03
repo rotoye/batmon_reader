@@ -109,6 +109,7 @@ enum smbus_reg : unsigned char
 #define BATMON_SLEEPING 0x40
 
 typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 typedef long unsigned int uint32_t;
 
 //typedef struct _Batmon_struct
