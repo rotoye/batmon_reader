@@ -29,11 +29,16 @@
 
 #pragma once
 
-#define I2CADDRESS1 0x0E
-#define I2CADDRESS2 0x0D
-#define I2CADDRESS3 0x0C
-#define I2CADDRESS4 0x0B // (Default for SMbus smart batteries)
+typedef unsigned char uint8_t;
+typedef long unsigned int uint32_t;
 
+#define BATMON_SMBUS_TOTAL_ADDRESS 10
+const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14};
+// The default SMBUS address is first one. Other values can be selected based on resistance connected to CAN_ID pin
+//									{Inf, 59k, 30k, 20k, 15k, 8.45k, 6.49k, 4.42k, 1.8k, 0}
+#define ADC_TOTAL_THRESHOLD (BATMON_SMBUS_TOTAL_ADDRESS-1)
+const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 110, 132, 153, 172, 201, 230};
+#define NUM_THERM_TO_READ 2     // Number of external thermistor to read
 //SMBUS Register enumeration
 enum smbus_reg : unsigned char
 {
@@ -107,10 +112,6 @@ enum smbus_reg : unsigned char
 #define BATMON_READY 0x48
 #define DEF_ERROR 0x49
 #define BATMON_SLEEPING 0x40
-
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef long unsigned int uint32_t;
 
 //typedef struct _Batmon_struct
 struct Batmon_thermistors
@@ -272,7 +273,7 @@ struct BatteryStatus
 			uint8_t TERMINATE_CHARGE_ALARM:1;
 			uint8_t OVER_CHARGED_ALARM:1;
 		}bits;
-		uint16_t status;
+		unsigned short status;
 	};
 };
 
