@@ -280,6 +280,47 @@ unsigned char* Batmon::getMan(unsigned char *buf)
   return buf;
 }
 
+uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t backward_steps) {
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(0x2f);
+  //Wire.write(backward_steps);
+  Wire.endTransmission();
+//  Wire.beginTransmission(i2cAddress);
+//  Wire.write(backward_steps);
+//  Wire.endTransmission();
+  int i = 0;
+  int j = 30;
+  if(Wire.requestFrom(i2cAddress, 30)) {
+    while(Wire.available()) {
+      buf[i] = Wire.read();
+      if (buf[i] < 0x10) {
+        Serial.print(0);
+      }
+      Serial.print(buf[i], HEX);
+      Serial.print(",");
+      i++;
+    }
+  }
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(0x2f);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress, 30)) {
+    while(Wire.available()) {
+      buf[j] = Wire.read();
+      if (buf[j] < 0x10) {
+        Serial.print(0);
+      }
+      Serial.print(buf[j], HEX);
+      if(j != 59) {
+        Serial.print(",");
+      }
+      j++;
+    }
+  }
+  Serial.print("\t");
+  return buf;
+}
+
 int Batmon::getCur()
 {
   int current;

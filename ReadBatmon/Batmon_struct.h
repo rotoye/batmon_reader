@@ -59,6 +59,8 @@ enum smbus_reg : unsigned char
   SMBUS_REMAIN_CAP = 0x0f,        // <Remaining capacity        > <uint16> <format mAh> <WordRead>
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
   SMBUS_CYCLE_COUNT = 0x17,       // <Number of cycles on the battery > <uint16> <format num> <WordRead>
+  SMBUS_BATMEM = 0x2f,            //
+  SMBUS_BATT_HEALTH = 0x30,      //
   SMBUS_VCELL1 = 0x3f,        // <Cell Volt           > <uint16> <format mV > <WordRead>
   SMBUS_VCELL2 = 0x3e,          //  Same as above
   SMBUS_VCELL3 = 0x3d,          //  Same as above
@@ -79,6 +81,7 @@ enum smbus_reg : unsigned char
   SMBUS_ALERT_STATUS = 0x50,        // Not implemented
   SMBUS_MAH_DISCHARGED = 0x4f,
 
+  
   //EEPROM parameter addresses
   EEPROM_SHUNT_VAL_SET = 0,
   EEPROM_CAPACITY_SET = 2,

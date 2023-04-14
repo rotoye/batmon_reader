@@ -141,6 +141,13 @@ public:
       uint8_t *sn_byte;
       sn_byte = (uint8_t *)sn;
       Serial.print("   ");
+      // supha
+      Serial.print("\tBatmon Memory: ");
+      uint8_t mem[60];
+      (char *)bm.getMemory(mem, 5);
+//      uint8_t memo[30];
+//      (char *)bm.getMemory(memo, 0);
+      // supha
       if(bm.getSN(sn))
       {
         sprintf(str,"0x,");
