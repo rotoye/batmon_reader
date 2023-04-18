@@ -71,6 +71,7 @@ public:
     bm.readCellVoltages(cv);
     bm.readTotalVoltage(tv);
   }
+
   void printBatteryInfo(bool heading =false)
   {
     char str[50];
@@ -131,9 +132,9 @@ public:
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
       Serial.print("    ");Serial.print(str);
       dtostrf(float(bm.getTExt(0))*0.1,4,1,str);
-      Serial.print("     ");Serial.print(str);
+      Serial.print("   ");Serial.print(str);
       dtostrf(float(bm.getTExt(1))*0.1,4,1,str);
-      Serial.print("     ");Serial.print(str);
+      Serial.print("   ");Serial.print(str);
       uint16_t hash = bm.getHash();
       Serial.print("  ");Serial.print(hash); 
       // get the 128bit serial number 
@@ -142,11 +143,15 @@ public:
       sn_byte = (uint8_t *)sn;
       Serial.print("   ");
       // supha
-      Serial.print("\tBatmon Memory: ");
-      uint8_t mem[60];
-      (char *)bm.getMemory(mem, 5);
-//      uint8_t memo[30];
-//      (char *)bm.getMemory(memo, 0);
+      Serial.print("\tBatmon Memory Info: ");
+      
+      uint8_t mem_info[7];
+      uint8_t *mem_info_pointer;
+      bm.getMemoryInfo(mem_info);
+      Serial.println("\tBatmon Memory: ");
+      uint8_t mem[40];
+      (char *)bm.getMemory(mem, mem_info);
+
       // supha
       if(bm.getSN(sn))
       {

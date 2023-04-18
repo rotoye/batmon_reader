@@ -38,6 +38,7 @@ const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x
 //									{Inf, 59k, 30k, 20k, 15k, 8.45k, 6.49k, 4.42k, 1.8k, 0}
 #define ADC_TOTAL_THRESHOLD (BATMON_SMBUS_TOTAL_ADDRESS-1)
 const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 110, 132, 153, 172, 201, 230};
+
 #define NUM_THERM_TO_READ 2     // Number of external thermistor to read
 //SMBUS Register enumeration
 enum smbus_reg : unsigned char
@@ -59,6 +60,7 @@ enum smbus_reg : unsigned char
   SMBUS_REMAIN_CAP = 0x0f,        // <Remaining capacity        > <uint16> <format mAh> <WordRead>
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
   SMBUS_CYCLE_COUNT = 0x17,       // <Number of cycles on the battery > <uint16> <format num> <WordRead>
+  SMBUS_RESET_BATMEM = 0x2e,       // Reset the index of reading batmon memory back to zero, send the number of recorded memory, number of required read/write times for each memory object and the array of how many bytes are divided into each read/write, and status of memory reading
   SMBUS_BATMEM = 0x2f,            //
   SMBUS_BATT_HEALTH = 0x30,      //
   SMBUS_VCELL1 = 0x3f,        // <Cell Volt           > <uint16> <format mV > <WordRead>

@@ -21,7 +21,8 @@ class Batmon
   byte shutdown();
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
-  unsigned char* getMemory(unsigned char *buf, uint8_t backward_steps);
+  unsigned char* getMemory(unsigned char *buf, uint8_t *mem_info);
+  void getMemoryInfo(uint8_t *mem_info);
   int getCur();
   int getDeciCur();
   unsigned int getSOC();
