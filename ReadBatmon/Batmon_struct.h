@@ -60,8 +60,9 @@ enum smbus_reg : unsigned char
   SMBUS_REMAIN_CAP = 0x0f,        // <Remaining capacity        > <uint16> <format mAh> <WordRead>
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
   SMBUS_CYCLE_COUNT = 0x17,       // <Number of cycles on the battery > <uint16> <format num> <WordRead>
-  SMBUS_RESET_BATMEM = 0x2e,       // Reset the index of reading batmon memory back to zero, send the number of recorded memory, number of required read/write times for each memory object and the array of how many bytes are divided into each read/write, and status of memory reading
-  SMBUS_BATMEM = 0x2f,            //
+  // Reset the index of reading batmon memory back to zero, send the number of recorded memory, number of required read/write times for each memory object and the array of how many bytes are divided into each read/write, and status of memory reading
+  SMBUS_RESET_BATMEM = 0x2e,      // <1 byte: byte count> <5 bytes: total memory size, number of partitions, 1st partition size, 2nd partition size, 3rd partition size> <1byte: CRC><BlockRead>
+  SMBUS_BATMEM = 0x2f,            // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
   SMBUS_BATT_HEALTH = 0x30,      //
   SMBUS_VCELL1 = 0x3f,        // <Cell Volt           > <uint16> <format mV > <WordRead>
   SMBUS_VCELL2 = 0x3e,          //  Same as above

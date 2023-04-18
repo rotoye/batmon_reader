@@ -298,7 +298,6 @@ void Batmon::getMemoryInfo(uint8_t *mem_info) {
 }
 
 uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
- 
   int i = 0;
   uint8_t partition_size;
   for (int p=0; p < mem_info[2]; p++) {
@@ -307,7 +306,7 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
     Wire.write(0x2f);
     Wire.endTransmission();
     partition_size = mem_info[p+3];
-    if(Wire.requestFrom(i2cAddress, partition_size+2)) {
+    if(Wire.requestFrom(i2cAddress, partition_size+4)) {
       while(Wire.available()) {
         buf[i] = Wire.read();
         if (buf[i] < 0x10) {
