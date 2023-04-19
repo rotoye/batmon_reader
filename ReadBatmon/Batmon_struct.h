@@ -61,7 +61,7 @@ enum smbus_reg : unsigned char
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
   SMBUS_CYCLE_COUNT = 0x17,       // <Number of cycles on the battery > <uint16> <format num> <WordRead>
   // Reset the index of reading batmon memory back to zero, send the number of recorded memory, number of required read/write times for each memory object and the array of how many bytes are divided into each read/write, and status of memory reading
-  SMBUS_RESET_BATMEM = 0x2e,      // <1 byte: byte count> <5 bytes: total memory size, number of partitions, 1st partition size, 2nd partition size, 3rd partition size> <1byte: CRC><BlockRead>
+  SMBUS_RESET_BATMEM = 0x2e,      // <1 byte: byte count> <6 bytes: total memory size, number of partitions, 1st partition size, 2nd partition size, 3rd partition size, total number of memory objects to read> <1byte: CRC><BlockRead>
   SMBUS_BATMEM = 0x2f,            // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
   SMBUS_BATT_HEALTH = 0x30,      //
   SMBUS_VCELL1 = 0x3f,        // <Cell Volt           > <uint16> <format mV > <WordRead>
@@ -326,4 +326,35 @@ struct SafetyStatus
     uint32_t data;
   }flag;
   uint8_t crc;
+};
+
+
+#define MEMORY_BLOCK_SIZE 62 //Current implementation only support up to 64. Any number greater than 64 would not be valid
+#if (MEMORY_BLOCK_SIZE <= 56)
+	#define MEMORY_PARTITION 2
+#else
+	#define MEMORY_PARTITION 3     //Note: Memory block size larger than 64 byte (page size) is currently not supported
+#endif
+struct BatmonMemory {
+	union {
+		struct {
+			uint8_t memoryIndex;
+			unsigned short maxDrainedCurrent;
+			uint8_t minSOC; //0-255 instead of 0-100?
+			uint8_t maxSOC; //0-255 instead of 0-100?
+			#if CELLS_IN_SERIES == 12
+			uint8_t intRes[3][CELLS_IN_SERIES];
+			#elif CELLS_IN_SERIES == 6
+			uint8_t intRes[6][CELLS_IN_SERIES];
+			#endif
+			uint8_t SOH; //0-255 instead of 0-100?
+			unsigned short battCycle;
+			unsigned short shutdownMinCellV;
+			uint8_t shutdownMinCellVIndex;
+			unsigned short shutdownMaxCellV;
+			uint8_t shutdownMaxCellVIndex;
+			unsigned short shutdownRemainCap;
+		} batmonData;
+		uint8_t batmonBlock[MEMORY_BLOCK_SIZE];
+	};
 };

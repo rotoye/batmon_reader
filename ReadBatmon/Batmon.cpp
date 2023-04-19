@@ -281,16 +281,15 @@ unsigned char* Batmon::getMan(unsigned char *buf)
 }
 
 void Batmon::getMemoryInfo(uint8_t *mem_info) {
-  //static uint8_t mem_info[7] = {1,2,3,4,5,6,7};
   Wire.beginTransmission(i2cAddress);
   Wire.write(0x2e);
   Wire.endTransmission();
   int i = 0;
-  if(Wire.requestFrom(i2cAddress, 7)) {
+  if(Wire.requestFrom(i2cAddress, 8)) {
     while(Wire.available()) {
       mem_info[i] = Wire.read();
       Serial.print(mem_info[i], DEC);
-      Serial.print("\t");
+      Serial.print(",");
       i++;
     }
   }
@@ -299,27 +298,36 @@ void Batmon::getMemoryInfo(uint8_t *mem_info) {
 
 uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
   int i = 0;
+  int m = 0;
   uint8_t partition_size;
-  for (int p=0; p < mem_info[2]; p++) {
-    i = 0;
-    Wire.beginTransmission(i2cAddress);
-    Wire.write(0x2f);
-    Wire.endTransmission();
-    partition_size = mem_info[p+3];
-    if(Wire.requestFrom(i2cAddress, partition_size+4)) {
-      while(Wire.available()) {
-        buf[i] = Wire.read();
-        if (buf[i] < 0x10) {
-          Serial.print("0");
+  for (int j=0; j < mem_info[6]; j++) {
+    for (int p=0; p < mem_info[2]; p++) {
+      i = 0;
+      Wire.beginTransmission(i2cAddress);
+      Wire.write(0x2f);
+      Wire.endTransmission();
+      partition_size = mem_info[p+3];
+      if(Wire.requestFrom(i2cAddress, partition_size+4)) {
+        while(Wire.available()) {
+          buf[i] = Wire.read();
+          if (buf[i] < 0x10) {
+            Serial.print("0");
+          }
+          Serial.print(buf[i], HEX);
+          if ((i > 0) && (i <= (mem_info[p+3]))) {
+            //Serial.print(",");
+            //mem_array[j].batmonBlock[m] = buf[i];
+            //m++;
+          }
+          Serial.print(",");
+          i++;
         }
-        Serial.print(buf[i], HEX);
-        Serial.print(",");
-        i++;
       }
+      Serial.print("\t");
     }
-    Serial.print("\t");
+    //m = 0;
+    Serial.print("\n");
   }
-  Serial.print("\t");
   return buf;
 }
 

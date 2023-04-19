@@ -142,17 +142,6 @@ public:
       uint8_t *sn_byte;
       sn_byte = (uint8_t *)sn;
       Serial.print("   ");
-      // supha
-      Serial.print("\tBatmon Memory Info: ");
-      
-      uint8_t mem_info[7];
-      uint8_t *mem_info_pointer;
-      bm.getMemoryInfo(mem_info);
-      Serial.println("\tBatmon Memory: ");
-      uint8_t mem[40];
-      (char *)bm.getMemory(mem, mem_info);
-
-      // supha
       if(bm.getSN(sn))
       {
         sprintf(str,"0x,");
@@ -166,11 +155,22 @@ public:
       }
       else
         Serial.print("ERR");
+      // supha
+      Serial.print("\nBatmon Memory Info: ");
+      uint8_t mem_info[8];
+      uint8_t *mem_info_pointer;
+      bm.getMemoryInfo(mem_info);
+      Serial.print("\nBatmon Memory: \n");
+      uint8_t mem[32];
+      (char *)bm.getMemory(mem, mem_info);
+      // supha
     }
     else
       init();
   }
 };
+
+
 
 Batt batt[]= {Batt(BATMON_SMBUS_ADDRESS_ARRAY[0], NUM_THERM_TO_READ), 
               Batt(BATMON_SMBUS_ADDRESS_ARRAY[1], NUM_THERM_TO_READ), 
