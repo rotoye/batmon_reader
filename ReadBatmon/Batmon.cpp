@@ -300,6 +300,7 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
   int i = 0;
   int m = 0;
   uint8_t partition_size;
+  BatmonMemory batmem;
   for (int j=0; j < mem_info[6]; j++) {
     for (int p=0; p < mem_info[2]; p++) {
       i = 0;
@@ -315,9 +316,10 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
           }
           Serial.print(buf[i], HEX);
           if ((i > 0) && (i <= (mem_info[p+3]))) {
+            batmem.batmonBlock[m] = buf[i];
             //Serial.print(",");
             //mem_array[j].batmonBlock[m] = buf[i];
-            //m++;
+            m++;
           }
           Serial.print(",");
           i++;
@@ -325,7 +327,17 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
       }
       Serial.print("\t");
     }
-    //m = 0;
+    m = 0;
+    // print batmonmemory object data
+    Serial.print("\nMaxVIndex: ");
+    Serial.print(batmem.batmonData.shutdownMaxCellVIndex);
+    Serial.print("\tMaxV: ");
+    Serial.print(batmem.batmonData.shutdownMaxCellV);
+    Serial.print("\tMinVIndex:");
+    Serial.print(batmem.batmonData.shutdownMinCellVIndex);
+    Serial.print("\tMinV: ");
+    Serial.print(batmem.batmonData.shutdownMinCellV);
+    //
     Serial.print("\n");
   }
   return buf;

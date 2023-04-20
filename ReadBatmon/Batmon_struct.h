@@ -28,7 +28,7 @@
  */
 
 #pragma once
-
+//#pragma pack(1) // This is needed to avoid padding of the struct
 typedef unsigned char uint8_t;
 typedef long unsigned int uint32_t;
 
@@ -329,32 +329,37 @@ struct SafetyStatus
 };
 
 
-#define MEMORY_BLOCK_SIZE 62 //Current implementation only support up to 64. Any number greater than 64 would not be valid
+#define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
 #if (MEMORY_BLOCK_SIZE <= 56)
 	#define MEMORY_PARTITION 2
 #else
 	#define MEMORY_PARTITION 3     //Note: Memory block size larger than 64 byte (page size) is currently not supported
 #endif
+#pragma pack(push, 1)
 struct BatmonMemory {
 	union {
 		struct {
+			// Note that the variables may be packed to be word aligned. So aligned it as a word
+			//	address may be needed
 			uint8_t memoryIndex;
-			unsigned short maxDrainedCurrent;
 			uint8_t minSOC; //0-255 instead of 0-100?
 			uint8_t maxSOC; //0-255 instead of 0-100?
-			#if CELLS_IN_SERIES == 12
-			uint8_t intRes[3][CELLS_IN_SERIES];
-			#elif CELLS_IN_SERIES == 6
-			uint8_t intRes[6][CELLS_IN_SERIES];
-			#endif
 			uint8_t SOH; //0-255 instead of 0-100?
+			uint8_t shutdownMinCellVIndex;
+			uint8_t shutdownMaxCellVIndex;
+			unsigned short maxDrainedCurrent;
 			unsigned short battCycle;
 			unsigned short shutdownMinCellV;
-			uint8_t shutdownMinCellVIndex;
 			unsigned short shutdownMaxCellV;
-			uint8_t shutdownMaxCellVIndex;
-			unsigned short shutdownRemainCap;
+			unsigned short shutdownRemainCap; //16
+      //uint8_t intRes[6][CELLS_IN_SERIES];
+//			#if CELLS_IN_SERIES == 12
+//			uint8_t intRes[3][CELLS_IN_SERIES];
+//			#elif CELLS_IN_SERIES == 6
+//			uint8_t intRes[6][CELLS_IN_SERIES];
+//			#endif
 		} batmonData;
 		uint8_t batmonBlock[MEMORY_BLOCK_SIZE];
 	};
 };
+#pragma pack(pop)
