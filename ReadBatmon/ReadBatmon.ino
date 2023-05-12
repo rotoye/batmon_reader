@@ -156,13 +156,13 @@ public:
       else
         Serial.print("ERR");
       // supha
-      Serial.print("\nBatmon Memory Info: ");
-      uint8_t mem_info[8];
-      uint8_t *mem_info_pointer;
-      bm.getMemoryInfo(mem_info);
-      Serial.print("\nBatmon Memory: \n");
-      uint8_t mem[32];
-      (char *)bm.getMemory(mem, mem_info);
+//      Serial.print("\nBatmon Memory Info: ");
+//      uint8_t mem_info[8];
+//      uint8_t *mem_info_pointer;
+//      bm.getMemoryInfo(mem_info);
+//      Serial.print("\nBatmon Memory: \n");
+//      uint8_t mem[32];
+//      (char *)bm.getMemory(mem, mem_info);
       // supha
     }
     else
