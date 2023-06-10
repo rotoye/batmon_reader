@@ -352,7 +352,6 @@ struct BatmonMemory {
 			unsigned short shutdownMinCellV;
 			unsigned short shutdownMaxCellV;
 			unsigned short shutdownRemainCap; //16
-			unsigned short cycleCount;
 			unsigned short accumulatedCharged;
 			unsigned short accumulatedDischarged; //22
       //uint8_t intRes[6][CELLS_IN_SERIES];
