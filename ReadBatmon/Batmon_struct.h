@@ -347,13 +347,15 @@ struct BatmonMemory {
 			uint8_t SOH; //0-255 instead of 0-100?
 			uint8_t shutdownMinCellVIndex;
 			uint8_t shutdownMaxCellVIndex;
-			unsigned short maxDrainedCurrentEver;	// The unit is Amps
-			unsigned short battCycle;
-			unsigned short shutdownMinCellV;	// Unit is millivolt
-			unsigned short shutdownMaxCellV;	// Unit is millivolt
-			unsigned short shutdownRemainCap;	// Capacity available during shutdown in mAh
-			unsigned short accumulatedCharged;	// Accumulated Charge to count cycle count. Unit: mAh
-			unsigned short accumulatedDischarged; // Accumulated Discharge to count cycle count. Unit: mAh
+			unsigned short maxDrainedCurrentEver;	  // The unit is Amps
+			unsigned short battCycle;                 
+			unsigned short shutdownMinCellV;	      // Unit is millivolt
+			unsigned short shutdownMaxCellV;	      // Unit is millivolt
+			unsigned short shutdownRemainCap;	      // Capacity available during shutdown in mAh
+			unsigned short accumulatedCharged;	      // Accumulated Charge to count cycle count. Unit: mAh
+			unsigned short accumulatedDischarged;     // Accumulated Discharge to count cycle count. Unit: mAh
+			unsigned short minExtTempEver;               // Unit is in deciCelcius
+			unsigned short maxExtTempEver;               // Unit is in deciCelcius
       //uint8_t intRes[6][CELLS_IN_SERIES];
 //			#if CELLS_IN_SERIES == 12
 //			uint8_t intRes[3][CELLS_IN_SERIES];

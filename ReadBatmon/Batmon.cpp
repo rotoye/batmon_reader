@@ -293,7 +293,7 @@ void Batmon::getMemoryInfo(uint8_t *mem_info) {
       i++;
     }
   }
-  return mem_info;
+  //return mem_info;
 }
 
 uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
@@ -327,17 +327,24 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
       }
       Serial.print("\t");
     }
-    m = 0;
-    // print batmonmemory object data
-    Serial.print("\nMaxVIndex: ");
-    Serial.print(batmem.batmonData.shutdownMaxCellVIndex);
-    Serial.print("\tMaxV: ");
-    Serial.print(batmem.batmonData.shutdownMaxCellV);
-    Serial.print("\tMinVIndex:");
-    Serial.print(batmem.batmonData.shutdownMinCellVIndex);
-    Serial.print("\tMinV: ");
-    Serial.print(batmem.batmonData.shutdownMinCellV);
-    //
+    if (j == 0) {
+      // print batmonmemory object data
+      Serial.print("\nMaxVIndex: ");
+      Serial.print(batmem.batmonData.shutdownMaxCellVIndex);
+      Serial.print("\tMaxV: ");
+      Serial.print(batmem.batmonData.shutdownMaxCellV);
+      Serial.print("\tMinVIndex:");
+      Serial.print(batmem.batmonData.shutdownMinCellVIndex);
+      Serial.print("\tMinV: ");
+      Serial.print(batmem.batmonData.shutdownMinCellV);
+      Serial.print("\tMinExt: ");
+      Serial.print(batmem.batmonData.minExtTempEver);
+      Serial.print("\tMaxExt: ");
+      Serial.print(batmem.batmonData.maxExtTempEver);
+
+      //
+      Serial.print("\n");
+    }
     Serial.print("\n");
   }
   return buf;
