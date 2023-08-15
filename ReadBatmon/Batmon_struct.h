@@ -328,7 +328,7 @@ struct SafetyStatus
   uint8_t crc;
 };
 
-
+#define MEMORY_TEMP_OFFSET (-225) //Unit in Kelvin
 #define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
 #if (MEMORY_BLOCK_SIZE <= 56)
 	#define MEMORY_PARTITION 2
@@ -347,6 +347,8 @@ struct BatmonMemory {
 			uint8_t SOH; //0-255 instead of 0-100?
 			uint8_t shutdownMinCellVIndex;
 			uint8_t shutdownMaxCellVIndex;
+			uint8_t minTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
+			uint8_t maxTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			unsigned short maxDrainedCurrentEver;	  // The unit is Amps
 			unsigned short battCycle;                 
 			unsigned short shutdownMinCellV;	      // Unit is millivolt
@@ -354,8 +356,6 @@ struct BatmonMemory {
 			unsigned short shutdownRemainCap;	      // Capacity available during shutdown in mAh
 			unsigned short accumulatedCharged;	      // Accumulated Charge to count cycle count. Unit: mAh
 			unsigned short accumulatedDischarged;     // Accumulated Discharge to count cycle count. Unit: mAh
-			unsigned short minExtTempEver;               // Unit is in deciCelcius
-			unsigned short maxExtTempEver;               // Unit is in deciCelcius
       //uint8_t intRes[6][CELLS_IN_SERIES];
 //			#if CELLS_IN_SERIES == 12
 //			uint8_t intRes[3][CELLS_IN_SERIES];

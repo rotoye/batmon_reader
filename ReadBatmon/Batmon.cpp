@@ -338,9 +338,9 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
       Serial.print("\tMinV: ");
       Serial.print(batmem.batmonData.shutdownMinCellV);
       Serial.print("\tMinExt: ");
-      Serial.print(batmem.batmonData.minExtTempEver);
+      Serial.print(batmem.batmonData.minTempCycle - MEMORY_TEMP_OFFSET - 273.2);
       Serial.print("\tMaxExt: ");
-      Serial.print(batmem.batmonData.maxExtTempEver);
+      Serial.print(batmem.batmonData.maxTempCycle - MEMORY_TEMP_OFFSET - 273.2);
 
       //
       Serial.print("\n");
