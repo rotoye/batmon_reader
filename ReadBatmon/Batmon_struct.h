@@ -40,6 +40,8 @@ const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x
 const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 110, 132, 153, 172, 201, 230};
 
 #define NUM_THERM_TO_READ 2     // Number of external thermistor to read
+#define MAX_CELL_COUNT (12)
+#define KELVIN_CELCIUS (273.15)
 //SMBUS Register enumeration
 enum smbus_reg : unsigned char
 {
@@ -129,7 +131,7 @@ struct Batmon_thermistors
       unsigned char T_HI;
       unsigned char T_LO;
     }TByte;
-    unsigned short TWord; // temperature *10 (deg C)
+    unsigned short TWord; // decikelvin
   }T2,T1,T_int;
 	unsigned char CRC;
 };
@@ -154,110 +156,11 @@ struct Batmon_cellVoltages
   {
     struct
     {
-      unsigned char VC1_HI;
-      unsigned char VC1_LO;
-    }VCell1Byte;
-    unsigned short VCell1Word; //mV
-  }VCell1;
-  union
-  {
-    struct
-    {
-      unsigned char VC2_HI;
-      unsigned char VC2_LO;
-    }VCell2Byte;
-    unsigned short VCell2Word; //mV
-  }VCell2;
-  union
-  {
-    struct
-    {
-      unsigned char VC3_HI;
-      unsigned char VC3_LO;
-    }VCell3Byte;
-    unsigned short VCell3Word; //mV
-  }VCell3;
-  union
-  {
-    struct
-    {
-      unsigned char VC4_HI;
-      unsigned char VC4_LO;
-    }VCell4Byte;
-    unsigned short VCell4Word; //mV
-  }VCell4;
-  union
-  {
-    struct
-    {
-      unsigned char VC5_HI;
-      unsigned char VC5_LO;
-    }VCell5Byte;
-    unsigned short VCell5Word;
-  }VCell5;
-  union
-  {
-    struct
-    {
-      unsigned char VC6_HI;
-      unsigned char VC6_LO;
-    }VCell6Byte;
-    unsigned short VCell6Word;
-  }VCell6;
-  union
-  {
-    struct
-    {
-      unsigned char VC7_HI;
-      unsigned char VC7_LO;
-    }VCell7Byte;
-    unsigned short VCell7Word;
-  }VCell7;
-  union
-  {
-    struct
-    {
-      unsigned char VC8_HI;
-      unsigned char VC8_LO;
-    }VCell8Byte;
-    unsigned short VCell8Word;
-  }VCell8;
-  union
-  {
-    struct
-    {
-      unsigned char VC9_HI;
-      unsigned char VC9_LO;
-    }VCell9Byte;
-    unsigned short VCell9Word;
-  }VCell9;
-  union
-  {
-    struct
-    {
-      unsigned char VC10_HI;
-      unsigned char VC10_LO;
-    }VCell10Byte;
-    unsigned short VCell10Word;
-  }VCell10;
-  union
-  {
-    struct
-    {
-      unsigned char VC11_HI;
-      unsigned char VC11_LO;
-    }VCell11Byte;
-    unsigned short VCell11Word;
-  }VCell11;
-  union
-  {
-    struct
-    {
-      unsigned char VC12_HI;
-      unsigned char VC12_LO;
-    }VCell12Byte;
-    unsigned short VCell12Word;
-  }VCell12;
+      unsigned char VC_HI;
+      unsigned char VC_LO;
+    }VCellByte;
+    unsigned short VCellWord; //mV
+  }VCell[MAX_CELL_COUNT];
   unsigned char CRC;
 };
 //}Batmon_struct;
