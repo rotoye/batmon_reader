@@ -338,9 +338,9 @@ uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
       Serial.print("\tMinV: ");
       Serial.print(batmem.batmonData.shutdownMinCellV);
       Serial.print("\tMinExt: ");
-      Serial.print(batmem.batmonData.minTempCycle - MEMORY_TEMP_OFFSET - 273.2);
+      Serial.print(batmem.batmonData.minTempCycle - MEMORY_TEMP_OFFSET - KELVIN_CELCIUS);
       Serial.print("\tMaxExt: ");
-      Serial.print(batmem.batmonData.maxTempCycle - MEMORY_TEMP_OFFSET - 273.2);
+      Serial.print(batmem.batmonData.maxTempCycle - MEMORY_TEMP_OFFSET - KELVIN_CELCIUS);
 
       //
       Serial.print("\n");
@@ -392,7 +392,7 @@ int Batmon::getTInt()
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
-    t = t - 2731;
+    t = t - KELVIN_CELCIUS*10.0;
   }
   return t;
 }
@@ -416,7 +416,7 @@ int Batmon::getTExt(byte extThermNum)
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
-    t = t - 2731;
+    t = t - KELVIN_CELCIUS*10;
   }
   return t;
 }
