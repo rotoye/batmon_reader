@@ -229,7 +229,7 @@ public:
         sprintf(str, "             %3d",batmem.data.shutdownRemainCap); Serial.print(str);
         sprintf(str, "              %3d",batmem.data.accumulatedCharged); Serial.print(str);
         sprintf(str, "                 %3d",batmem.data.accumulatedDischarged); Serial.print(str);
-
+        Serial.println();
 
       }
     }
