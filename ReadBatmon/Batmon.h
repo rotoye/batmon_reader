@@ -21,8 +21,8 @@ class Batmon
   byte shutdown();
   byte powerup();
   unsigned char *getMan(unsigned char *buf);
-  unsigned char* getMemory(unsigned char *buf, uint8_t *mem_info);
-  void getMemoryInfo(uint8_t *mem_info);
+  bool getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info);
+  void getMemoryInfo(BATMON_Mem_Info &_mem_info);
   int getCur();
   int getDeciCur();
   unsigned int getSOC();

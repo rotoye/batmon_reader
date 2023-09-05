@@ -265,12 +265,11 @@ struct BatmonMemory {
 //			#elif CELLS_IN_SERIES == 6
 //			uint8_t intRes[6][CELLS_IN_SERIES];
 //			#endif
-		} batmonData;
-		uint8_t batmonBlock[MEMORY_BLOCK_SIZE];
+		}data;
+		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
 };
 
-#define MEM_INFO_BYTE_COUNT 6
 struct BATMON_Mem_Info{
 	uint8_t length;
 	struct {

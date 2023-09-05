@@ -29,7 +29,8 @@
 
 #include <Wire.h>
 #include "Batmon.h"
-
+// Set to true to read the memory records from BATMON
+const bool READ_BATMON_MEMORY = true;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
@@ -85,7 +86,7 @@ public:
         Serial.print(str); 
       }
       Serial.print(" Current ");
-      Serial.print(" dCur  ");
+      Serial.print(" dCur   ");
       Serial.print("mAh_Discharged ");
       Serial.print("SOC ");
       Serial.print("RemainCap ");
@@ -155,22 +156,85 @@ public:
       }
       else
         Serial.print("ERR");
-      // supha
-      Serial.print("\nBatmon Memory Info: ");
-      uint8_t mem_info[8];
-      uint8_t *mem_info_pointer;
-      bm.getMemoryInfo(mem_info);
-      Serial.print("\nBatmon Memory: \n");
-      uint8_t mem[32];
-      (char *)bm.getMemory(mem, mem_info);
-      // supha
+      Serial.println();
     }
     else
       init();
   }
+  void readNSave()
+  {
+   char str[50];
+   if (isDetected && checkConnection())
+   {
+      BATMON_Mem_Info mem_info;
+      bm.getMemoryInfo(mem_info);
+      Serial.print(" I2C ");
+      Serial.print("bytesPerRecord ");
+      Serial.print("numPartitionsPerRecord ");
+      Serial.print("bytesinPartition1 ");
+      Serial.print("bytesinPartition2 ");
+      Serial.print("bytesinPartition3 ");
+      Serial.println("totalMemoryRecords ");
+      sprintf(str, "0x%02X ", i2cAddress); Serial.print(str);
+      sprintf(str, "           %3d",mem_info.data.bytesPerRecord); Serial.print(str);
+      sprintf(str, "                    %3d",mem_info.data.numPartitionsPerRecord); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition1); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition2); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition3); Serial.print(str);
+      sprintf(str, "                %3d",mem_info.data.totalMemoryRecords); Serial.print(str);
+      Serial.println();
+
+
+      Serial.print("MemoryIndex  ");
+      // for(int i = 0; i<MAXCELLCOUNT; i++)
+      // {
+      //   sprintf(str, " %2dC ", i+1);
+      //   Serial.print(str); 
+      // }
+      Serial.print("minSOC ");
+      Serial.print("maxSOC ");
+      Serial.print("SOH ");
+      Serial.print("shutdownMinCellVIndex ");
+      Serial.print("shutdownMaxCellVIndex ");
+      Serial.print("minTempCycle ");
+      Serial.print("maxTempCycle ");
+      Serial.print("maxDrainedCurrentEver ");
+      Serial.print("battCycle ");
+      Serial.print("shutdownMinCellV ");
+      Serial.print("shutdownMaxCellV ");
+      Serial.print("shutdownRemainCap ");
+      Serial.print("accumulatedCharged ");
+      Serial.print("accumulatedDischarged ");
+      Serial.println();
+      BatmonMemory batmem;
+      for(uint8_t i =0; i<mem_info.data.totalMemoryRecords; i++)  
+      {
+        if (bm.getMemory(batmem, mem_info) == false)
+        {
+          Serial.println("Record corrupted");
+          continue;
+        }
+        sprintf(str, "        %3d",batmem.data.memoryIndex); Serial.print(str);
+        sprintf(str, "     %3d",batmem.data.minSOC); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.maxSOC); Serial.print(str);
+        sprintf(str, " %3d",batmem.data.SOH); Serial.print(str);
+        sprintf(str, "                   %3d",batmem.data.shutdownMinCellVIndex); Serial.print(str);
+        sprintf(str, "                   %3d",batmem.data.shutdownMaxCellVIndex); Serial.print(str);
+        sprintf(str, "          %3d",batmem.data.minTempCycle); Serial.print(str);
+        sprintf(str, "          %3d",batmem.data.maxTempCycle); Serial.print(str);
+        sprintf(str, "                  %3d",batmem.data.maxDrainedCurrentEver); Serial.print(str);
+        sprintf(str, "     %3d",batmem.data.battCycle); Serial.print(str);
+        sprintf(str, "            %3d",batmem.data.shutdownMinCellV); Serial.print(str);
+        sprintf(str, "            %3d",batmem.data.shutdownMaxCellV); Serial.print(str);
+        sprintf(str, "             %3d",batmem.data.shutdownRemainCap); Serial.print(str);
+        sprintf(str, "              %3d",batmem.data.accumulatedCharged); Serial.print(str);
+        sprintf(str, "                 %3d",batmem.data.accumulatedDischarged); Serial.print(str);
+
+
+      }
+    }
+  }
 };
-
-
 
 Batt batt[]= {Batt(BATMON_SMBUS_ADDRESS_ARRAY[0], NUM_THERM_TO_READ), 
               Batt(BATMON_SMBUS_ADDRESS_ARRAY[1], NUM_THERM_TO_READ), 
@@ -192,15 +256,23 @@ void setup()
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
     batt[i].init();
   }
-  
-  //Serial.println("Total Voltage, Cell 10, Cell 9, Cell 8, Cell 7, Cell 6, Cell 5, Cell 4, Cell 3, Cell 2, Cell 1, Current, Discharged Current");
-  Serial.println("Starting BATMON Reader");
+  if(READ_BATMON_MEMORY == true)
+  {
+    Serial.println("Printing BATMON memory");
+    for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) 
+      batt[i].readNSave();
+  }
+  else
+    Serial.println("Starting BATMON Reader");
 }
 
 
 
 void loop()
 {
+  if(READ_BATMON_MEMORY == true)
+    return;
+
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
 
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
@@ -208,7 +280,6 @@ void loop()
       batt[i].printBatteryInfo(true);
     else
       batt[i].printBatteryInfo(false);
-    Serial.println();
   }
 /*
   //Serial.print("\tManufacturer's Name: ");

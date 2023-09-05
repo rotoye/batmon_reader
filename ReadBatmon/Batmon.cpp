@@ -28,7 +28,7 @@ Batmon::Batmon(byte _i2cAddress, byte _numTherms)
 byte Batmon::readCellVoltages(CVolts &cv)
 {
   unsigned short *ptr;
-  ptr = (unsigned short *)&cv.VCell1;
+  ptr = (unsigned short *)&cv.VCell[0];
   uint8_t i ;
   int cellCount;
   cellCount = getCellCount();
@@ -280,74 +280,65 @@ unsigned char* Batmon::getMan(unsigned char *buf)
   return buf;
 }
 
-void Batmon::getMemoryInfo(uint8_t *mem_info) {
+void Batmon::getMemoryInfo(BATMON_Mem_Info &_mem_info) {
   Wire.beginTransmission(i2cAddress);
-  Wire.write(0x2e);
+  Wire.write(SMBUS_RESET_BATMEM);
   Wire.endTransmission();
   int i = 0;
-  if(Wire.requestFrom(i2cAddress, 8)) {
+  uint8_t *buf;
+  buf = (uint8_t*)&_mem_info;
+  if(Wire.requestFrom(i2cAddress, sizeof(BATMON_Mem_Info))) {
     while(Wire.available()) {
-      mem_info[i] = Wire.read();
-      Serial.print(mem_info[i], DEC);
-      Serial.print(",");
+      buf[i] = Wire.read();
       i++;
     }
   }
-  //return mem_info;
 }
 
-uint8_t* Batmon::getMemory(uint8_t *buf, uint8_t *mem_info) {
+bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
   int i = 0;
   int m = 0;
   uint8_t partition_size;
-  BatmonMemory batmem;
-  for (int j=0; j < mem_info[6]; j++) {
-    for (int p=0; p < mem_info[2]; p++) {
-      i = 0;
-      Wire.beginTransmission(i2cAddress);
-      Wire.write(0x2f);
-      Wire.endTransmission();
-      partition_size = mem_info[p+3];
-      if(Wire.requestFrom(i2cAddress, partition_size+4)) {
-        while(Wire.available()) {
-          buf[i] = Wire.read();
-          if (buf[i] < 0x10) {
-            Serial.print("0");
-          }
-          Serial.print(buf[i], HEX);
-          if ((i > 0) && (i <= (mem_info[p+3]))) {
-            batmem.batmonBlock[m] = buf[i];
-            //Serial.print(",");
-            //mem_array[j].batmonBlock[m] = buf[i];
-            m++;
-          }
-          Serial.print(",");
-          i++;
-        }
+  // TODO: perform CRC check
+  for (int p=0; p < _mem_info.data.numPartitionsPerRecord; p++) {
+    i = 0;
+    Wire.beginTransmission(i2cAddress);
+    Wire.write(SMBUS_BATMEM);
+    Wire.endTransmission();
+    switch(p)
+    {
+      case 0: partition_size = _mem_info.data.bytesinPartition1; break;
+      case 1: partition_size = _mem_info.data.bytesinPartition2; break;
+      case 2: partition_size = _mem_info.data.bytesinPartition3; break;
+    }
+    const uint8_t bytesToRequest = partition_size+4; // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
+    if(Wire.requestFrom(i2cAddress, partition_size+4)) {
+      uint8_t length;
+      if (Wire.available())
+      {
+        length = Wire.read();
+        // Serial.print("len ");
+        // Serial.println(length);
       }
-      Serial.print("\t");
+      if(bytesToRequest-2 != length) //bytesToRequest should be 1 less than first byte count
+        return false;
+      while(Wire.available()) {
+        // why?
+        if (i < partition_size) {
+          batmem.bytedata[m] = Wire.read();
+          m++;
+        }
+        else if (i < bytesToRequest)
+        {
+          Wire.read(); // <2 bytes block tag: block number AND memory index> <1byte: CRC>
+        }
+        else 
+          return false; // returning too many bytes
+        i++;
+      }
     }
-    if (j == 0) {
-      // print batmonmemory object data
-      Serial.print("\nMaxVIndex: ");
-      Serial.print(batmem.batmonData.shutdownMaxCellVIndex);
-      Serial.print("\tMaxV: ");
-      Serial.print(batmem.batmonData.shutdownMaxCellV);
-      Serial.print("\tMinVIndex:");
-      Serial.print(batmem.batmonData.shutdownMinCellVIndex);
-      Serial.print("\tMinV: ");
-      Serial.print(batmem.batmonData.shutdownMinCellV);
-      Serial.print("\tMinExt: ");
-      Serial.print(batmem.batmonData.minTempCycle - MEMORY_TEMP_OFFSET - KELVIN_CELCIUS);
-      Serial.print("\tMaxExt: ");
-      Serial.print(batmem.batmonData.maxTempCycle - MEMORY_TEMP_OFFSET - KELVIN_CELCIUS);
-
-      //
-      Serial.print("\n");
-    }
-    Serial.print("\n");
   }
-  return buf;
+  return true; // successful
 }
 
 int Batmon::getCur()
