@@ -257,8 +257,8 @@ struct BatmonMemory {
 			unsigned short shutdownMinCellV;	      // Unit is millivolt
 			unsigned short shutdownMaxCellV;	      // Unit is millivolt
 			unsigned short shutdownRemainCap;	      // Capacity available during shutdown in mAh
-			unsigned short accumulatedCharged;	      // Accumulated Charge to count cycle count. Unit: mAh
-			unsigned short accumulatedDischarged;     // Accumulated Discharge to count cycle count. Unit: mAh
+			unsigned short accumulatedCharged;	      // Accumulated Charge in current memory record cycle. Unit: mAh
+			unsigned short accumulatedDischarged;     // Accumulated Discharge in current memory record cycle. Unit: mAh
       //uint8_t intRes[6][CELLS_IN_SERIES];
 //			#if CELLS_IN_SERIES == 12
 //			uint8_t intRes[3][CELLS_IN_SERIES];
