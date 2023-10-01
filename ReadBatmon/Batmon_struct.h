@@ -253,7 +253,10 @@ struct BatmonMemory {
 			uint8_t minTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			unsigned short maxDrainedCurrentEver;	  // The unit is Amps
-			unsigned short battCycle;                 
+			struct{
+				unsigned short battCycle:15; 
+				uint8_t recNewCycle:1;					// bit is one if the cycle was incremented in this record
+			}cycle;
 			unsigned short shutdownMinCellV;	      // Unit is millivolt
 			unsigned short shutdownMaxCellV;	      // Unit is millivolt
 			unsigned short shutdownRemainCap;	      // Capacity available during shutdown in mAh
