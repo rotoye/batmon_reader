@@ -223,7 +223,7 @@ public:
         sprintf(str, "          %3d",batmem.data.minTempCycle); Serial.print(str);
         sprintf(str, "          %3d",batmem.data.maxTempCycle); Serial.print(str);
         sprintf(str, "                  %3d",batmem.data.maxDrainedCurrentEver); Serial.print(str);
-        sprintf(str, "     %3d",batmem.data.cycle.battCycle); Serial.print(str);
+        sprintf(str, "     %3d",batmem.data.log.battCycle); Serial.print(str);
         sprintf(str, "            %3d",batmem.data.shutdownMinCellV); Serial.print(str);
         sprintf(str, "            %3d",batmem.data.shutdownMaxCellV); Serial.print(str);
         sprintf(str, "             %3d",batmem.data.shutdownRemainCap); Serial.print(str);

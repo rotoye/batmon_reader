@@ -28,9 +28,7 @@
  */
 
 #pragma once
-//#pragma pack(1) // This is needed to avoid padding of the struct
-typedef unsigned char uint8_t;
-typedef long unsigned int uint32_t;
+#include <stdint.h>
 
 #define BATMON_SMBUS_TOTAL_ADDRESS 10
 const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14};
@@ -42,8 +40,9 @@ const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 11
 #define NUM_THERM_TO_READ 2     // Number of external thermistor to read
 #define MAX_CELL_COUNT (12)
 #define KELVIN_CELCIUS (273.15)
+#define MEM_VOLT_STORAGE_RESOLUTION (20) // 1unit is 20mV
 //SMBUS Register enumeration
-enum smbus_reg : unsigned char
+enum smbus_reg : uint8_t
 {
   SMBUS_VOLTAGE = 0x09,         // <Total volt            > <uint16> <format mV > <WordRead>
   SMBUS_CURRENT = 0x0a,         // <Current             > <int16_t> <format mA> <WordRead>  
@@ -128,12 +127,12 @@ struct Batmon_thermistors
   {
     struct
     {
-      unsigned char T_HI;
-      unsigned char T_LO;
+      uint8_t T_HI;
+      uint8_t T_LO;
     }TByte;
     unsigned short TWord; // decikelvin
   }T2,T1,T_int;
-	unsigned char CRC;
+	uint8_t CRC;
 };
 
 struct Batmon_totalVoltage
@@ -142,12 +141,12 @@ struct Batmon_totalVoltage
   {
     struct
     {
-      unsigned char VTot_HI;
-      unsigned char VTot_LO;
+      uint8_t VTot_HI;
+      uint8_t VTot_LO;
     }VTotByte;
     unsigned short VTotWord; //mV
   }TV;
-  unsigned char CRC;
+  uint8_t CRC;
 };
 
 struct Batmon_cellVoltages
@@ -156,12 +155,12 @@ struct Batmon_cellVoltages
   {
     struct
     {
-      unsigned char VC_HI;
-      unsigned char VC_LO;
+      uint8_t VC_HI;
+      uint8_t VC_LO;
     }VCellByte;
     unsigned short VCellWord; //mV
   }VCell[MAX_CELL_COUNT];
-  unsigned char CRC;
+  uint8_t CRC;
 };
 //}Batmon_struct;
 struct BatteryStatus
@@ -182,7 +181,7 @@ struct BatteryStatus
 			uint8_t TERMINATE_CHARGE_ALARM:1;
 			uint8_t OVER_CHARGED_ALARM:1;
 		}bits;
-		unsigned short status;
+		uint16_t status;
 	};
 };
 
@@ -248,20 +247,25 @@ struct BatmonMemory {
 			uint8_t minSOC; //0-255 instead of 0-100?
 			uint8_t maxSOC; //0-255 instead of 0-100?
 			uint8_t SOH; //0-255 instead of 0-100?
-			uint8_t shutdownMinCellVIndex;
-			uint8_t shutdownMaxCellVIndex;
-			uint8_t minTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
-			uint8_t maxTempCycle;                     // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
-			unsigned short maxDrainedCurrentEver;	  // The unit is Amps
+			uint8_t minTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
+			uint8_t maxTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
+			uint16_t maxDrainedCurrentEver;	  // The unit is Amps
 			struct{
-				unsigned short battCycle:15; 
-				uint8_t recNewCycle:1;					// bit is one if the cycle was incremented in this record
-			}cycle;
-			unsigned short shutdownMinCellV;	      // Unit is millivolt
-			unsigned short shutdownMaxCellV;	      // Unit is millivolt
-			unsigned short shutdownRemainCap;	      // Capacity available during shutdown in mAh
-			unsigned short accumulatedCharged;	      // Accumulated Charge in current memory record cycle. Unit: mAh
-			unsigned short accumulatedDischarged;     // Accumulated Discharge in current memory record cycle. Unit: mAh
+				uint16_t battCycle:14; 
+				uint8_t loggedWithoutSleep:1; // bit is one if the log was created in between a run.
+				uint8_t recNewCycle:1;		  // bit is one if the cycle was incremented in this record
+			}log;
+			uint8_t bootupMinCellVIndex:4;
+			uint8_t bootupMaxCellVIndex:4;
+			uint8_t bootupMinCellV;			  // Unit: custom. check membyteToMilliVolt()
+			uint8_t bootupMaxCellV;			  // Unit: custom. check membyteToMilliVolt()
+			uint8_t shutdownMinCellVIndex:4;
+			uint8_t shutdownMaxCellVIndex:4;
+			uint8_t shutdownMinCellV;		  // Unit: custom. check membyteToMilliVolt()
+			uint8_t shutdownMaxCellV;		  // Unit: custom. check membyteToMilliVolt()
+			uint16_t shutdownRemainCap;		  // Capacity available during shutdown in mAh
+			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
+			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
       //uint8_t intRes[6][CELLS_IN_SERIES];
 //			#if CELLS_IN_SERIES == 12
 //			uint8_t intRes[3][CELLS_IN_SERIES];
@@ -271,6 +275,26 @@ struct BatmonMemory {
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
+	uint16_t membyteToMilliVolt(uint8_t memByte){
+		return ((uint16_t)memByte)*MEM_VOLT_STORAGE_RESOLUTION;
+	}
+	uint8_t milliVoltToMembyte(uint16_t milliVolt){
+		return (uint8_t)(milliVolt*(1/MEM_VOLT_STORAGE_RESOLUTION));
+	}
+	uint8_t decikelvinToMembyte(uint16_t temperature){
+		float byteTemp = temperature*0.1 + MEMORY_TEMP_OFFSET;
+		return (uint8_t) floatToUint(byteTemp,0,UINT8_MAX);
+	}
+	uint16_t MembyteToDecikelvin(uint8_t short memByte){
+		uint16_t temp = memByte;
+		temp = (temp -MEMORY_TEMP_OFFSET)*10;
+		return temp;
+	}
+	inline uint32_t floatToUint(float f, uint32_t min, uint32_t max){
+		if (f <= min)	f = min;
+		if (f >= max)	f = max;
+		return (uint8_t) f;
+	}
 };
 
 struct BATMON_Mem_Info{
