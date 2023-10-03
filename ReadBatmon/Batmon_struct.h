@@ -279,7 +279,7 @@ struct BatmonMemory {
 		return ((uint16_t)memByte)*MEM_VOLT_STORAGE_RESOLUTION;
 	}
 	uint8_t milliVoltToMembyte(uint16_t milliVolt){
-		return (uint8_t)(milliVolt*(1/MEM_VOLT_STORAGE_RESOLUTION));
+		return (uint8_t)(milliVolt*(1.0/MEM_VOLT_STORAGE_RESOLUTION));
 	}
 	uint8_t decikelvinToMembyte(uint16_t temperature){
 		float byteTemp = temperature*0.1 + MEMORY_TEMP_OFFSET;
