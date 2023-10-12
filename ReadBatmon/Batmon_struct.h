@@ -29,6 +29,7 @@
 
 #pragma once
 #include <stdint.h>
+#include <math.h>
 
 #define BATMON_SMBUS_TOTAL_ADDRESS 10
 const uint8_t BATMON_SMBUS_ADDRESS_ARRAY[BATMON_SMBUS_TOTAL_ADDRESS] = {0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14};
@@ -293,7 +294,7 @@ struct BatmonMemory {
 	inline uint32_t floatToUint(float f, uint32_t min, uint32_t max){
 		if (f <= min)	f = min;
 		if (f >= max)	f = max;
-		return (uint8_t) f;
+		return round(f);
 	}
 };
 
