@@ -209,7 +209,8 @@ public:
       Serial.print("shutdownRemainCap ");
       Serial.print("accumulatedCharged ");
       Serial.print("accumulatedDischarged ");
-      Serial.print("recNewCycle");
+      Serial.print("recNewCycle ");
+      Serial.print("loggedWithoutSleep");
       Serial.println();
       BatmonMemory batmem;
       for(uint8_t i =0; i<mem_info.data.totalMemoryRecords; i++)  
@@ -233,12 +234,13 @@ public:
         sprintf(str, "                 %3d",batmem.data.bootupMaxCellVIndex); Serial.print(str);
         sprintf(str, "             %3d",batmem.membyteToMilliVolt(batmem.data.shutdownMinCellV)); Serial.print(str);
         sprintf(str, "             %3d",batmem.membyteToMilliVolt(batmem.data.shutdownMaxCellV)); Serial.print(str);
-        sprintf(str, "                   %4d",batmem.data.shutdownMinCellVIndex); Serial.print(str);
-        sprintf(str, "                   %4d",batmem.data.shutdownMaxCellVIndex); Serial.print(str);
-        sprintf(str, "           %5d",batmem.data.shutdownRemainCap); Serial.print(str);
+        sprintf(str, "                  %4d",batmem.data.shutdownMinCellVIndex); Serial.print(str);
+        sprintf(str, "                  %4d",batmem.data.shutdownMaxCellVIndex); Serial.print(str);
+        sprintf(str, "             %5d",batmem.data.shutdownRemainCap); Serial.print(str);
         sprintf(str, "              %5d",batmem.data.accumulatedCharged); Serial.print(str);
         sprintf(str, "                 %5d",batmem.data.accumulatedDischarged); Serial.print(str);
         sprintf(str, "           %1d",batmem.data.log.recNewCycle); Serial.print(str);
+        sprintf(str, "                  %1d",batmem.data.log.loggedWithoutSleep); Serial.print(str);
         Serial.println();
 
       }
