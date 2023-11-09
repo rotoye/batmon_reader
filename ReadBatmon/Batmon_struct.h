@@ -42,6 +42,9 @@ const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 11
 #define MAX_CELL_COUNT (12)
 #define KELVIN_CELCIUS (273.15)
 #define MEM_VOLT_STORAGE_RESOLUTION (20) // 1unit is 20mV
+
+#define INT_RES_PER_MEMORY 4
+
 //SMBUS Register enumeration
 enum smbus_reg : uint8_t
 {
@@ -231,6 +234,27 @@ struct SafetyStatus
   uint8_t crc;
 };
 
+struct intResConditions {
+	union {
+		struct {
+			uint8_t current_interval:3;
+			uint8_t temperature_interval:3;
+			uint8_t SOC_interval:2;
+		}tag;
+		uint8_t int_res_tag;
+	};
+};
+
+struct IntRes{
+	intResConditions intResTag;
+	uint8_t minIntRes;
+	uint8_t maxIntRes;
+	struct {
+		uint8_t minIntResIndex:4;
+		uint8_t maxIntResIndex:4;
+	}IntResIndices;
+};
+
 #define MEMORY_TEMP_OFFSET (-225) //Unit in Kelvin
 #define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
 #if (MEMORY_BLOCK_SIZE <= 56)
@@ -267,12 +291,7 @@ struct BatmonMemory {
 			uint16_t shutdownRemainCap;		  // Capacity available during shutdown in mAh
 			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
-      //uint8_t intRes[6][CELLS_IN_SERIES];
-//			#if CELLS_IN_SERIES == 12
-//			uint8_t intRes[3][CELLS_IN_SERIES];
-//			#elif CELLS_IN_SERIES == 6
-//			uint8_t intRes[6][CELLS_IN_SERIES];
-//			#endif
+			IntRes intRes[INT_RES_PER_MEMORY];
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
