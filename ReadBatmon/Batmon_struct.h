@@ -234,6 +234,14 @@ struct SafetyStatus
   uint8_t crc;
 };
 
+#define MEMORY_TEMP_OFFSET (-225) //Unit in Kelvin
+#define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
+#if (MEMORY_BLOCK_SIZE <= 56)
+	#define NUM_MEMORY_BLOCK_PARTITION 2
+#else
+	#define NUM_MEMORY_BLOCK_PARTITION 3     //Note: Memory block size larger than 64 byte (page size) is currently not supported
+#endif
+#pragma pack(push, 1)
 struct intResConditions {
 	union {
 		struct {
@@ -255,14 +263,6 @@ struct IntRes{
 	}IntResIndices;
 };
 
-#define MEMORY_TEMP_OFFSET (-225) //Unit in Kelvin
-#define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
-#if (MEMORY_BLOCK_SIZE <= 56)
-	#define NUM_MEMORY_BLOCK_PARTITION 2
-#else
-	#define NUM_MEMORY_BLOCK_PARTITION 3     //Note: Memory block size larger than 64 byte (page size) is currently not supported
-#endif
-#pragma pack(push, 1)
 struct BatmonMemory {
 	union {
 		struct {
