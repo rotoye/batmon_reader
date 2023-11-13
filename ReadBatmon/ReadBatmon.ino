@@ -210,7 +210,17 @@ public:
       Serial.print("accumulatedCharged ");
       Serial.print("accumulatedDischarged ");
       Serial.print("recNewCycle ");
-      Serial.print("loggedWithoutSleep");
+      Serial.print("loggedWithoutSleep ");
+      Serial.print("IR1Tag ");
+      Serial.print("IR1Min ");
+      Serial.print("IR1MinIndex ");
+      Serial.print("IR1Max ");
+      Serial.print("IR1MaxIndex ");
+      Serial.print("IR2Tag ");
+      Serial.print("IR2Min ");
+      Serial.print("IR2MinIndex ");
+      Serial.print("IR2Max ");
+      Serial.print("IR2MaxIndex ");
       Serial.println();
       BatmonMemory batmem;
       for(uint8_t i =0; i<mem_info.data.totalMemoryRecords; i++)  
@@ -241,8 +251,17 @@ public:
         sprintf(str, "                 %5d",batmem.data.accumulatedDischarged); Serial.print(str);
         sprintf(str, "           %1d",batmem.data.log.recNewCycle); Serial.print(str);
         sprintf(str, "                  %1d",batmem.data.log.loggedWithoutSleep); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
+        sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.minIntResIndex); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[0].maxIntRes); Serial.print(str);
+        sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.maxIntResIndex); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[1].intResTag.int_res_tag); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[1].minIntRes); Serial.print(str);
+        sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.minIntResIndex); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.intRes[1].maxIntRes); Serial.print(str);
+        sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.maxIntResIndex); Serial.print(str);
         Serial.println();
-
       }
     }
   }
