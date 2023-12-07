@@ -30,7 +30,7 @@
 #include <Wire.h>
 #include "Batmon.h"
 // Set to true to read the memory records from BATMON
-const bool READ_BATMON_MEMORY = true;
+const bool READ_BATMON_MEMORY = false;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
