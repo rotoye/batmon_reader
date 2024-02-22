@@ -292,6 +292,9 @@ struct BatmonMemory {
 			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
+			float clampVal;
+			float bootup_mAh_discharged_cc;
+			float shutdown_mAh_discharged_cc;
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
