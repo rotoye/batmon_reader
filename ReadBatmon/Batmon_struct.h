@@ -66,6 +66,7 @@ enum smbus_reg : uint8_t
   SMBUS_FULL_CAP = 0x10,          // <Full capacity         > <uint16> <format mAh> <WordRead>
   SMBUS_CYCLE_COUNT = 0x17,       // <Number of cycles on the battery > <uint16> <format num> <WordRead>
   // Reset the index of reading batmon memory back to zero, send the number of recorded memory, number of required read/write times for each memory object and the array of how many bytes are divided into each read/write, and status of memory reading
+  SMBUS_DESIGN_VOLTAGE = 0x19,     // <Nominal Terminal Voltage   > <uint16> <format mV> <WordRead>
   SMBUS_RESET_BATMEM = 0x2e,      // <1 byte: byte count> <6 bytes: Bytes per memory record, number of partitions, 1st partition size, 2nd partition size, 3rd partition size, total number of memory records available> <1byte: CRC><BlockRead>
   SMBUS_BATMEM = 0x2f,            // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
   SMBUS_BATT_HEALTH = 0x30,      //
@@ -274,7 +275,8 @@ struct BatmonMemory {
 			uint8_t SOH; //0-255 instead of 0-100?
 			uint8_t minTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
-			uint16_t maxDrainedCurrentEver;	  // The unit is Amps
+			uint8_t maxIntTempCycle;          // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset of temperature BMS chip
+			uint16_t maxDrainedCurrentCycle;	  // The unit is Amps //TODO: change to maxCycle
 			struct{
 				uint16_t battCycle:14; 
 				uint8_t loggedWithoutSleep:1; // bit is one if the log was created in between a run.
@@ -291,6 +293,12 @@ struct BatmonMemory {
 			uint16_t shutdownRemainCap;		  // Capacity available during shutdown in mAh  // 20th byte
 			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
+			struct{
+				uint8_t POWER_ON_RESET:1;
+				uint8_t WATCHDOG_TRIGGERED:1;
+				uint8_t OVER_ACCUM_TIME:1;
+				uint8_t NOT_USED:5;
+			}bq_status;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
 			float clampVal;
 			float bootup_mAh_discharged_cc;
