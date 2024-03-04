@@ -300,8 +300,9 @@ struct BatmonMemory {
 				uint8_t NOT_USED:5;
 			}bq_status;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
+			uint8_t accumTimeDiff;
 			float clampVal;
-			float bootup_mAh_discharged_cc;
+			float mAh_discharged_cc_before_reset;
 			float shutdown_mAh_discharged_cc;
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
