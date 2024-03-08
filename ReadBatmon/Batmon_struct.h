@@ -276,7 +276,7 @@ struct BatmonMemory {
 			uint8_t minTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxIntTempCycle;          // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset of temperature BMS chip
-			uint16_t maxDrainedCurrentCycle;	  // The unit is Amps //TODO: change to maxCycle
+			uint16_t maxDrainedCurrentCycle;	  // The unit is Amps
 			struct{
 				uint16_t battCycle:14; 
 				uint8_t loggedWithoutSleep:1; // bit is one if the log was created in between a run.

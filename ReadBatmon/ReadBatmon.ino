@@ -164,6 +164,7 @@ public:
   void readNSave()
   {
    char str[50];
+   char floatStr[10];
    if (isDetected && checkConnection())
    {
       BATMON_Mem_Info mem_info;
@@ -196,6 +197,7 @@ public:
       Serial.print("SOH ");
       Serial.print("minTempCycle ");
       Serial.print("maxTempCycle ");
+      Serial.print("maxIntTempCycle ");
       Serial.print("maxDrainedCurrentCycle ");
       Serial.print("battCycle ");
       Serial.print("bootupMinCellV ");
@@ -254,6 +256,7 @@ public:
         sprintf(str, " %3d",batmem.data.SOH); Serial.print(str);
         sprintf(str, "         %4d",batmem.MembyteToDecikelvin(batmem.data.minTempCycle)); Serial.print(str);
         sprintf(str, "         %4d",batmem.MembyteToDecikelvin(batmem.data.maxTempCycle)); Serial.print(str);
+        sprintf(str, "            %4d",batmem.MembyteToDecikelvin(batmem.data.maxIntTempCycle)); Serial.print(str);
         sprintf(str, "                    %3d",batmem.data.maxDrainedCurrentCycle); Serial.print(str);
         sprintf(str, "       %3d",batmem.data.log.battCycle); Serial.print(str);
         sprintf(str, "           %4d",batmem.membyteToMilliVolt(batmem.data.bootupMinCellV)); Serial.print(str);
@@ -272,15 +275,14 @@ public:
         sprintf(str, "          %1d",batmem.data.bq_status.POWER_ON_RESET); Serial.print(str);
         sprintf(str, "          %1d",batmem.data.bq_status.WATCHDOG_TRIGGERED); Serial.print(str);
         sprintf(str, "          %1d",batmem.data.bq_status.OVER_ACCUM_TIME); Serial.print(str);
-        Serial.print("           ");
-        Serial.print(batmem.data.accumTimeDiff);
-        Serial.print("     ");
-        Serial.print(batmem.data.clampVal);
-        Serial.print("                     ");
-        Serial.print(batmem.data.mAh_discharged_cc_before_reset);
-        Serial.print("                      ");
-        Serial.print(batmem.data.shutdown_mAh_discharged_cc);
-        
+        sprintf(str, "          %4d",batmem.data.accumTimeDiff); Serial.print(str);
+        dtostrf(batmem.data.clampVal, 5, 1, floatStr);
+        sprintf(str, "%9s",floatStr); Serial.print(str);
+        dtostrf(batmem.data.mAh_discharged_cc_before_reset, 5, 1, floatStr);
+        sprintf(str, "                     %10s",floatStr); Serial.print(str);
+        dtostrf(batmem.data.shutdown_mAh_discharged_cc, 5, 1, floatStr);
+        sprintf(str, "                 %10s",floatStr); Serial.print(str);
+
       //  sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
       //  sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
       //  sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.minIntResIndex); Serial.print(str);
@@ -361,5 +363,5 @@ void loop()
   Serial.println();
 
   //bm.shutdown();
-  delay(200);
+  delay(1000);
 }
