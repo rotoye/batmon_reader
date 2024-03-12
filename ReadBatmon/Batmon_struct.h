@@ -299,6 +299,7 @@ struct BatmonMemory {
 				uint8_t OVER_ACCUM_TIME:1;
 				uint8_t NOT_USED:5;
 			}bq_status;
+			uint8_t INCOMPLETE_CYCLE_FLAG;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
 			uint8_t accumTimeDiff;
 			float clampVal;

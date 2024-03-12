@@ -216,6 +216,7 @@ public:
       Serial.print("bqStat:POR ");
       Serial.print("bqStat:WDT ");
       Serial.print("bqStat:OAT ");
+      Serial.print("INCOMPLETE_CYCLE ");
       Serial.print("accumTimeDiff ");
       Serial.print("clampVal ");
       Serial.print("mAh_discharged_cc_before_reset ");
@@ -275,6 +276,7 @@ public:
         sprintf(str, "          %1d",batmem.data.bq_status.POWER_ON_RESET); Serial.print(str);
         sprintf(str, "          %1d",batmem.data.bq_status.WATCHDOG_TRIGGERED); Serial.print(str);
         sprintf(str, "          %1d",batmem.data.bq_status.OVER_ACCUM_TIME); Serial.print(str);
+        sprintf(str, "                %1d",batmem.data.INCOMPLETE_CYCLE_FLAG); Serial.print(str);
         sprintf(str, "          %4d",batmem.data.accumTimeDiff); Serial.print(str);
         dtostrf(batmem.data.clampVal, 5, 1, floatStr);
         sprintf(str, "%9s",floatStr); Serial.print(str);
