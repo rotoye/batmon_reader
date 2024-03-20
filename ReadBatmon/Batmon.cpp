@@ -312,13 +312,16 @@ bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
       case 2: partition_size = _mem_info.data.bytesinPartition3; break;
     }
     const uint8_t bytesToRequest = partition_size+4; // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
+    byte str[partition_size+6];
+    str[0] = (0x0B << 1) | 0x00;
+    str[1] = 0x2f;
+    str[2] = (0x0B << 1) | 0x01;
+    str[3] =  partition_size+2;
     if(Wire.requestFrom(i2cAddress, partition_size+4)) {
       uint8_t length;
       if (Wire.available())
       {
         length = Wire.read();
-        // Serial.print("len ");
-        // Serial.println(length);
       }
       if(bytesToRequest-2 != length) //bytesToRequest should be 1 less than first byte count
         return false;
@@ -326,14 +329,28 @@ bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
         // why?
         if (i < partition_size) {
           batmem.bytedata[m] = Wire.read();
+          str[i+4] = batmem.bytedata[m];
           m++;
         }
-        else if (i < bytesToRequest)
+        else if (i < bytesToRequest - 2) 
         {
-          Wire.read(); // <2 bytes block tag: block number AND memory index> <1byte: CRC>
+          byte tag = Wire.read(); // <2 bytes block tag: block number AND memory index> <1byte: CRC>
+          str[i+4] = tag;
         }
-        else 
+        else if (i == bytesToRequest - 2) 
+        {
+          uint8_t crc_read = Wire.read();
+          unsigned char *ptr = (unsigned char *)&str;
+          uint8_t crc_calc = CRC8.smbus(ptr, partition_size+6);
+          if(crc_calc == crc_read) {
+            
+          } else {
+            Serial.println("WRONG CRC!\t");
+          }
+        }
+        else {
           return false; // returning too many bytes
+        }
         i++;
       }
     }
