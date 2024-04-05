@@ -270,8 +270,8 @@ public:
         sprintf(str, "                  %4d",batmem.data.shutdownMinCellVIndex); Serial.print(str);
         sprintf(str, "                  %4d",batmem.data.shutdownMaxCellVIndex); Serial.print(str);
         sprintf(str, "             %5d",batmem.data.shutdownRemainCap); Serial.print(str);
-        sprintf(str, "              %5d",batmem.data.accumulatedCharged); Serial.print(str);
-        sprintf(str, "                 %5d",batmem.data.accumulatedDischarged); Serial.print(str);
+        sprintf(str, "            %7lu",batmem.data.accumulatedCharged); Serial.print(str);
+        sprintf(str, "               %7lu",batmem.data.accumulatedDischarged); Serial.print(str);
         sprintf(str, "           %1d",batmem.data.log.recNewCycle); Serial.print(str);
         sprintf(str, "                  %1d",batmem.data.log.loggedWithoutSleep); Serial.print(str);
         sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
@@ -285,7 +285,7 @@ public:
         sprintf(str, "                     %10s",floatStr); Serial.print(str);
         dtostrf(batmem.data.shutdown_mAh_discharged_cc, 5, 1, floatStr);
         sprintf(str, "                 %10s",floatStr); Serial.print(str);
-        sprintf(str, "       %3d",batmem.data.overTime); Serial.print(str);
+        sprintf(str, "      %3d",batmem.data.overTime); Serial.print(str);
 
 //        sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
 //        sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
