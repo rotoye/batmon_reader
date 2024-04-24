@@ -290,7 +290,7 @@ struct BatmonMemory {
 			uint8_t shutdownMaxCellVIndex:4;
 			uint8_t shutdownMinCellV;		  // Unit: custom. check membyteToMilliVolt()
 			uint8_t shutdownMaxCellV;		  // Unit: custom. check membyteToMilliVolt()
-			uint16_t shutdownRemainCap;		  // Capacity available during shutdown in mAh  // 20th byte
+			uint16_t shutdownRemainCap;		  // Capacity available during shutdown in mAh  // 21th byte
 			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
 			struct{
@@ -302,6 +302,7 @@ struct BatmonMemory {
 			}bq_status;
 			uint8_t INCOMPLETE_CYCLE_FLAG;
 			uint8_t overTime;
+			uint8_t errorCount;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
 			float clampVal;
 			float mAh_discharged_cc_before_reset;
