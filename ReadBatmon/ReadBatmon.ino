@@ -213,16 +213,10 @@ public:
       Serial.print("accumulatedDischarged ");
       Serial.print("recNewCycle ");
       Serial.print("loggedWithoutSleep ");
-      Serial.print("bqStat:CC_ERROR ");
-      Serial.print("bqStat:CLAMP_ERROR ");
-      Serial.print("bqStat:OVER_ACCUM ");
-      Serial.print("bqStat:UNDER_ACCUM ");
       Serial.print("INCOMPLETE_CYCLE ");
-      Serial.print("clampVal ");
-      Serial.print("mAh_discharged_cc_before_reset ");
-      Serial.print("shutdown_mAh_discharged_cc ");
-      Serial.print("overTime ");
-      Serial.print("errorCount ");
+      Serial.print("bqStat:CC_ERROR ");
+      Serial.print("bqStat:CC_TIME_ERROR ");
+      Serial.print("bqStat:ErrorCount ");
 //      Serial.print("IR1Tag ");
 //      Serial.print("IR1Min ");
 //      Serial.print("IR1MinIndex ");
@@ -272,21 +266,13 @@ public:
         sprintf(str, "             %5d",batmem.data.shutdownRemainCap); Serial.print(str);
         sprintf(str, "            %7lu",batmem.data.accumulatedCharged); Serial.print(str);
         sprintf(str, "               %7lu",batmem.data.accumulatedDischarged); Serial.print(str);
-        sprintf(str, "           %1d",batmem.data.log.recNewCycle); Serial.print(str);
-        sprintf(str, "                  %1d",batmem.data.log.loggedWithoutSleep); Serial.print(str);
+        sprintf(str, "           %1d",batmem.data.log.REC_NEW_CYCLE); Serial.print(str);
+        sprintf(str, "                  %1d",batmem.data.log.LOGGED_WITHOUT_SLEEP); Serial.print(str);
+        sprintf(str, "                %1d",batmem.data.log.INCOMPLETE_CYCLE_FLAG); Serial.print(str);
         sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
-        sprintf(str, "                  %1d",batmem.data.bq_status.CLAMP_ERROR); Serial.print(str);
-        sprintf(str, "                 %1d",batmem.data.bq_status.OVER_ACCUM_TIME); Serial.print(str);
-        sprintf(str, "                  %1d",batmem.data.bq_status.UNDER_ACCUM_TIME); Serial.print(str);
-        sprintf(str, "                %1d",batmem.data.INCOMPLETE_CYCLE_FLAG); Serial.print(str);
-        dtostrf(batmem.data.clampVal, 5, 1, floatStr);
-        sprintf(str, "%9s",floatStr); Serial.print(str);
-        dtostrf(batmem.data.mAh_discharged_cc_before_reset, 5, 1, floatStr);
-        sprintf(str, "                     %10s",floatStr); Serial.print(str);
-        dtostrf(batmem.data.shutdown_mAh_discharged_cc, 5, 1, floatStr);
-        sprintf(str, "                 %10s",floatStr); Serial.print(str);
-        sprintf(str, "      %3d",batmem.data.overTime); Serial.print(str);
-        sprintf(str, "        %3d",batmem.data.errorCount); Serial.print(str);
+        sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
+        sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
+
 //
 //       sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
 //       sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);

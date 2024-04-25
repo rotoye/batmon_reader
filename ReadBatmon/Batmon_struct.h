@@ -279,8 +279,9 @@ struct BatmonMemory {
 			uint16_t maxDrainedCurrentCycle;	  // The unit is Amps
 			struct{
 				uint16_t battCycle:14; 
-				uint8_t loggedWithoutSleep:1; // bit is one if the log was created in between a run.
-				uint8_t recNewCycle:1;		  // bit is one if the cycle was incremented in this record
+				uint8_t REC_NEW_CYCLE:1;		  // bit is one if the cycle was incremented in this record
+				uint8_t LOGGED_WITHOUT_SLEEP:1; // bit is one if the log was created in between a run.
+				uint8_t INCOMPLETE_CYCLE_FLAG:1;
 			}log;
 			uint8_t bootupMinCellVIndex:4;
 			uint8_t bootupMaxCellVIndex:4;
@@ -295,18 +296,11 @@ struct BatmonMemory {
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
 			struct{
 				uint8_t CC_ERROR:1;
-				uint8_t CLAMP_ERROR:1;
-				uint8_t OVER_ACCUM_TIME:1;
-				uint8_t UNDER_ACCUM_TIME:1;
-				uint8_t NOT_USED:4;
+				uint8_t CC_TIME_ERROR:1;
+				uint8_t ccErrorCount:6;
 			}bq_status;
-			uint8_t INCOMPLETE_CYCLE_FLAG;
-			uint8_t overTime;
-			uint8_t errorCount;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
-			float clampVal;
-			float mAh_discharged_cc_before_reset;
-			float shutdown_mAh_discharged_cc;
+			
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
