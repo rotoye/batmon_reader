@@ -298,7 +298,8 @@ struct BatmonMemory {
 				uint8_t CC_TIME_ERROR:1;
 				uint8_t ccErrorCount:6;
 			}bq_status;
-			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm //4 x 4: 16 bytes total space // 44th byte
+			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes inside the array contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm 
+                                          // More information from https://drive.google.com/file/d/1Vt_3vp9djtQGUk0I1bORkMC6T44hRgsG/view?usp=sharing
 			
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
