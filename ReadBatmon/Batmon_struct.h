@@ -281,7 +281,6 @@ struct BatmonMemory {
 				uint16_t battCycle:14; 
 				uint8_t REC_NEW_CYCLE:1;		  // bit is one if the cycle was incremented in this record
 				uint8_t LOGGED_WITHOUT_SLEEP:1; // bit is one if the log was created in between a run.
-				uint8_t INCOMPLETE_CYCLE_FLAG:1;
 			}log;
 			uint8_t bootupMinCellVIndex:4;
 			uint8_t bootupMaxCellVIndex:4;

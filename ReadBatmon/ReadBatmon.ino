@@ -213,7 +213,6 @@ public:
       Serial.print("accumulatedDischarged ");
       Serial.print("recNewCycle ");
       Serial.print("loggedWithoutSleep ");
-      Serial.print("INCOMPLETE_CYCLE ");
       Serial.print("bqStat:CC_ERROR ");
       Serial.print("bqStat:CC_TIME_ERROR ");
       Serial.print("bqStat:ErrorCount ");
@@ -268,7 +267,6 @@ public:
         sprintf(str, "               %7lu",batmem.data.accumulatedDischarged); Serial.print(str);
         sprintf(str, "           %1d",batmem.data.log.REC_NEW_CYCLE); Serial.print(str);
         sprintf(str, "                  %1d",batmem.data.log.LOGGED_WITHOUT_SLEEP); Serial.print(str);
-        sprintf(str, "                %1d",batmem.data.log.INCOMPLETE_CYCLE_FLAG); Serial.print(str);
         sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
         sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
