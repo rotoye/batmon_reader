@@ -7,15 +7,13 @@
 ## Getting Started
 
 ### First Installation
-Ensure that the battery is resting for couple of hours before the BATMON is first installed onto the battery. The first bootup->shutdown process stores the SOC information from the battery which will be used for further calculations in the second bootup. Do not use I2C communication to read memory records during the first cycle.
+Ensure that the battery is resting for couple of hours before the BATMON is first installed onto the battery. Do not use I2C communication to read memory records during the first cycle.
 
 ### Buzzer/OLED board
 ![](https://rotoye.com/wp-content/uploads/2021/04/Batmon-v5-programming-1-1536x1239.jpg)
-The optional OLED display/buzzer attachment extends BATMON functionality by providing a user-friendly interface for displaying state of charge, voltages, warnings, and more. The small board is attached to the main BATMON board via a flex connector. This connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little, and as carefully as possible.
+The optional OLED display/buzzer attachment extends BATMON functionality by providing a user-friendly interface for displaying state of charge, voltages, warnings, and more. The small board is attached to the main BATMON board via a flex connector. This connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little, and as carefully as possible. The button is used to cycle through screens.
 
 ### Warning Screen
-When you receive a battery with integrated BATMON, the OLED display (if applicable) and red/green LED's should be flashing periodically, displaying the battery state of charge, the min and max cell voltages, and current in Amps. The button is used to cycle through screens.
-
 _**If you see the < ! > symbol on the OLED display, this means that one or more safety warning conditions have been met. Press the button to see the warning(s) present.**_
 
 ## Interfacing with an Autopilot
@@ -83,3 +81,4 @@ Instruction to run ReadBatmon
 -   Upload code to Arduino
 -   Run serial monitor to see output
 ![batmon_reader output](https://rotoye.com/wp-content/uploads/BATMON/batmon_reader-serial-output.png)
+**NOTE: Memory logging and reading is disabled by default. Please contact batmon_sales@skymul.com for more information.**

@@ -295,6 +295,7 @@ void Batmon::getMemoryInfo(BATMON_Mem_Info &_mem_info) {
   }
 }
 
+
 bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
   int i = 0;
   int m = 0;
@@ -313,9 +314,9 @@ bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
     }
     const uint8_t bytesToRequest = partition_size+4; // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
     byte str[partition_size+6];
-    str[0] = (0x0B << 1) | 0x00;
-    str[1] = 0x2f;
-    str[2] = (0x0B << 1) | 0x01;
+    str[0] = (i2cAddress << 1) | 0x00;
+    str[1] = SMBUS_BATMEM;
+    str[2] = (i2cAddress << 1) | 0x01;
     str[3] =  partition_size+2;
     if(Wire.requestFrom(i2cAddress, partition_size+4)) {
       uint8_t length;

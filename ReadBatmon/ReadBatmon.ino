@@ -29,8 +29,10 @@
 
 #include <Wire.h>
 #include "Batmon.h"
-// Set to true to read the memory records from BATMON
-const bool READ_BATMON_MEMORY = true;
+// Batmon memory logging is default to be disabled
+// Set to true to read the memory records from BATMON 
+const bool READ_BATMON_MEMORY_ONLY = false; 
+const bool PRINT_INTERNAL_RESISTANCE = false;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
@@ -161,7 +163,7 @@ public:
     else
       init();
   }
-  void readNSave()
+  void printMemoryLogs()
   {
    char str[50];
    char floatStr[10];
@@ -216,26 +218,28 @@ public:
       Serial.print("bqStat:CC_ERROR ");
       Serial.print("bqStat:CC_TIME_ERROR ");
       Serial.print("bqStat:ErrorCount ");
-//      Serial.print("IR1Tag ");
-//      Serial.print("IR1Min ");
-//      Serial.print("IR1MinIndex ");
-//      Serial.print("IR1Max ");
-//      Serial.print("IR1MaxIndex ");
-//      Serial.print("IR2Tag ");
-//      Serial.print("IR2Min ");
-//      Serial.print("IR2MinIndex ");
-//      Serial.print("IR2Max ");
-//      Serial.print("IR2MaxIndex ");
-//      Serial.print("IR3Tag ");
-//      Serial.print("IR3Min ");
-//      Serial.print("IR3MinIndex ");
-//      Serial.print("IR3Max ");
-//      Serial.print("IR3MaxIndex ");
-//      Serial.print("IR4Tag ");
-//      Serial.print("IR4Min ");
-//      Serial.print("IR4MinIndex ");
-//      Serial.print("IR4Max ");
-//      Serial.print("IR4MaxIndex ");
+      if (PRINT_INTERNAL_RESISTANCE){
+        Serial.print("IR1Tag ");
+        Serial.print("IR1Min ");
+        Serial.print("IR1MinIndex ");
+        Serial.print("IR1Max ");
+        Serial.print("IR1MaxIndex ");
+        Serial.print("IR2Tag ");
+        Serial.print("IR2Min ");
+        Serial.print("IR2MinIndex ");
+        Serial.print("IR2Max ");
+        Serial.print("IR2MaxIndex ");
+        Serial.print("IR3Tag ");
+        Serial.print("IR3Min ");
+        Serial.print("IR3MinIndex ");
+        Serial.print("IR3Max ");
+        Serial.print("IR3MaxIndex ");
+        Serial.print("IR4Tag ");
+        Serial.print("IR4Min ");
+        Serial.print("IR4MinIndex ");
+        Serial.print("IR4Max ");
+        Serial.print("IR4MaxIndex ");
+      }
       Serial.println();
       BatmonMemory batmem;
       for(uint8_t i =0; i<mem_info.data.totalMemoryRecords; i++)  
@@ -271,27 +275,28 @@ public:
         sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
 
-//
-//       sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.minIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[0].maxIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.maxIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[1].intResTag.int_res_tag); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[1].minIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.minIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[1].maxIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.maxIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[2].intResTag.int_res_tag); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[2].minIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.minIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[2].maxIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.maxIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[3].intResTag.int_res_tag); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[3].minIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.minIntResIndex); Serial.print(str);
-//       sprintf(str, "    %3d",batmem.data.intRes[3].maxIntRes); Serial.print(str);
-//       sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.maxIntResIndex); Serial.print(str);
+        if (PRINT_INTERNAL_RESISTANCE) {
+           sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[0].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.maxIntResIndex); Serial.print(str);
+        }
         Serial.println();
       }
     }
@@ -318,11 +323,11 @@ void setup()
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
     batt[i].init();
   }
-  if(READ_BATMON_MEMORY == true)
+  if(READ_BATMON_MEMORY_ONLY == true)
   {
     Serial.println("Printing BATMON memory");
     for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) 
-      batt[i].readNSave();
+      batt[i].printMemoryLogs();
   }
   else
     Serial.println("Starting BATMON Reader");
@@ -332,11 +337,10 @@ void setup()
 
 void loop()
 {
-  if(READ_BATMON_MEMORY == true)
+  if (READ_BATMON_MEMORY_ONLY == true) {
     return;
-
+  }
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
-
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
     if (i==0)
       batt[i].printBatteryInfo(true);
@@ -352,5 +356,5 @@ void loop()
   Serial.println();
 
   //bm.shutdown();
-  delay(1000);
+  delay(200);
 }

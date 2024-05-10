@@ -41,7 +41,6 @@ const uint8_t ADC_READING_THRESHOLD_ARRAY[ADC_TOTAL_THRESHOLD] = {13, 54, 84, 11
 #define NUM_THERM_TO_READ 2     // Number of external thermistor to read
 #define MAX_CELL_COUNT (12)
 #define KELVIN_CELCIUS (273.15)
-#define MEM_VOLT_STORAGE_RESOLUTION (20) // 1unit is 20mV
 
 #define INT_RES_PER_MEMORY 4
 
@@ -235,6 +234,7 @@ struct SafetyStatus
   uint8_t crc;
 };
 
+#define MEM_VOLT_STORAGE_RESOLUTION (20) // 1unit is 20mV
 #define MEMORY_TEMP_OFFSET (-225) //Unit in Kelvin
 #define MEMORY_BLOCK_SIZE 64 //Current implementation only support up to 64. Any number greater than 64 would not be valid
 #if (MEMORY_BLOCK_SIZE <= 56)
@@ -243,7 +243,9 @@ struct SafetyStatus
 	#define NUM_MEMORY_BLOCK_PARTITION 3     //Note: Memory block size larger than 64 byte (page size) is currently not supported
 #endif
 #pragma pack(push, 1)
-struct intResConditions {
+
+// Information about Internal Resistance can be found from https://drive.google.com/file/d/1Vt_3vp9djtQGUk0I1bORkMC6T44hRgsG/view?usp=sharing
+struct intResLogConditions {
 	union {
 		struct {
 			uint8_t current_interval:3;
@@ -255,7 +257,7 @@ struct intResConditions {
 };
 
 struct IntRes{
-	intResConditions intResTag;
+	intResLogConditions intResTag;
 	uint8_t minIntRes;
 	uint8_t maxIntRes;
 	struct {
@@ -267,12 +269,10 @@ struct IntRes{
 struct BatmonMemory {
 	union {
 		struct {
-			// Note that the variables may be packed to be word aligned. So aligned it as a word
-			//	address may be needed
 			uint8_t memoryIndex;
-			uint8_t minSOC; //0-255 instead of 0-100?
-			uint8_t maxSOC; //0-255 instead of 0-100?
-			uint8_t SOH; //0-255 instead of 0-100?
+			uint8_t minSOC; 
+			uint8_t maxSOC; 
+			uint8_t SOH;                      // Not implemented
 			uint8_t minTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxTempCycle;             // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset
 			uint8_t maxIntTempCycle;          // Unit is in Celsius with MEMORY_TEMP_OFFSET K offset of temperature BMS chip
@@ -294,13 +294,11 @@ struct BatmonMemory {
 			uint32_t accumulatedCharged:20;	  // Accumulated Charge in current memory record cycle. Unit: mAh
 			uint32_t accumulatedDischarged:20;// Accumulated Discharge in current memory record cycle. Unit: mAh
 			struct{
-				uint8_t CC_ERROR:1;
-				uint8_t CC_TIME_ERROR:1;
-				uint8_t ccErrorCount:6;
+				uint8_t CC_ERROR:1;           // Error flag indicating an abnormal Coulomb count jump
+				uint8_t CC_TIME_ERROR:1;      // Error flag indicating a time skip of Coulomb count
+				uint8_t ccErrorCount:6;       // Total number of errors caught 
 			}bq_status;
-			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes inside the array contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm 
-                                          // More information from https://drive.google.com/file/d/1Vt_3vp9djtQGUk0I1bORkMC6T44hRgsG/view?usp=sharing
-			
+			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes inside the array contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm                           
 		}data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
 	};
