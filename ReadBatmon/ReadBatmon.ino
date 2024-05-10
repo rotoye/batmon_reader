@@ -29,7 +29,10 @@
 
 #include <Wire.h>
 #include "Batmon.h"
-
+// Batmon memory logging is default to be disabled
+// Set to true to read the memory records from BATMON 
+const bool READ_BATMON_MEMORY_ONLY = false; 
+const bool PRINT_INTERNAL_RESISTANCE = false;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
@@ -71,6 +74,7 @@ public:
     bm.readCellVoltages(cv);
     bm.readTotalVoltage(tv);
   }
+
   void printBatteryInfo(bool heading =false)
   {
     char str[50];
@@ -84,7 +88,7 @@ public:
         Serial.print(str); 
       }
       Serial.print(" Current ");
-      Serial.print(" dCur  ");
+      Serial.print(" dCur   ");
       Serial.print("mAh_Discharged ");
       Serial.print("SOC ");
       Serial.print("RemainCap ");
@@ -131,9 +135,9 @@ public:
       dtostrf(float(bm.getTInt())*0.1,4,1,str); // Since float doesn't work with Arduino sprintf
       Serial.print("    ");Serial.print(str);
       dtostrf(float(bm.getTExt(0))*0.1,4,1,str);
-      Serial.print("     ");Serial.print(str);
+      Serial.print("   ");Serial.print(str);
       dtostrf(float(bm.getTExt(1))*0.1,4,1,str);
-      Serial.print("     ");Serial.print(str);
+      Serial.print("   ");Serial.print(str);
       uint16_t hash = bm.getHash();
       Serial.print("  ");Serial.print(hash); 
       // get the 128bit serial number 
@@ -154,9 +158,148 @@ public:
       }
       else
         Serial.print("ERR");
+      Serial.println();
     }
     else
       init();
+  }
+  void printMemoryLogs()
+  {
+   char str[50];
+   char floatStr[10];
+   if (isDetected && checkConnection())
+   {
+      BATMON_Mem_Info mem_info;
+      bm.getMemoryInfo(mem_info);
+      Serial.print(" I2C ");
+      Serial.print("bytesPerRecord ");
+      Serial.print("numPartitionsPerRecord ");
+      Serial.print("bytesinPartition1 ");
+      Serial.print("bytesinPartition2 ");
+      Serial.print("bytesinPartition3 ");
+      Serial.println("totalMemoryRecords ");
+      sprintf(str, "0x%02X ", i2cAddress); Serial.print(str);
+      sprintf(str, "           %3d",mem_info.data.bytesPerRecord); Serial.print(str);
+      sprintf(str, "                    %3d",mem_info.data.numPartitionsPerRecord); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition1); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition2); Serial.print(str);
+      sprintf(str, "               %3d",mem_info.data.bytesinPartition3); Serial.print(str);
+      sprintf(str, "                %3d",mem_info.data.totalMemoryRecords); Serial.print(str);
+      Serial.println();
+
+
+      Serial.print("MemoryIndex  ");
+      // for(int i = 0; i<MAXCELLCOUNT; i++)
+      // {
+      //   sprintf(str, " %2dC ", i+1);
+      //   Serial.print(str); 
+      // }
+      Serial.print("minSOC ");
+      Serial.print("maxSOC ");
+      Serial.print("SOH ");
+      Serial.print("minTempCycle ");
+      Serial.print("maxTempCycle ");
+      Serial.print("maxIntTempCycle ");
+      Serial.print("maxDrainedCurrentCycle ");
+      Serial.print("battCycle ");
+      Serial.print("bootupMinCellV ");
+      Serial.print("bootupMaxCellV ");
+      Serial.print("bootupMinCellVIndex ");
+      Serial.print("bootupMaxCellVIndex ");
+      Serial.print("shutdownMinCellV ");
+      Serial.print("shutdownMaxCellV ");
+      Serial.print("shutdownMinCellVIndex ");
+      Serial.print("shutdownMaxCellVIndex ");
+      Serial.print("shutdownRemainCap ");
+      Serial.print("accumulatedCharged ");
+      Serial.print("accumulatedDischarged ");
+      Serial.print("recNewCycle ");
+      Serial.print("loggedWithoutSleep ");
+      Serial.print("bqStat:CC_ERROR ");
+      Serial.print("bqStat:CC_TIME_ERROR ");
+      Serial.print("bqStat:ErrorCount ");
+      if (PRINT_INTERNAL_RESISTANCE){
+        Serial.print("IR1Tag ");
+        Serial.print("IR1Min ");
+        Serial.print("IR1MinIndex ");
+        Serial.print("IR1Max ");
+        Serial.print("IR1MaxIndex ");
+        Serial.print("IR2Tag ");
+        Serial.print("IR2Min ");
+        Serial.print("IR2MinIndex ");
+        Serial.print("IR2Max ");
+        Serial.print("IR2MaxIndex ");
+        Serial.print("IR3Tag ");
+        Serial.print("IR3Min ");
+        Serial.print("IR3MinIndex ");
+        Serial.print("IR3Max ");
+        Serial.print("IR3MaxIndex ");
+        Serial.print("IR4Tag ");
+        Serial.print("IR4Min ");
+        Serial.print("IR4MinIndex ");
+        Serial.print("IR4Max ");
+        Serial.print("IR4MaxIndex ");
+      }
+      Serial.println();
+      BatmonMemory batmem;
+      for(uint8_t i =0; i<mem_info.data.totalMemoryRecords; i++)  
+      {
+        if (bm.getMemory(batmem, mem_info) == false)
+        {
+          Serial.println("Record corrupted");
+          continue;
+        }
+        sprintf(str, "        %3d",batmem.data.memoryIndex); Serial.print(str);
+        sprintf(str, "     %3d",batmem.data.minSOC); Serial.print(str);
+        sprintf(str, "    %3d",batmem.data.maxSOC); Serial.print(str);
+        sprintf(str, " %3d",batmem.data.SOH); Serial.print(str);
+        sprintf(str, "         %4d",batmem.MembyteToDecikelvin(batmem.data.minTempCycle)); Serial.print(str);
+        sprintf(str, "         %4d",batmem.MembyteToDecikelvin(batmem.data.maxTempCycle)); Serial.print(str);
+        sprintf(str, "            %4d",batmem.MembyteToDecikelvin(batmem.data.maxIntTempCycle)); Serial.print(str);
+        sprintf(str, "                    %3d",batmem.data.maxDrainedCurrentCycle); Serial.print(str);
+        sprintf(str, "       %3d",batmem.data.log.battCycle); Serial.print(str);
+        sprintf(str, "           %4d",batmem.membyteToMilliVolt(batmem.data.bootupMinCellV)); Serial.print(str);
+        sprintf(str, "           %4d",batmem.membyteToMilliVolt(batmem.data.bootupMaxCellV)); Serial.print(str);
+        sprintf(str, "                 %3d",batmem.data.bootupMinCellVIndex); Serial.print(str);
+        sprintf(str, "                 %3d",batmem.data.bootupMaxCellVIndex); Serial.print(str);
+        sprintf(str, "             %3d",batmem.membyteToMilliVolt(batmem.data.shutdownMinCellV)); Serial.print(str);
+        sprintf(str, "             %3d",batmem.membyteToMilliVolt(batmem.data.shutdownMaxCellV)); Serial.print(str);
+        sprintf(str, "                  %4d",batmem.data.shutdownMinCellVIndex); Serial.print(str);
+        sprintf(str, "                  %4d",batmem.data.shutdownMaxCellVIndex); Serial.print(str);
+        sprintf(str, "             %5d",batmem.data.shutdownRemainCap); Serial.print(str);
+        sprintf(str, "            %7lu",batmem.data.accumulatedCharged); Serial.print(str);
+        sprintf(str, "               %7lu",batmem.data.accumulatedDischarged); Serial.print(str);
+        sprintf(str, "           %1d",batmem.data.log.REC_NEW_CYCLE); Serial.print(str);
+        sprintf(str, "                  %1d",batmem.data.log.LOGGED_WITHOUT_SLEEP); Serial.print(str);
+        sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
+        sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
+        sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
+
+        if (PRINT_INTERNAL_RESISTANCE) {
+           sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[0].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[0].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[1].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[1].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[2].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[2].IntResIndices.maxIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].intResTag.int_res_tag); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].minIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.minIntResIndex); Serial.print(str);
+           sprintf(str, "    %3d",batmem.data.intRes[3].maxIntRes); Serial.print(str);
+           sprintf(str, "         %3d",batmem.data.intRes[3].IntResIndices.maxIntResIndex); Serial.print(str);
+        }
+        Serial.println();
+      }
+    }
   }
 };
 
@@ -180,23 +323,29 @@ void setup()
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
     batt[i].init();
   }
-  
-  //Serial.println("Total Voltage, Cell 10, Cell 9, Cell 8, Cell 7, Cell 6, Cell 5, Cell 4, Cell 3, Cell 2, Cell 1, Current, Discharged Current");
-  Serial.println("Starting BATMON Reader");
+  if(READ_BATMON_MEMORY_ONLY == true)
+  {
+    Serial.println("Printing BATMON memory");
+    for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) 
+      batt[i].printMemoryLogs();
+  }
+  else
+    Serial.println("Starting BATMON Reader");
 }
 
 
 
 void loop()
 {
+  if (READ_BATMON_MEMORY_ONLY == true) {
+    return;
+  }
   Serial.write(0x0C); // Command to clear screen for non-Arduino terminals like putty 
-
   for (uint8_t i = 0; i < BATMON_SMBUS_TOTAL_ADDRESS; i++) {
     if (i==0)
       batt[i].printBatteryInfo(true);
     else
       batt[i].printBatteryInfo(false);
-    Serial.println();
   }
 /*
   //Serial.print("\tManufacturer's Name: ");

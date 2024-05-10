@@ -28,7 +28,7 @@ Batmon::Batmon(byte _i2cAddress, byte _numTherms)
 byte Batmon::readCellVoltages(CVolts &cv)
 {
   unsigned short *ptr;
-  ptr = (unsigned short *)&cv.VCell1;
+  ptr = (unsigned short *)&cv.VCell[0];
   uint8_t i ;
   int cellCount;
   cellCount = getCellCount();
@@ -280,6 +280,85 @@ unsigned char* Batmon::getMan(unsigned char *buf)
   return buf;
 }
 
+void Batmon::getMemoryInfo(BATMON_Mem_Info &_mem_info) {
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_RESET_BATMEM);
+  Wire.endTransmission();
+  int i = 0;
+  uint8_t *buf;
+  buf = (uint8_t*)&_mem_info;
+  if(Wire.requestFrom(i2cAddress, sizeof(BATMON_Mem_Info))) {
+    while(Wire.available()) {
+      buf[i] = Wire.read();
+      i++;
+    }
+  }
+}
+
+
+bool Batmon::getMemory(BatmonMemory &batmem, const BATMON_Mem_Info &_mem_info) {
+  int i = 0;
+  int m = 0;
+  uint8_t partition_size;
+  // TODO: perform CRC check
+  for (int p=0; p < _mem_info.data.numPartitionsPerRecord; p++) {
+    i = 0;
+    Wire.beginTransmission(i2cAddress);
+    Wire.write(SMBUS_BATMEM);
+    Wire.endTransmission();
+    switch(p)
+    {
+      case 0: partition_size = _mem_info.data.bytesinPartition1; break;
+      case 1: partition_size = _mem_info.data.bytesinPartition2; break;
+      case 2: partition_size = _mem_info.data.bytesinPartition3; break;
+    }
+    const uint8_t bytesToRequest = partition_size+4; // <1 byte: byte count> <memory block size varies determined by getMemBlockSize func> <2 bytes block tag: block number AND memory index> <1byte: CRC> <BlockRead>
+    byte str[partition_size+6];
+    str[0] = (i2cAddress << 1) | 0x00;
+    str[1] = SMBUS_BATMEM;
+    str[2] = (i2cAddress << 1) | 0x01;
+    str[3] =  partition_size+2;
+    if(Wire.requestFrom(i2cAddress, partition_size+4)) {
+      uint8_t length;
+      if (Wire.available())
+      {
+        length = Wire.read();
+      }
+      if(bytesToRequest-2 != length) //bytesToRequest should be 1 less than first byte count
+        return false;
+      while(Wire.available()) {
+        // why?
+        if (i < partition_size) {
+          batmem.bytedata[m] = Wire.read();
+          str[i+4] = batmem.bytedata[m];
+          m++;
+        }
+        else if (i < bytesToRequest - 2) 
+        {
+          byte tag = Wire.read(); // <2 bytes block tag: block number AND memory index> <1byte: CRC>
+          str[i+4] = tag;
+        }
+        else if (i == bytesToRequest - 2) 
+        {
+          uint8_t crc_read = Wire.read();
+          unsigned char *ptr = (unsigned char *)&str;
+          uint8_t crc_calc = CRC8.smbus(ptr, partition_size+6);
+          if(crc_calc == crc_read) {
+            
+          } else {
+            Serial.println("WRONG CRC!\t");
+          }
+        }
+        else {
+          return false; // returning too many bytes
+        }
+        i++;
+      }
+    }
+  }
+  return true; // successful
+}
+
 int Batmon::getCur()
 {
   int current;
@@ -322,7 +401,7 @@ int Batmon::getTInt()
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
-    t = t - 2731;
+    t = t - KELVIN_CELCIUS*10.0;
   }
   return t;
 }
@@ -346,7 +425,7 @@ int Batmon::getTExt(byte extThermNum)
     t = (int)Wire.read();
     t |= (int)Wire.read() << 8;
     Wire.read();
-    t = t - 2731;
+    t = t - KELVIN_CELCIUS*10;
   }
   return t;
 }
