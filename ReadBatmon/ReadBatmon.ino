@@ -220,8 +220,10 @@ public:
       Serial.print("bqStat:CC_TIME_ERROR ");
       Serial.print("bqStat:ErrorCount ");
       if (EXT_RTC_ENABLE) {
-        Serial.print("timestamp:weeks ");
-        Serial.print("timestamp:seconds ");
+        Serial.print("StartTimestamp:weeks ");
+        Serial.print("StartTimestamp:seconds ");
+        Serial.print("EndTimestamp:weeks ");
+        Serial.print("EndTimestamp:seconds ");
       }
       if (PRINT_INTERNAL_RESISTANCE){
         Serial.print("IR1Tag ");
@@ -280,8 +282,10 @@ public:
         sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
         if (EXT_RTC_ENABLE) {
-          sprintf(str, "          %6u",batmem.data.gpsTimestamp.week); Serial.print(str);
-          sprintf(str, "             %4u",batmem.data.gpsTimestamp.tow_s); Serial.print(str);
+          sprintf(str, "                 %4u",batmem.data.gpsStartTimestamp.week); Serial.print(str);
+          sprintf(str, "                 %6u",batmem.data.gpsStartTimestamp.tow_s); Serial.print(str);
+          sprintf(str, "               %4u",batmem.data.gpsEndTimestamp.week); Serial.print(str);
+          sprintf(str, "               %6u",batmem.data.gpsEndTimestamp.tow_s); Serial.print(str);
         }
         if (PRINT_INTERNAL_RESISTANCE) {
            sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
