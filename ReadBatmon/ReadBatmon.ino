@@ -31,8 +31,9 @@
 #include "Batmon.h"
 // Batmon memory logging is default to be disabled
 // Set to true to read the memory records from BATMON 
-const bool READ_BATMON_MEMORY_ONLY = false; 
+const bool READ_BATMON_MEMORY_ONLY = true; 
 const bool PRINT_INTERNAL_RESISTANCE = false;
+const bool EXT_RTC_ENABLE = true;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
@@ -218,6 +219,10 @@ public:
       Serial.print("bqStat:CC_ERROR ");
       Serial.print("bqStat:CC_TIME_ERROR ");
       Serial.print("bqStat:ErrorCount ");
+      if (EXT_RTC_ENABLE) {
+        Serial.print("timestamp:weeks ");
+        Serial.print("timestamp:seconds ");
+      }
       if (PRINT_INTERNAL_RESISTANCE){
         Serial.print("IR1Tag ");
         Serial.print("IR1Min ");
@@ -274,7 +279,10 @@ public:
         sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
         sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
-
+        if (EXT_RTC_ENABLE) {
+          sprintf(str, "          %6u",batmem.data.gpsTimestamp.week); Serial.print(str);
+          sprintf(str, "             %4u",batmem.data.gpsTimestamp.tow_s); Serial.print(str);
+        }
         if (PRINT_INTERNAL_RESISTANCE) {
            sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);
            sprintf(str, "    %3d",batmem.data.intRes[0].minIntRes); Serial.print(str);
