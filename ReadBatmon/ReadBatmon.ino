@@ -97,7 +97,8 @@ public:
       Serial.print("ExtTemp1 ");
       Serial.print("ExtTemp2 ");
       Serial.print("HashSN  "); // Hashed serial number (16bit)
-      Serial.print("FullSN  "); // Serial number (128bit)
+      Serial.print("FullSN                             "); // Serial number (128bit)
+      Serial.print("BattStatus ");
       Serial.println();
     }
     if (isDetected && checkConnection())
@@ -159,6 +160,8 @@ public:
       }
       else
         Serial.print("ERR");
+      uint16_t battstat = bm.getBattStatus();
+      Serial.print("  ");Serial.print(battstat); 
       Serial.println();
     }
     else
@@ -283,9 +286,9 @@ public:
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
         if (EXT_RTC_ENABLE) {
           sprintf(str, "                 %4u",batmem.data.gpsStartTimestamp.week); Serial.print(str);
-          sprintf(str, "                 %6u",batmem.data.gpsStartTimestamp.tow_s); Serial.print(str);
+          sprintf(str, "                 %6lu",batmem.data.gpsStartTimestamp.tow_s); Serial.print(str);
           sprintf(str, "               %4u",batmem.data.gpsEndTimestamp.week); Serial.print(str);
-          sprintf(str, "               %6u",batmem.data.gpsEndTimestamp.tow_s); Serial.print(str);
+          sprintf(str, "               %6lu",batmem.data.gpsEndTimestamp.tow_s); Serial.print(str);
         }
         if (PRINT_INTERNAL_RESISTANCE) {
            sprintf(str, "    %3d",batmem.data.intRes[0].intResTag.int_res_tag); Serial.print(str);

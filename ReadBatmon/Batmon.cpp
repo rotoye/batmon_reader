@@ -86,6 +86,7 @@ byte Batmon::readCellVoltages(CVolts &cv)
 // Check Batmon_struct.h for &st values
 byte Batmon::readStatus(byte &st)
 {
+
   Wire.beginTransmission(i2cAddress);
   Wire.write(SMBUS_SAFETY_STATUS);
 
@@ -531,4 +532,18 @@ bool Batmon::getSN(uint16_t sn[8])
     return true;
   }
   return false;
+}
+
+uint16_t Batmon::getBattStatus() {
+  uint16_t battStatus;
+  Wire.beginTransmission(i2cAddress);
+  Wire.write(SMBUS_BATT_STATUS);
+  Wire.endTransmission();
+  if(Wire.requestFrom(i2cAddress, 3))
+  {
+    battStatus = (uint16_t)Wire.read();
+    battStatus |= (uint16_t)Wire.read() << 8;
+    Wire.read();// throw out crc
+  }
+  return battStatus;
 }

@@ -171,19 +171,19 @@ struct BatteryStatus
 {
 	union {
 		struct {
-			uint8_t reserved_0123:4;
-			uint8_t FULLY_DISCHARGED:1;
-			uint8_t FULLY_CHARGED:1;
-			uint8_t DISCHARGING:1;
-			uint8_t INITIALIZED:1;
-			uint8_t REMAINING_TIME_ALARM:1;
-			uint8_t REMAINING_CAPACITY_ALARM:1;
-			uint8_t reserved_10:1;
-			uint8_t TERMINAT_DISCHARGE_ALARM:1;
-			uint8_t OVER_TEMP_ALARM:1;
-			uint8_t reserved_13:1;
-			uint8_t TERMINATE_CHARGE_ALARM:1;
-			uint8_t OVER_CHARGED_ALARM:1;
+			uint8_t reserved_0123:4;                //Not Implemented
+			uint8_t FULLY_DISCHARGED:1;             //Not Implemented
+			uint8_t FULLY_CHARGED:1;                //Not Implemented
+			uint8_t DISCHARGING:1;                  //Not Implemented
+			uint8_t INITIALIZED:1;                  //Not Implemented
+			uint8_t REMAINING_TIME_ALARM:1;         //Not Implemented
+			uint8_t REMAINING_CAPACITY_ALARM:1;     //Implemented
+			uint8_t CELL_IMBALANCE_ALARM:1;         //Implemented
+			uint8_t TERMINATE_DISCHARGE_ALARM:1;    //Not Implemented
+			uint8_t OVER_TEMP_ALARM:1;              //Implemented
+			uint8_t UNDER_TEMP_ALARM:1;             //Implemented
+			uint8_t TERMINATE_CHARGE_ALARM:1;       //Not Implemented
+			uint8_t OVER_CHARGED_ALARM:1;           //Not Implemented
 		}bits;
 		uint16_t status;
 	};
@@ -267,10 +267,9 @@ struct IntRes{
 };
 
 struct GPSTime {
-	uint16_t week : 13;  // GPS Week (0–8191, lasts until ~2137)
-	uint32_t tow_s  : 17;  // Time of Week (0–604799 seconds, max for 7 days)
-	uint8_t unused  : 2;   //
-};
+	uint32_t week : 12;  // GPS Week (0–4095, lasts until ~2058)
+	uint32_t tow_s  : 20;  // Time of Week (0–604799 seconds, max for 7 days)
+}__attribute__((packed));
 
 struct BatmonMemory {
 	union {

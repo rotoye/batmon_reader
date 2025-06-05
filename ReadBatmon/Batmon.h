@@ -30,6 +30,7 @@ class Batmon
   int getTExt(byte extThermNum);
   uint16_t getHash();
   bool getSN(uint16_t sn[8]);
+  uint16_t getBattStatus();
   private:
   byte i2cAddress;
   byte numTherms;
