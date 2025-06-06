@@ -189,6 +189,20 @@ struct BatteryStatus
 	};
 };
 
+struct triggeredAlarm
+{
+	union {
+		struct {
+			uint8_t REMAINING_CAPACITY_ALARM:1;
+			uint8_t CELL_IMBALANCE_ALARM:1;
+			uint8_t OVER_TEMP_ALARM:1;
+			uint8_t UNDER_TEMP_ALARM:1;
+			uint8_t unused:4;
+		}bits;
+		uint8_t alarm;
+	};
+};
+
 struct SafetyStatus
 {
   uint8_t len = 4;
@@ -303,7 +317,8 @@ struct BatmonMemory {
 				uint8_t CC_TIME_ERROR:1;      // Error flag indicating a time skip of Coulomb count
 				uint8_t ccErrorCount:6;       // Total number of errors caught 
 			}bq_status;
-			//end of 30th byte
+			triggeredAlarm triggeredAlarmCycle;
+			//end of 31th byte
 			GPSTime gpsStartTimestamp; // start timestamp of the log, using external RTC DS3231. Clock is calibrated to Greenwich Mean Time
 			GPSTime gpsEndTimestamp;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes inside the array contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm                           

@@ -33,7 +33,7 @@
 // Set to true to read the memory records from BATMON 
 const bool READ_BATMON_MEMORY_ONLY = true; 
 const bool PRINT_INTERNAL_RESISTANCE = false;
-const bool EXT_RTC_ENABLE = true;
+const bool EXT_RTC_ENABLE = false;
 class Batt{
 private:
   uint8_t i2cAddress, numTherms, cellCount, isDetected;
@@ -222,6 +222,7 @@ public:
       Serial.print("bqStat:CC_ERROR ");
       Serial.print("bqStat:CC_TIME_ERROR ");
       Serial.print("bqStat:ErrorCount ");
+      Serial.print("triggeredAlarm ");
       if (EXT_RTC_ENABLE) {
         Serial.print("StartTimestamp:weeks ");
         Serial.print("StartTimestamp:seconds ");
@@ -284,6 +285,7 @@ public:
         sprintf(str, "               %1d",batmem.data.bq_status.CC_ERROR); Serial.print(str);
         sprintf(str, "                    %1d",batmem.data.bq_status.CC_TIME_ERROR); Serial.print(str);
         sprintf(str, "                %2d",batmem.data.bq_status.ccErrorCount); Serial.print(str);
+        sprintf(str, "              %1d",batmem.data.triggeredAlarmCycle.alarm); Serial.print(str);
         if (EXT_RTC_ENABLE) {
           sprintf(str, "                 %4u",batmem.data.gpsStartTimestamp.week); Serial.print(str);
           sprintf(str, "                 %6lu",batmem.data.gpsStartTimestamp.tow_s); Serial.print(str);
