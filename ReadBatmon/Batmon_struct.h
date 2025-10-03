@@ -99,7 +99,9 @@ enum smbus_reg : uint8_t
   BATMON_MAIN_RESET_ADDRESS = 0x90,
   BATMON_BQ_RESET_ADDRESS = 0x91,
   BATMON_SHUNT_VAL_SET_ADDRESS = 0x92,
-  BATMON_CAPACITY_SET_ADDRESS = 0x93
+  BATMON_CAPACITY_SET_ADDRESS = 0x93,
+
+  SMBUS_BOOTLOADER_CMD  = 0x60  // command for bootloader entry
 };
 
 //For reference: pixhawk must have 8,9,a,b,f,10,11,12,17,1b,1c,20,3c to 45 reserved
