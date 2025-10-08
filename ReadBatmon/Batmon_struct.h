@@ -328,6 +328,7 @@ struct BatmonMemory {
         uint8_t bootFromVoltageSOC:1; // if the method is 1, the SOC is calculated using the bootup voltage. If the method is 0, the SOC is recalled from the previous log
         uint8_t StorageModeDischargeStarted:1; // this should be set to 1 if the battery is discharging from storage mode
         uint8_t StoragemodeStarted:1; // this should be set if sleeping started until dicharging stops or charging started
+        GPSTime storageModeStartTime;
       }log2;
     }data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
