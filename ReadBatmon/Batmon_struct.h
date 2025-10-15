@@ -325,10 +325,10 @@ struct BatmonMemory {
 			GPSTime gpsEndTimestamp;
 			IntRes intRes[INT_RES_PER_MEMORY];  // Internal Resistance array. Each IntRes inside the array contain 1 byte min IR, 1 byte max IR, 1 byte min/max indices, and 1 byte condition tag. Unit: mOhm                           
       struct {
-        uint8_t bootFromVoltageSOC:1; // if the method is 1, the SOC is calculated using the bootup voltage. If the method is 0, the SOC is recalled from the previous log
+        uint8_t bootedFromVoltageSOC:1; // if the method is 1, the SOC is calculated using the bootup voltage. If the method is 0, the SOC is recalled from the previous log
         uint8_t StorageModeDischargeStarted:1; // this should be set to 1 if the battery is discharging from storage mode
         uint8_t StoragemodeStarted:1; // this should be set if sleeping started until dicharging stops or charging started
-        GPSTime storageModeStartTime;
+        uint8_t init_soc_basedon_volt:1;
       }log2;
     }data;
 		uint8_t bytedata[MEMORY_BLOCK_SIZE];
