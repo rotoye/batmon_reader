@@ -2,10 +2,12 @@
 ## Physical Layer
 The Opto-Isolation of the signals is **always** recommended to reduce noise and improve reliability on the bus, and is **absolutely necessary on the higher battery** when the batteries are in series. 
 
-![Opto-iso I2C block diagram](http://batmonfiles.rotoye.com/userguide/Opto-iso%20connection.jpg)
+![Opto-iso I2C block diagram](https://github.com/user-attachments/assets/aa402c55-90d8-4a7f-8ade-4061c415665c)
 
-When using two Batmons on the same bus, an I2C splitter, like the one shown here, is useful:  
-![I2C signal splitter](http://batmonfiles.rotoye.com/userguide/splitter.png)
+
+When using two Batmons on the same bus, an I2C splitter, like the one shown here, is useful:   
+
+<img width="258" height="415" alt="I2C signal splitter" src="https://github.com/user-attachments/assets/9905fc4a-4cf5-41e8-b0c5-2e9664f47a78" />
 
 ## Batmon Firmware
 When using two Batmons on the same I2C bus, they cannot have the same I2C slave adress. This needs to be changed in the Batmon Firmware, in:
