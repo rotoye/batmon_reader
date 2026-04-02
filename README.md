@@ -2,7 +2,9 @@
 # Rotoye Batmon
 
 ## _The Dumb-Battery Era is Over_
-![](https://rotoye.com/wp-content/uploads/2021/04/Battery-Pack-v5.png)
+<img width="752" height="471" alt="Battery Pack v5" src="https://github.com/user-attachments/assets/761135dd-d366-4a2d-a846-f18beab27468" />
+
+
 
 ## Getting Started
 
@@ -11,7 +13,9 @@ When you receive a battery with integrated BATMON, the OLED display (if applicab
 _**If you see the < ! > symbol on the OLED display, this means that one or more safety warning conditions have been met. Press the button to see the warning(s) present.**_
 
 ### Buzzer/OLED board
-![](https://rotoye.com/wp-content/uploads/2021/04/Batmon-v5-programming-1-1536x1239.jpg)
+![Batmon v5 programming 1](https://github.com/user-attachments/assets/32696ba2-4d95-4388-ab3f-3d50fafc7e6c)
+
+
 The optional OLED display/buzzer attachment extends BATMON functionality by providing a user-friendly interface for displaying state of charge, voltages, warnings, and more. The small board is attached to the main BATMON board via a flex connector. This connector is rated for a limited number of plug-unplug cycles. It is recommended to attach/detach this accessory as little, and as carefully as possible.
 
 ## Interfacing with an Autopilot
@@ -40,16 +44,19 @@ Start BATMON on nsh using the script:
 
 `batmon start -X -b 1 -a 12` * External bus 1, address 0x0c
 
-![batmon start](https://rotoye.com/wp-content/uploads/BATMON/batmon-start.png)
+<img width="340" height="63" alt="batmon start" src="https://github.com/user-attachments/assets/5dbec1a7-469d-4425-91c3-5722afc87b3c" />
 
 I2C devices connected on the different bus can be identified by running nsh script:
 `i2cdetect -b <bus number>`
 
-![i2cdetect](https://rotoye.com/wp-content/uploads/BATMON/i2cdetect-screenshot.png)
+<img width="375" height="181" alt="i2cdetect screenshot" src="https://github.com/user-attachments/assets/b8548d8f-84a4-40fa-9241-d0979145ad6f" />
 
 *battery_status* uorb messages may be inspected using the command 
 `listener battery_status 1`
-![listening to batmon uorb](https://rotoye.com/wp-content/uploads/BATMON/listener.png)
+
+<img width="988" height="606" alt="listener" src="https://github.com/user-attachments/assets/238908d6-145d-4d8c-85ee-bb18457cc2c8" />
+
+
 ### Ardupilot
 
 Clone or download [Ardupilot firmware](https://github.com/ArduPilot/ardupilot)
@@ -78,4 +85,5 @@ Instruction to run ReadBatmon
 -   Connect the cells to BATMON
 -   Upload code to Arduino
 -   Run serial monitor to see output
-![batmon_reader output](https://rotoye.com/wp-content/uploads/BATMON/batmon_reader-serial-output.png)
+
+<img width="1418" height="104" alt="batmon_reader serial output" src="https://github.com/user-attachments/assets/1407f716-34f4-4a2f-bdf3-36db59734e75" />
